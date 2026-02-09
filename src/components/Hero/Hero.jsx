@@ -8,12 +8,12 @@ export default function Hero() {
                    LAUNCLAB
                </h1>
                <h2>
-                   Atrodi <span>iespējas.</span> Veido <span>komandas.</span> Radi <spnan>nākotni.</spnan>
+                   Atrodi <span>iespējas.</span> Veido <span>komandas.</span> Radi <span>nākotni.</span>
                </h2>
            </div>
             <div className={styles.buttons}>
                 <a className={styles.greenButton}>
-                    sākt tagad <span> <img src={arrow} alt="arrow" /> </span>
+                    <span></span> sākt tagad <span> <img src={arrow} alt="arrow" /> </span>
                 </a>
                 <a className={styles.whiteButton}>
                     iespējas
