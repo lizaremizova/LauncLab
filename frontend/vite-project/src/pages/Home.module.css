@@ -1,13 +1,11 @@
 body{
     background-color: white;
-}
-.sliderBg{
-
-    margin-top: 4rem;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-around;
     align-items: center;
-    background-color: white;
-    height: 60vh;
-    border-radius: 3rem top;
+    width: 100%;
+}
+.home{
+    width: 100%;
 }

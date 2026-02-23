@@ -1,0 +1,223 @@
+.card-nav-container {
+    position: relative;
+    top: 2em;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 800px;
+    z-index: 99;
+    box-sizing: border-box;
+}
+
+.card-nav {
+    display: block;
+    height: 80px;
+    padding: 0;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 50px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.30);
+    position: relative;
+    overflow: hidden;
+    will-change: height;
+    transition: border-radius 0.3s ease;
+}
+
+.card-nav.open {
+    border-radius: 1.5rem;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.30);
+}
+
+.card-nav-top {
+    position: relative;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px 0 24px;
+    z-index: 5;
+}
+
+.hamburger-menu {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 6px;
+}
+
+.hamburger-menu:hover .hamburger-line {
+    opacity: 0.75;
+}
+
+.hamburger-line {
+    width: 30px;
+    height: 2px;
+    background-color: currentColor;
+    transition:
+        transform 0.25s ease,
+        opacity 0.2s ease,
+        margin 0.3s ease;
+    transform-origin: 50% 50%;
+}
+
+.hamburger-menu.open .hamburger-line:first-child {
+    transform: translateY(4px) rotate(45deg);
+}
+
+.hamburger-menu.open .hamburger-line:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logo {
+    width: 12rem;
+}
+
+.card-nav-cta-button {
+    background-color: #000;
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 0 24px;
+    height: 42px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.card-nav-cta-button:hover {
+    background-color: #333;
+}
+
+.card-nav-content {
+    position: relative;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 1;
+    margin-top: 0;
+    min-height: 220px;
+}
+
+.card-nav.open .card-nav-content {
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.nav-card {
+    height: 180px;
+    flex: 1;
+    border-radius: 1rem;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.nav-card-label {
+    font-weight: 400;
+    font-size: 22px;
+    letter-spacing: -0.5px;
+}
+
+.nav-card-links {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-card-link {
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-card-link:hover {
+    opacity: 0.75;
+}
+
+@media (max-width: 768px) {
+    .card-nav-container {
+        top: 1rem;
+        width: 85%;
+    }
+
+    .card-nav {
+        height: 64px;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.30);
+    }
+    .card-nav.open {
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.30);
+    }
+
+    .card-nav-top {
+        padding: 0 20px;
+        justify-content: space-between;
+        position: relative;
+        height: 64px;
+    }
+
+    .logo-container {
+        position: static;
+        transform: none;
+        order: 1;
+    }
+
+    .logo {
+        width: 8rem;
+    }
+
+    .hamburger-menu {
+        order: 2;
+        padding: 10px 0 10px 10px;
+    }
+
+    .card-nav-cta-button {
+        display: none;
+    }
+
+    .card-nav-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 16px;
+        position: relative;
+        visibility: hidden;
+        min-height: auto;
+    }
+
+    .card-nav.open .card-nav-content {
+        visibility: visible;
+    }
+
+    .nav-card {
+        height: auto;
+        min-height: 80px;
+        padding: 20px;
+        border-radius: 16px;
+    }
+}

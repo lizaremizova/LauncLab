@@ -13,6 +13,8 @@ section{
     display: flex;
     flex-direction: column;
     gap: 3rem;
+    width: 100%;
+    margin-top: 5rem;
 }
 .heroText{
     margin-top: 5rem;

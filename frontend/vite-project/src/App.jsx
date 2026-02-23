@@ -1,19 +1,14 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import { useState } from "react";
 
 export default function App() {
-    const [page, setPage] = useState("home");
-
     return (
-        <>
-            <div style={{ display: "flex", gap: 12, padding: 12 }}>
-                <button onClick={() => setPage("home")}>Home</button>
-                <button onClick={() => setPage("register")}>Register</button>
-            </div>
-
-            {page === "home" ? <Home /> : <Register />}
-        </>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
-

@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import styles from "./Register.module.css"
 export default function Register() {
     const [form, setForm] = useState({
         name: "",
@@ -39,8 +39,8 @@ export default function Register() {
     }
 
     return (
-        <div style={{ padding: 40 }}>
-            <h1>Reģistrācija</h1>
+        <div className={styles.formContainer}>
+
 
             <form onSubmit={handleSubmit}>
                 <input name="name" placeholder="Vārds" onChange={handleChange} />
