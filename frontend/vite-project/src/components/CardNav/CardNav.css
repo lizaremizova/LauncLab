@@ -1,5 +1,5 @@
 .card-nav-container {
-    position: relative;
+    position: absolute;
     top: 2em;
     left: 50%;
     transform: translateX(-50%);

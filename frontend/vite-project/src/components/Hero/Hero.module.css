@@ -8,95 +8,259 @@ body{
     margin: 0;
     padding: 0;
 }
-section{
-    height: 70%;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
+.heroImage {
     width: 100%;
-    margin-top: 5rem;
+    height: 320px;
+    object-fit: cover;
+    /* Instead of coordinates, we use the SVG ID */
+    clip-path: url(#hero-cutout);
+    /* Standard rounding for the other three corners */
+    border-radius: 40px;
 }
-.heroText{
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
+
+/* Ensure the container background is clean so the cutout pops */
+.imageSection {
+    position: relative;
+    background: transparent;
 }
-h1{
-    font-weight: 700;
-    font-size: 17vw;
-    background-image: url("../../assets/titleBg.png");
-    background-size: cover;
-    background-position: bottom;
-    color:transparent;
-    background-clip:text;
-    margin: 0;
-    padding: 1.2rem;
-    line-height: 0.6;
+.hero {
+    min-height: 100vh;
+    background: #f8f9fa;
+    position: relative;
+    overflow: hidden;
 }
-h2{
-    padding-left: 2.2rem;
-    font-weight: 700;
-    font-size: 3vw;
-    text-transform: uppercase;
-}
-span{
-    color: #73FF00;
-}
-.buttons{
-    width: 30vw;
-    padding: 2rem;
-    border-radius: 3rem;
-    display: flex;
-    flex-direction: row;
-    gap: 2vw;
-}
-.greenButton{
-    background-color: #73FF00;
-    width: 15vw;
-    padding: 1rem;
-    border-radius: 3rem;
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    height: 100vh;
     display: flex;
     align-items: center;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    width: 100%;
+    align-items: center;
+}
+
+.leftSection {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.imageSection {
+    position: relative;
+}
+
+.heroImage {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 20px;
+
+}
+.categoryBtn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: #000;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.greenCard {
+    background: #E3FE8D;
+    padding: 40px 30px;
+    border-radius: 20px;
+    position: relative;
+
+}
+
+.greenCard h2 {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    color: black;
+    line-height: 1.2;
+}
+
+.greenCard p {
+    font-size: 16px;
+    color: black;
+    margin: 0 0 25px 0;
+    line-height: 1.4;
+}
+
+.actionBtn {
+    background: transparent;
+    border: 1px solid #000000;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    color: black;
+}
+
+
+.rightSection {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
-}
-img{
-    width: 1.7rem;
-}
-.whiteButton{
-    border: 1px solid black;
-    width: 15vw;
-    padding: 1rem;
-    border-radius: 3rem;
-    text-align: center;
+    gap: 5rem;
+    padding-left: 20px;
 }
 
+.header h1 {
+    font-size: 5rem;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    line-height: 0.9;
+    letter-spacing: -2px;
+}
 
+.launchText {
+    color: #000;
+}
 
+.labText {
+    color: #bdbdbd;
+}
 
+.subtitle {
+    font-size: 1.5rem;
+    color: #000000;
+    margin: 0;
+    font-weight: 400;
+}
 
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
 
+.tag {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid #ababab;
+    background: white;
+    color: #666;
+    white-space: nowrap;
+    text-decoration: none;
+}
+.tag:hover {
+    border-color: #000;
+    color: #000;
+    background-color: #f8f9fa;
+}
+.buttons {
+    display: flex;
+    gap: 15px;
+}
+.registerBtn, .loginBtn {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.registerBtn {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.registerBtn:hover {
+    background: #333;
+}
 
+.loginBtn {
+    background: #E3FE8D;
+    color: black;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
 
+.loginBtn:hover {
+    background: #a5d6a7;
+}
 
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
 
+    .header h1 {
+        font-size: 56px;
+    }
 
+    .rightSection {
+        padding-left: 0;
+    }
+}
 
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+        height: auto;
+        min-height: 100vh;
+    }
 
+    .hero {
+        min-height: auto;
+        padding: 40px 0;
+    }
 
+    .header h1 {
+        font-size: 48px;
+    }
 
+    .greenCard {
+        clip-path: none;
+    }
 
+    .greenCard h2 {
+        font-size: 24px;
+    }
 
+    .buttons {
+        flex-direction: column;
+    }
 
-
-
-
-
-
-
-
-
-
-
+    .registerBtn,
+    .loginBtn {
+        width: 100%;
+        text-align: center;
+    }
+}
