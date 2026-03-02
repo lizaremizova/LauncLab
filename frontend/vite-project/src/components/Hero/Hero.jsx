@@ -31,9 +31,9 @@ export default function Hero() {
                                 alt="Team collaboration"
                                 className={styles.heroImage}
                             />
-                            <button className={styles.categoryBtn}>
+                            <Link className={styles.categoryBtn}>
                                 skatīt visas kategorijas
-                            </button>
+                            </Link>
                         </div>
 
                         <div className={styles.greenCard}>

@@ -171,6 +171,10 @@ body{
     display: flex;
     gap: 15px;
 }
+.categoryBtn{
+    text-decoration: none;
+    font-weight: 400;
+}
 .registerBtn, .loginBtn {
     text-decoration: none;
     display: flex;

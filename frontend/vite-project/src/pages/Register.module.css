@@ -1,10 +1,86 @@
+body{
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+}
+.regSection{
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+    height: 90%;
+    margin-top: 15rem;
+}
 form{
     display: flex;
     flex-direction: column;
-    gap: 3vh;
+    gap: 1vh;
     justify-content: center;
     align-items: center;
     text-align: center;
+}
+.leftSide h1, p{
+    margin-left: 3rem;
+    color: white;
+}
+.leftSide p {
+    margin-bottom: 3rem;
+}
+.leftSide h1{
+    text-transform: uppercase;
+    width: 30rem;
+    font-size: 2.5rem;
+    margin-top: 3rem;
+}
+.leftSide{
+    background-color: #E3FE8D;
+    height: 60vh;
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 45px;
+}
+.rightSide{
+    background-color: #000000;
+    height: 60vh;
+    width: 30vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    border-radius: 45px;
+}
+input{
+    border: none;
+    border-bottom: 1px solid white;
+    background-color: black;
+    width: 70%;
+    color: white;
+}
+input::placeholder{
+    color: rgba(255, 255, 255, 0.63);
+    font-family: "Poppins", sans-serif;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: white;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: 0 0 0px 1000px black inset;
+}
+form button{
+    width: 70%;
+    height: 2.5rem;
+    border-radius: 30px;
+    border: none;
+    font-family: "Poppins", sans-serif;
+}
+.message{
+    text-align: center;
+    margin-right: 4rem;
+    margin-top: 3rem;
 }
 /*div{
     display: flex;

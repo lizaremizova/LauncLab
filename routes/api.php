@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
+use App\Http\Controllers\JobController;
+
+Route::get('/jobs/feed', [JobController::class, 'getDashboardJobs']);
 
 Route::get('/users', function () {
     return [
