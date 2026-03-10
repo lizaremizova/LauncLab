@@ -1,8 +1,9 @@
 import styles from "./Hero.module.css";
 import titleBg from "../../assets/titleBg.png";
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 export default function Hero() {
+    const navigate = useNavigate();
     return (
         <section className={styles.hero}>
             <svg width="0" height="0" style={{ position: 'absolute' }}>
@@ -31,7 +32,7 @@ export default function Hero() {
                                 alt="Team collaboration"
                                 className={styles.heroImage}
                             />
-                            <Link className={styles.categoryBtn}>
+                            <Link to="/dashboard" className={styles.categoryBtn}>
                                 skatīt visas kategorijas
                             </Link>
                         </div>

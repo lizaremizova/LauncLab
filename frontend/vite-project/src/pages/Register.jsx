@@ -1,8 +1,18 @@
 import { useState } from "react";
-import styles from "./Register.module.css"
-import CardNav from "../components/CardNav/CardNav.jsx"
-import logo from "../assets/LaunchlabLogo.png"
+import {Link, useNavigate} from 'react-router-dom';
+import styles from "./Register.module.css";
+import CardNav from "../components/CardNav/CardNav.jsx";
+import logo from "../assets/LaunchlabLogo.png";
+
 export default function Register() {
+    const navigate = useNavigate();
+    const [msg, setMsg] = useState("");
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+    });
 
     const items = [
         {
@@ -35,15 +45,6 @@ export default function Register() {
         },
     ];
 
-    const [form, setForm] = useState({
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-    });
-
-    const [msg, setMsg] = useState("");
-
     function handleChange(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
@@ -60,10 +61,14 @@ export default function Register() {
                 },
                 body: JSON.stringify(form),
             });
+
             const data = await res.json();
 
             if (res.ok) {
-                setMsg("Reģistrācija veiksmīga");
+                setMsg("Reģistrācija veiksmīga!");
+                setTimeout(() => {
+                    navigate('/dashboard');
+                }, 1500);
             } else {
                 setMsg("Kļūda: " + JSON.stringify(data.errors));
             }
@@ -75,27 +80,28 @@ export default function Register() {
     return (
         <section className={styles.regSection}>
             <div>
-            <CardNav logo={logo} items={items}/>
+                <CardNav logo={logo} items={items} />
             </div>
 
-                <div className={styles.leftSide}>
-                    <h1>
-                        Atrodi iespējas. Veido komandas. Radi nākotni.
-                    </h1>
-                    <p>
-                        pēc reģistrācijas jūs tiksiet pārvirzīti uz jusu valdibas paneli
-                    </p>
-                </div>
+            <div className={styles.leftSide}>
+               <div className={styles.leftSideContainer}>
+                   <h1>Atrodi iespējas. Veido komandas. Radi nākotni.</h1>
 
-                <div className={styles.rightSide}>
-                    <div className={styles.formContainer}>
+                   <p>Pēc reģistrācijas jūs tiksiet pārvirzīti uz jūsu valdības paneli.</p>
+               </div>
+                <Link to="/dashboard" className={styles.guestButton}>
+                    ienākt kā viesis
+                </Link>
+
+            </div>
+
+            <div className={styles.rightSide}>
+                <div className={styles.formContainer}>
                     <form onSubmit={handleSubmit}>
                         <input name="name" placeholder="Vārds" onChange={handleChange} />
                         <br />
-
                         <input name="email" placeholder="Email" onChange={handleChange} />
                         <br />
-
                         <input
                             type="password"
                             name="password"
@@ -103,7 +109,6 @@ export default function Register() {
                             onChange={handleChange}
                         />
                         <br />
-
                         <input
                             type="password"
                             name="password_confirmation"
@@ -111,15 +116,12 @@ export default function Register() {
                             onChange={handleChange}
                         />
                         <br />
-
-                        <button>Reģistrēties</button>
+                        <button type="submit">Reģistrēties</button>
+                        <Link to="/login" className={styles.link}>jau ir izveidots konts?</Link>
                     </form>
-
                     <p className={styles.message}>{msg}</p>
                 </div>
-
             </div>
         </section>
-
     );
 }

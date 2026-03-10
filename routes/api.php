@@ -6,8 +6,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use App\Models\User;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\AuthController;
 
 Route::get('/jobs/feed', [JobController::class, 'getDashboardJobs']);
+Route::get('/jobs/all', [JobController::class, 'getAllJobs']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/users', function () {
     return [

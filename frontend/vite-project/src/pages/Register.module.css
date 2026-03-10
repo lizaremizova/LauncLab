@@ -5,6 +5,33 @@ body{
     margin: 0;
     padding: 0;
 }
+.guestButton{
+    align-self: center;
+    width: 40%;
+    height: 2.5rem;
+    border-radius: 30px;
+    border: none;
+    font-family: "Poppins", sans-serif;
+    color: white;
+    background-color: black;
+    text-decoration: none;
+    text-align: center;
+    padding-top: 0.7rem;
+}
+.leftSideContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+}
+.leftSideContainer h1{
+    margin-bottom: 0;
+}
+.link{
+    text-decoration: none;
+    color: white;
+    font-weight: normal;
+    margin-top: 1rem;
+}
 .regSection{
     display: flex;
     flex-direction: row;
@@ -39,7 +66,7 @@ form{
     width: 40vw;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     border-radius: 45px;
 }
 .rightSide{

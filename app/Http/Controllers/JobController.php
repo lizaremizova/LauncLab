@@ -18,7 +18,20 @@ class JobController extends Controller
                 'darbs.termina_dienas'
             )
             ->where('sludinajums.statuss', '=', 'aktīvs')
+            ->orderBy('sludinajums.publDatums', 'desc')
+            ->limit(4)
             ->get();
+
+        return response()->json($jobs);
+    }
+
+    public function getAllJobs(): JsonResponse {
+        $jobs = DB::table('sludinajums')
+            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
+            ->select('sludinajums.*', 'darbs.budzets', 'darbs.termina_dienas')
+            ->where('sludinajums.statuss', '=', 'aktīvs')
+            ->orderBy('sludinajums.publDatums', 'desc')
+            ->get(); 
 
         return response()->json($jobs);
     }
