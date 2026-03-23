@@ -1,0 +1,60 @@
+.emptyCard {
+
+    background: #D2EDF0;
+
+    border-radius: 50px;
+
+    padding: 1.5rem;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 4rem;
+
+    margin-top: 4rem;
+
+    width: 60%;
+
+    padding-right: 4rem;
+
+}
+
+.emptyCard p{
+
+    color: black;
+
+    font-weight: 600;
+
+    font-size: 1.3rem;
+
+    width: 50%;
+
+}
+
+.btnBlack {
+
+    background: black;
+
+    color: white;
+
+    border-radius: 50px;
+
+    padding: 0.7rem 2rem;
+
+    border: none;
+
+    font-weight: 200;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-family: "Poppins", sans-serif;
+
+}
+

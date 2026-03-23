@@ -1,0 +1,99 @@
+.btnBlack {
+
+    background: black;
+
+    color: white;
+
+    border-radius: 50px;
+
+    padding: 0.7rem 2rem;
+
+    border: none;
+
+    font-weight: 200;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-family: "Poppins", sans-serif;
+
+}
+
+.jobCard {
+
+    background-color: #E3FE8D;
+
+    border-radius: 40px;
+
+    padding: 40px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 20px;
+
+}
+
+
+
+.jobMain {
+
+    flex: 1;
+
+}
+
+
+
+.jobSide {
+
+    border-left: 1px solid rgba(0,0,0,0.1);
+
+    padding-left: 40px;
+
+    min-width: 200px;
+
+}
+
+
+
+.jobDetail {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+
+}
+
+
+
+.tagRow {
+
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+}
+
+
+
+.tag {
+
+    background: white;
+
+    padding: 5px 15px;
+
+    border-radius: 50px;
+
+    font-size: 12px;
+
+}

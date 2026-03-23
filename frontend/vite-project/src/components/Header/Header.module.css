@@ -1,17 +1,216 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-.link {
-    color: black;
-    text-decoration: none;
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 1.2rem;
-}
-header{
+
+.profilePill {
+
+    background: white;
+
+    border-radius: 50px;
+
     display: flex;
-    flex-direction: row;
-    gap: 3.5vw;
-    padding: 2rem;
-    margin-bottom: 0;
+
+    align-items: center;
+
+    gap: 12px;
+
+    width: 10rem;
+
+    padding: 0.5rem 0.5rem 0.5rem 0.7rem;
+
+    justify-content: space-around;
+
+}
+
+
+
+.avatar {
+
+    width: 2rem;
+
+    height: 2rem;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+}
+
+.btnLime {
+
+    background: #E3FE8D;
+
+    color: black;
+
+    border-radius: 50px;
+
+    padding: 0.7rem 2rem;
+
+    border: none;
+
+    font-weight: 400;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-family: "Poppins", sans-serif;
+
+}
+
+.btnBlack {
+
+    background: black;
+
+    color: white;
+
+    border-radius: 50px;
+
+    padding: 0.7rem 2rem;
+
+    border: none;
+
+    font-weight: 200;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-family: "Poppins", sans-serif;
+
+}
+
+
+.mainHeader {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 25px;
+
+    margin-right: 4rem;
+
+}
+
+
+
+.headerLeft, .headerRight {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+}
+
+
+
+.logoPill {
+
+    background: white;
+
+    padding: 0.7rem 2rem;
+
+    border-radius: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+}
+
+
+
+.logoImg {
+
+    height: 1.4rem;
+
+}
+
+
+
+.searchWrapper {
+
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    max-width: 20rem;
+
+}
+
+
+
+.searchInput::placeholder{
+
+    color: #b4b4b4;
+
+}
+
+
+
+.searchInput {
+
+    width: 100%;
+
+    padding: 10px 50px 10px 20px;
+
+    border-radius: 50px;
+
+    border: 2px solid white;
+
+    font-size: 15px;
+
+    outline: none;
+
+    background-color: transparent;
+
+    color: #555555;
+
+}
+
+
+
+.searchBtn {
+
+    position: absolute;
+
+    right: 5px;
+
+    width: 34px;
+
+    height: 34px;
+
+    background-color: #ffffff;
+
+    border-radius: 50%;
+
+    border: none;
+
+    cursor: pointer;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+}
+
+
+
+.searchIconImg {
+
+    height: 1rem;
+
 }

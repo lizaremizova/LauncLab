@@ -1,95 +1,133 @@
 import React, { useEffect, useState } from 'react';
-import {Link, useNavigate } from 'react-router-dom';
-import styles from './Dashboard.module.css'
-import logo from "../assets/LaunchlabLogo.png"
-import search from '../assets/search.svg'
-import settings from "../assets/settings.svg"
-import reactlogo from "../assets/react.svg"
+import { Link, useNavigate } from 'react-router-dom';
+import styles from './Dashboard.module.css';
+
+import projectsIcon from "../assets/projects.svg";
+
+import clockIcon from "../assets/clock.svg";
+import doneIcon from "../assets/doneJob.svg";
+
+import EmptyCard from "../components/EmptyCard/EmptyCard.jsx"
+import JobCard from "@/components/JobCard/JobCard.jsx";
+import SideBar from "@/components/SideBar/SideBar.jsx";
+import Header from "../components/Header/Header.jsx"
+
+
 const Dashboard = () => {
+
     const navigate = useNavigate();
-    const isLoggedIn = !!localStorage.getItem('TOKEN');
-    const userName = localStorage.getItem('USER_NAME') || "Viesi";
 
-    const handleApply = (jobId) => {
-        if (!isLoggedIn) {
-
-            alert("Lūdzu, pierakstieties, lai pieteiktos!");
-            navigate('/login');
-        } else {
-            console.log("Applying for:", jobId);
-        }
-    };
+    const userName = localStorage.getItem('USER_NAME') || "Viesis";
 
     const [jobs, setJobs] = useState([]);
+
+    const [stats, setStats] = useState({ active: 0, completed: 0, projects: 0 });
+
+
 
     useEffect(() => {
 
         fetch('http://localhost:8000/api/jobs/feed')
-            .then(response => response.json())
-            .then(data => {
 
-                setJobs(data);
-            })
-            .catch(error => console.error('Error fetching jobs:', error));
+            .then(res => res.json())
+
+            .then(data => setJobs(data))
+
+            .catch(err => console.error(err));
+
     }, []);
 
+
+
+    const handleApply = (id) => {
+
+        if (!localStorage.getItem('TOKEN')) {
+
+            navigate('/login');
+
+        } else {
+
+            console.log("Applying:", id);
+
+        }
+
+    };
+
+
+
     return (
-        <section>
-            <header>
-            <div className={styles.headerLeft}>
-                <Link to="/Home" className={styles.logoDashboard}>
-                    <img src={logo}/>
-                </Link>
-                    <div className={styles.searchWrapper}>
-                        <input
-                            type="text"
-                            className={styles.searchInput}
-                            placeholder="meklēt..."
-                        />
-                        <button className={styles.searchBtn}>
-                            <img src={search} alt="Search" className={styles.searchIconImg} />
-                        </button>
-                </div>
-            </div>
-                <div className={styles.headerRight}>
-                    <Link to="" className={styles.applyHeader}>pieteikties darbam</Link>
-                    <Link to="" className={styles.postHeader}>pievienot darbu</Link>
-                    <div className={styles.profileLink}>
-                        <img src={settings} />
-                        <p>{userName}</p>
-                        <img src={reactlogo}/>
-                    </div>
-                </div>
-            </header>
+
+        <div className={styles.dashboardWrapper}>
+            <Header userName={userName}>
+
+            </Header>
+
+            <div className={styles.layoutBody}>
+
+                <SideBar>
+
+                </SideBar>
 
 
+                <main className={styles.contentCard}>
 
+                    <section className={styles.sectionHeader}>
 
+                        <h2>Tavi pēdējie pieteikumi</h2>
 
-            <div className="dashboardContainer">
-                <h1>Sveiki, {userName}!</h1>
-                <h2>Darbi, kas varētu tev patikt</h2>
+                        <div className={styles.statsRow}>
 
-                <div className="jobsFeed">
-                    {jobs.map((job, index) => (
-                        <div key={index} className="job-card">
-                            <div className="job-header">
-                                <h3>{job.nosaukums}</h3>
-                                <span className="budget">{job.budzets} EUR</span>
-                            </div>
-                            <p>{job.apraksts}</p>
-                            <div className="job-footer">
-                                <span>Termiņš: {job.termina_dienas} dienas</span>
-                                <button className="apply-btn">Pieteikties</button>
-                            </div>
+                            <div className={styles.statBox}><img src={clockIcon} alt="" /> {stats.active} aktīvie darbi</div>
+
+                            <div className={styles.statBox}><img src={doneIcon} alt="" /> {stats.completed} pabeigti</div>
+
+                            <div className={styles.statBox}><img src={projectsIcon} alt="" /> {stats.projects} projekts</div>
+
                         </div>
-                    ))}
-                </div>
-                <button onClick={() => handleApply(job.id)}>Pieteikties</button>
+
+                    </section>
+
+
+                    <EmptyCard message={"Tev pagaidām nav neviena aktīva darba vai projekta"} buttonText={"pieteikties darbam"}>
+
+                    </EmptyCard>
+
+                    <h2 className={styles.h2applications}>
+
+                        Tavi pēdējie sludinājumi
+
+                    </h2>
+
+                    <EmptyCard message={"Tev pagaidām nav neviena sludinajuma"} buttonText={"pievienot darbu"}>
+
+                    </EmptyCard>
+
+                    <h3 style={{ color: '#888', marginBottom: '20px' }}>Darbi, kas varētu tev patikt</h3>
+
+                    <div className={styles.jobsFeed}>
+
+                        {jobs.map((job) => (
+
+                            <JobCard
+                                key={job.id}
+                                job={job}
+                                onApply={handleApply}
+                            />
+
+                        ))}
+
+                    </div>
+
+                </main>
+
             </div>
-        </section>
+
+        </div>
 
     );
+
 };
+
+
 
 export default Dashboard;
