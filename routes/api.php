@@ -45,8 +45,8 @@ Route::post('/register', function (Request $request) {
 });
 
 Route::get('/user/{id}/jobs', [JobController::class, 'getMyJobs']);
+Route::get('/jobs/feed', [JobController::class, 'getFeedJobs']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/jobs/feed', [JobController::class, 'getDashboardJobs']);
     Route::post('/jobs', [JobController::class, 'store']);
 });

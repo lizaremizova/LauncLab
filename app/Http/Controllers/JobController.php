@@ -36,6 +36,32 @@ class JobController extends Controller
         return response()->json($jobs);
     }
 
+    public function getFeedJobs(Request $request): JsonResponse
+    {
+        $myId = $request->query('myId');
+        $query = DB::table('sludinajums')
+            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
+            ->select(
+                'sludinajums.sludinajumaID',
+                'sludinajums.nosaukums',
+                'sludinajums.apraksts',
+                'sludinajums.autoraID',
+                'darbs.budzets',
+                'darbs.termina_dienas'
+            )
+            ->where('sludinajums.statuss', '=', 'aktīvs');
+
+        if (!empty($myId) && is_numeric($myId)) {
+            $query->where('sludinajums.autoraID', '!=', (int)$myId);
+        }
+
+        $jobs = $query->orderBy('sludinajums.publDatums', 'desc')
+            ->limit(10)
+            ->get();
+
+        return response()->json($jobs);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

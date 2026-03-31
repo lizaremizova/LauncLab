@@ -29,6 +29,14 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
+        DB::table('users')->updateOrInsert(
+            ['email' => 'edgar@test.com'],
+            [
+                'name' => 'Edgar',
+                'password' => bcrypt('password'),
+            ]
+        );
+
         $sid1 = DB::table('sludinajums')->insertGetId([
             'nosaukums' => 'Mārketinga aģentūras mājaslapas izveide',
             'apraksts' => 'Nepieciešams radošs tīkla izstrādātājs...',

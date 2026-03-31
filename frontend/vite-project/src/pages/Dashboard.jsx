@@ -26,10 +26,16 @@ const Dashboard = () => {
     const [feedJobs, setFeedJobs] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8000/api/jobs/feed')
+        const myId = localStorage.getItem('id');
+
+        const url = myId
+            ? `http://localhost:8080/api/jobs/feed?myId=${myId}`
+            : 'http://localhost:8080/api/jobs/feed';
+
+        fetch(url)
             .then(res => res.json())
             .then(data => setFeedJobs(data))
-            .catch(err => console.error(err));
+            .catch(err => console.error("Connection failed on port 8080", err));
     }, []);
 
 // 2. Fetch YOUR jobs
