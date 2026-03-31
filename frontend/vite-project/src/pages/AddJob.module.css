@@ -1,0 +1,94 @@
+.pageWrapper {
+    background-color: #E2E2E2;
+    min-height: 100vh;
+    padding: 2rem 4rem;
+    font-family: "Poppins", sans-serif;
+}
+.header {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.logoPill {
+    background: white;
+    padding: 0.7rem 2rem;
+    border-radius: 50px;
+}
+
+.logoImg { height: 1.4rem; }
+
+.title { font-size: 1.8rem; font-weight: 400; }
+
+.formCard {
+    background: white;
+    border-radius: 60px;
+    padding: 3rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.jobForm { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.inputGroup { display: flex; flex-direction: column; gap: 0.6rem; }
+
+.inputGroup label { font-weight: 600; font-size: 0.9rem; color: #333; }
+
+.mainInput, .mainTextarea {
+    padding: 1rem 1.5rem;
+    border-radius: 20px;
+    border: 2px solid #f0f0f0;
+    font-family: inherit;
+    background: #fdfdfd;
+    outline: none;
+}
+
+.mainTextarea { min-height: 120px; resize: none; }
+
+.categoryGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.katInactive, .katActive {
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    border: 2px solid #eee;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.katInactive { background: white; color: #888; }
+
+.katActive {
+    background: #E3FE8D;
+    border-color: #E3FE8D;
+    color: black;
+    font-weight: 600;
+}
+
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.btnCancel { background: none; border: none; color: #999; cursor: pointer; font-size: 1rem; }
+
+.btnSubmit {
+    background: #E3FE8D;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btnSubmit:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }

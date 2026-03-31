@@ -49,13 +49,17 @@ export default function Header({userName}) {
                 <Link to="/post" className={styles.btnLime}>pievienot darbu</Link>
 
                 <div className={styles.profilePill}>
-
-                    <Link to="/profile"> <img src={settingsIcon} alt="Settings" /> </Link>
-
-                    <span>{userName}</span>
-
+                    {userName !== "Viesis" ? (
+                        <>
+                            <Link to="/profile">
+                                <img src={settingsIcon} alt="Settings" />
+                            </Link>
+                            <span>{userName}</span>
+                        </>
+                    ) : (
+                        <Link to="/login" className={styles.loginLink}>Ienākt</Link>
+                    )}
                     <img src={reactLogo} className={styles.avatar} alt="Profile" />
-
                 </div>
 
             </div>

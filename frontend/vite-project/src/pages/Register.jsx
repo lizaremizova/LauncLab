@@ -65,6 +65,9 @@ export default function Register() {
             const data = await res.json();
 
             if (res.ok) {
+                localStorage.setItem('id', data.user.id);
+                localStorage.setItem('USER_NAME', data.user.name);
+                localStorage.setItem('TOKEN', data.token);
                 setMsg("Reģistrācija veiksmīga!");
                 setTimeout(() => {
                     navigate('/dashboard');

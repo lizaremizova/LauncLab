@@ -19,26 +19,28 @@ const Dashboard = () => {
 
     const userName = localStorage.getItem('USER_NAME') || "Viesis";
 
-    const [jobs, setJobs] = useState([]);
+    const [jobs, setMyJobs] = useState([]);
 
     const [stats, setStats] = useState({ active: 0, completed: 0, projects: 0 });
 
-
+    const [feedJobs, setFeedJobs] = useState([]);
 
     useEffect(() => {
-
         fetch('http://localhost:8000/api/jobs/feed')
-
             .then(res => res.json())
-
-            .then(data => setJobs(data))
-
+            .then(data => setFeedJobs(data))
             .catch(err => console.error(err));
-
     }, []);
 
-
-
+// 2. Fetch YOUR jobs
+    useEffect(() => {
+        const myId = localStorage.getItem('id');
+        if (myId) {
+            fetch(`http://127.0.0.1:8000/api/user/${myId}/jobs`)
+                .then(res => res.json())
+                .then(data => setMyJobs(data));
+        }
+    }, []);
     const handleApply = (id) => {
 
         if (!localStorage.getItem('TOKEN')) {
@@ -98,22 +100,31 @@ const Dashboard = () => {
 
                     </h2>
 
-                    <EmptyCard message={"Tev pagaidām nav neviena sludinajuma"} buttonText={"pievienot darbu"}>
+                    <div className={styles.mainContent}>
+                        {jobs.length === 0 ? (
+                            <EmptyCard
+                                message="Tev pagaidām nav neviena sludinājuma"
+                                buttonText="pievienot darbu"
+                            />
+                        ) : (
+                            jobs.map(job => (
+                                <JobCard key={job.sludinajumaID} job={job} />
+                            ))
+                        )}
+                    </div>
 
-                    </EmptyCard>
+
 
                     <h3 style={{ color: '#888', marginBottom: '20px' }}>Darbi, kas varētu tev patikt</h3>
 
                     <div className={styles.jobsFeed}>
 
-                        {jobs.map((job) => (
-
+                        {feedJobs.map((job) => (
                             <JobCard
                                 key={job.id}
                                 job={job}
                                 onApply={handleApply}
                             />
-
                         ))}
 
                     </div>

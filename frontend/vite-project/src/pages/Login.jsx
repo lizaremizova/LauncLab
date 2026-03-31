@@ -68,6 +68,7 @@ export default function Login() {
             if (res.ok) {
                 localStorage.setItem('TOKEN', data.token);
                 localStorage.setItem('USER_NAME', data.user.name);
+                localStorage.setItem('id', data.user.id);
                 navigate('/dashboard');
             } else {
                 setMsg(data.message || "pārbaudiet datus");

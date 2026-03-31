@@ -23,23 +23,75 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        DB::table('kategorija')->insertGetId([
-            'nosaukums' => 'Izstrāde'
+        DB::table('users')->insert([
+            'name' => 'Polina',
+            'email' => 'polinan@test.com',
+            'password' => bcrypt('password'),
         ]);
 
-        $sid = DB::table('sludinajums')->insertGetId([
+        $sid1 = DB::table('sludinajums')->insertGetId([
             'nosaukums' => 'Mārketinga aģentūras mājaslapas izveide',
-            'apraksts' => 'Nepieciešams radošs tīmekļa izstrādātājs...',
+            'apraksts' => 'Nepieciešams radošs tīkla izstrādātājs...',
             'statuss' => 'aktīvs',
             'publDatums' => now(),
             'autoraID' => 1,
-            'kategorijasID' => 1,
         ]);
 
         DB::table('darbs')->insert([
-            'sludinajumaID' => $sid,
+            'sludinajumaID' => $sid1,
             'budzets' => 250.00,
             'termina_dienas' => 10,
+        ]);
+
+// SECOND JOB
+        $sid2 = DB::table('sludinajums')->insertGetId([
+            'nosaukums' => 'React Dashboard Template',
+            'apraksts' => 'Moderns un pielāgojams vadības paneļa veidnis...',
+            'statuss' => 'aktīvs',
+            'publDatums' => now(),
+            'autoraID' => 1,
+        ]);
+
+        DB::table('darbs')->insert([
+            'sludinajumaID' => $sid2,
+            'budzets' => 300.00,
+            'termina_dienas' => 20,
+        ]);
+
+        $sid3 = DB::table('sludinajums')->insertGetId([
+            'nosaukums' => 'UX/UI Redesign for Fitness App',
+            'apraksts' => 'Looking for a UI designer to modernize a mobile fitness app interface.',
+            'statuss' => 'aktīvs',
+            'publDatums' => now(),
+            'autoraID' => 2,
+        ]);
+
+        DB::table('darbs')->insert([
+            'sludinajumaID' => $sid3,
+            'budzets' => 300.00,
+            'termina_dienas' => 20,
+        ]);
+
+        $sid4 = DB::table('sludinajums')->insertGetId([
+            'nosaukums' => 'mobile App',
+            'apraksts' => 'Looking for a developer.',
+            'statuss' => 'aktīvs',
+            'publDatums' => now(),
+            'autoraID' => 3,
+        ]);
+
+        DB::table('darbs')->insert([
+            'sludinajumaID' => $sid4,
+            'budzets' => 300.00,
+            'termina_dienas' => 20,
+        ]);
+
+
+        DB::table('kategorija')->insert([
+            ['kategorijasID' => 1, 'nosaukums' => 'Dizains'],
+            ['kategorijasID' => 2, 'nosaukums' => 'Izstrāde'],
+            ['kategorijasID' => 3, 'nosaukums' => 'Mārketings'],
+            ['kategorijasID' => 4, 'nosaukums' => 'Teksti'],
         ]);
     }
 }

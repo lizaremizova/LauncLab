@@ -11,6 +11,8 @@ use App\Http\Controllers\AuthController;
 Route::get('/jobs/feed', [JobController::class, 'getDashboardJobs']);
 Route::get('/jobs/all', [JobController::class, 'getAllJobs']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/jobs', [JobController::class, 'store']);
+Route::put('/profile', [JobController::class, 'Profile']);
 
 Route::get('/users', function () {
     return [
@@ -40,4 +42,11 @@ Route::post('/register', function (Request $request) {
             'email' => $user->email,
         ],
     ], 201);
+});
+
+Route::get('/user/{id}/jobs', [JobController::class, 'getMyJobs']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/jobs/feed', [JobController::class, 'getDashboardJobs']);
+    Route::post('/jobs', [JobController::class, 'store']);
 });
