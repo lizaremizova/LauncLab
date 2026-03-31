@@ -36,7 +36,7 @@ const Dashboard = () => {
     useEffect(() => {
         const myId = localStorage.getItem('id');
         if (myId) {
-            fetch(`http://127.0.0.1:8000/api/user/${myId}/jobs`)
+            fetch(`http://localhost:8080/api/user/${myId}/jobs`)
                 .then(res => res.json())
                 .then(data => setMyJobs(data));
         }
