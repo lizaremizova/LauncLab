@@ -1,99 +1,99 @@
 .btnBlack {
-
+    height: 3rem;
     background: black;
-
+    text-align: center;
     color: white;
-
     border-radius: 50px;
-
     padding: 0.7rem 2rem;
-
     border: none;
-
     font-weight: 200;
-
     cursor: pointer;
-
     text-decoration: none;
-
-    font-size: 14px;
-
+    font-size: 0.9rem;
     font-family: "Poppins", sans-serif;
+}
 
+.jobDetails{
+    width: 100%;
+}
+
+.detailTag{
+    color: #c6dd7c;
+    background: white;
+    padding: 0.2rem;
+    border-radius: 20px;
+    width: 50%;
+    text-align: center;
 }
 
 .jobCard {
-
     background-color: #E3FE8D;
-
-    border-radius: 40px;
-
-    padding: 40px;
-
+    border-radius: 50px;
+    padding: 1.5rem;
     display: flex;
-
+    margin-top: 1.5rem;
+    align-items: center;
     justify-content: space-between;
-
-    margin-top: 20px;
-
 }
-
-
-
-.jobMain {
-
-    flex: 1;
-
-}
-
-
 
 .jobSide {
-
-    border-left: 1px solid rgba(0,0,0,0.1);
-
-    padding-left: 40px;
-
-    min-width: 200px;
-
-}
-
-
-
-.jobDetail {
-
+    gap: 3rem;
     display: flex;
-
-    justify-content: space-between;
-
-    margin-bottom: 10px;
-
-    font-size: 14px;
+    width: 40%;
 
 }
-
-
+.jobDetail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
 
 .tagRow {
-
     display: flex;
-
     gap: 10px;
-
     margin-top: 20px;
-
 }
 
+.jobMain h3{
+    font-size: 1.3rem;
+    font-weight: 500;
+}
 
+.jobMain p{
+    font-size: 1rem;
+    font-weight: 200;
+    color: black;
+    margin-left: 0!important;
+}
 
 .tag {
-
+    color: #c6dd7c;
     background: white;
-
-    padding: 5px 15px;
-
-    border-radius: 50px;
-
-    font-size: 12px;
-
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    text-align: center;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

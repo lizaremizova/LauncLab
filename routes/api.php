@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
@@ -44,9 +45,15 @@ Route::post('/register', function (Request $request) {
     ], 201);
 });
 
-Route::get('/user/{id}/jobs', [JobController::class, 'getMyJobs']);
+Route::get('/user/{id}/jobs', [JobController::class, 'getJobsByAuthorId']);
 Route::get('/jobs/feed', [JobController::class, 'getFeedJobs']);
+
+Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index']);
+
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/jobs', [JobController::class, 'store']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+
 });

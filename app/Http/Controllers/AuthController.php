@@ -30,4 +30,12 @@ class AuthController extends Controller
             'message' => 'Sveicināti atpakaļ!'
         ]);
     }
+
+    public function logout(Request $request){
+        $request->user()->CurrentAccessToken()->delete();
+        return response()->json([
+            'message' => 'Jūs veiksmīgi izrakstijies'
+        ]);
+    }
+
 }

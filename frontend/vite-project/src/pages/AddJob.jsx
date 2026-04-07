@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './AddJob.module.css';
 import logo from "../assets/LaunchlabLogo.png";
 
 const AddJob = () => {
-    const navigate = useNavigate();
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
-    // I added 'kategorijas' as an array to handle multiple selections
+    const navigate = useNavigate();
+    const [categories, setCategories] = useState([]);
+
     const [formData, setFormData] = useState({
         nosaukums: '',
         apraksts: '',
@@ -15,42 +17,44 @@ const AddJob = () => {
         kategorijas: []
     });
 
-    // Available categories (you can fetch these from DB later)
-    const availableCategories = [
-        { id: 1, name: 'Dizains' },
-        { id: 2, name: 'Izstrāde' },
-        { id: 3, name: 'Mārketings' },
-        { id: 4, name: 'Teksti' }
-    ];
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch('http://localhost:8080/api/categories');
+                const data = await response.json();
+                console.log("Categories loaded:", data);
+                setCategories(data);
+            } catch (err) {
+                console.error("Fetch error:", err);
+            }
+        };
+        fetchCategories();
+    }, []);
+
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const toggleCategory = (id) => {
-        setFormData(prev => ({
-            ...prev,
-            kategorijas: prev.kategorijas.includes(id)
-                ? prev.kategorijas.filter(katId => katId !== id)
-                : [...prev.kategorijas, id]
-        }));
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validation check
-        if (formData.kategorijas.length === 0) {
-            alert("Lūdzu izvēlies vismaz vienu kategoriju!");
+        const token = localStorage.getItem('TOKEN');
+
+        if (!token) {
+            alert("Session expired. Please log in again.");
             return;
         }
 
         try {
-            const response = await fetch('http://localhost:8000/api/jobs', {
+            const response = await fetch('http://localhost:8080/api/jobs', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('TOKEN')}`
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(formData)
             });
@@ -59,14 +63,14 @@ const AddJob = () => {
                 navigate('/dashboard');
             } else {
                 const errorData = await response.json();
-                console.error("Server Error:", errorData);
-                alert("Kļūda pievienojot darbu. Pārbaudiet datus konsolē.");
+                console.error("Server rejected request:", errorData);
+                alert("Server error: " + (errorData.message || "Unknown error"));
             }
         } catch (err) {
             console.error("Connection error:", err);
         }
-    };
 
+    };
     return (
         <div className={styles.pageWrapper}>
             <header className={styles.header}>
@@ -90,18 +94,49 @@ const AddJob = () => {
                     </div>
 
                     <div className={styles.inputGroup}>
-                        <label>Izvēlies kategorijas (vairākas)</label>
-                        <div className={styles.categoryGrid}>
-                            {availableCategories.map(kat => (
-                                <button
-                                    key={kat.id}
-                                    type="button"
-                                    className={formData.kategorijas.includes(kat.id) ? styles.katActive : styles.katInactive}
-                                    onClick={() => toggleCategory(kat.id)}
-                                >
-                                    {kat.name}
-                                </button>
-                            ))}
+                        <label>Kategorijas</label>
+
+                        <div className={styles.dropdownWrapper}>
+                            <button
+                                type="button"
+                                className={styles.dropdownButton}
+                                onClick={() => setIsCategoryOpen(prev => !prev)}
+                            >
+                                {formData.kategorijas.length > 0
+                                    ? categories
+                                        .filter(kat => formData.kategorijas.includes(kat.id))
+                                        .map(kat => kat.nosaukums)
+                                        .join(', ')
+                                    : 'Izvēlieties kategorijas'}
+                            </button>
+
+                            {isCategoryOpen && (
+                                <div className={styles.dropdownMenu}>
+                                    {categories.map(kat => (
+                                        <label key={kat.id} className={styles.dropdownItem}>
+                                            <input
+                                                type="checkbox"
+                                                checked={formData.kategorijas.includes(kat.id)}
+                                                onChange={() => {
+                                                    setFormData(prev => {
+                                                        const alreadySelected = prev.kategorijas.includes(kat.id);
+
+                                                        return {
+                                                            ...prev,
+                                                            kategorijas: alreadySelected
+                                                                ? prev.kategorijas.filter(id => id !== kat.id)
+                                                                : [...prev.kategorijas, kat.id]
+                                                        };
+                                                    });
+                                                }}
+                                            />
+                                            <span>{kat.nosaukums?.length > 20
+                                                ? `${kat.nosaukums.substring(0, 20)}...`
+                                                : kat.nosaukums}</span>
+                                        </label>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
 

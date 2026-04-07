@@ -1,170 +1,120 @@
 .dashboardWrapper {
-
     background-color: #E2E2E2;
-
     min-height: 100vh;
-
     width: 100vw;
-
+    max-width: 100%;
     margin: 0;
-
     padding: 2rem 4rem;
-
     box-sizing: border-box;
-
     font-family: "Poppins", sans-serif;
-
+    overflow-x: hidden;
 }
 
 .btnBlack {
-
     background: black;
-
     color: white;
-
     border-radius: 50px;
-
     padding: 0.7rem 2rem;
-
     border: none;
-
     font-weight: 200;
-
     cursor: pointer;
-
     text-decoration: none;
-
-    font-size: 14px;
-
+    font-size: 1.4rem;
     font-family: "Poppins", sans-serif;
-
 }
 
+.mainContent{
+    margin-top: 2rem;
+    gap: 2rem;
+    padding: 10px 0;
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    margin-bottom: 4rem;
+}
 
+.mainContent::-webkit-scrollbar {
+    height: 8px;
+}
+.mainContent::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.mainContent::-webkit-scrollbar-thumb {
+    background: #e6e6e6;
+    border-radius: 10px;
+}
 
 .btnLime {
-
     background: #E3FE8D;
-
     color: black;
-
     border-radius: 50px;
-
     padding: 0.7rem 2rem;
-
     border: none;
-
     font-weight: 400;
-
     cursor: pointer;
-
     text-decoration: none;
-
     font-size: 14px;
-
     font-family: "Poppins", sans-serif;
-
 }
-
-
-
 
 .layoutBody {
-
     display: flex;
-
     gap: 5rem;
-
     align-items: flex-start;
-
+    width: 100%;
 }
-
-
-
-
 
 .contentCard {
-
     background: white;
-
     flex: 1;
-
     border-radius: 60px;
-
     padding: 60px;
-
     min-height: 85vh;
-
     margin-right: 4rem;
-
+    min-width: 0;
+    overflow: hidden;
     margin-top: 2rem;
-
 }
-
-
 
 .sectionHeader {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     margin-bottom: 30px;
-
 }
 
-
-
 .sectionHeader h2 {
-
     font-size: 2rem;
-
     margin: 0;
-
     font-weight: 400;
-
 }
 
 .h2applications{
-
     font-size: 2rem;
-
     margin: 0;
-
     font-weight: 400;
-
 }
 
 .statsRow {
-
     display: flex;
-
     gap: 25px;
-
 }
-
-
 
 .statBox {
-
     display: flex;
-
     align-items: center;
-
     gap: 8px;
-
     font-size: 14px;
-
 }
 
-
-
 .statBox img {
-
     width: 20px;
+}
 
+.feedTitle{
+    font-size: 1.9rem;
+    font-weight: 400;
 }
 
 

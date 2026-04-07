@@ -9,13 +9,20 @@ const JobCard = ({ job, onApply }) => {
 
                 <h3>{job.nosaukums}</h3>
 
-                <p>{job.apraksts}</p>
+                <p>{job.apraksts?.length > 70
+                    ? `${job.apraksts.substring(0, 70)}...`
+                    : job.apraksts}</p>
 
                 <div className={styles.tagRow}>
 
-                    <span className={styles.tag}>react</span>
-
-                    <span className={styles.tag}>tailwind</span>
+                    {job.kategorijas && job.kategorijas.length > 0 ? (
+                        job.kategorijas.map((kat) => (
+                            <span key={kat.id} className={styles.tag} >
+            {kat.nosaukums}
+        </span> ))
+                    ) : (
+                        <span className={styles.tag}>Nav kategoriju</span>
+                    )}
 
                 </div>
 
@@ -23,9 +30,13 @@ const JobCard = ({ job, onApply }) => {
 
             <div className={styles.jobSide}>
 
-                <div className={styles.jobDetail}>budžets <strong>{job.budzets} EUR</strong></div>
+                <div className={styles.jobDetails}>
+                    <div className={styles.jobDetail}> <span className={styles.detailTag}>budžets</span>{job.budzets} EUR</div>
 
-                <div className={styles.jobDetail}>termiņš <strong>{job.termina_dienas} dienas</strong></div>
+                    <div className={styles.jobDetail}> <span className={styles.detailTag}>termiņš</span>{job.termina_dienas} dienas</div>
+
+                    <div className={styles.jobDetail}> <span className={styles.detailTag}>publicēja</span>{'BrandFlow'}</div>
+                </div>
 
                 <button className={styles.btnBlack} style={{width: '100%', marginTop: '10px'}} onClick={() => onApply(job.id)}>Pieteikties</button>
 

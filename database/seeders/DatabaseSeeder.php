@@ -94,12 +94,30 @@ class DatabaseSeeder extends Seeder
             'termina_dienas' => 20,
         ]);
 
+        $sid3 = DB::table('sludinajums')->insertGetId([
+            'nosaukums' => 'ai chatbot development',
+            'apraksts' => 'Moderns un pielāgojams vadības paneļa veidnis...',
+            'statuss' => 'aktīvs',
+            'publDatums' => now(),
+            'autoraID' => 1,
+        ]);
+
+        DB::table('darbs')->insert([
+            'sludinajumaID' => $sid3,
+            'budzets' => 355.00,
+            'termina_dienas' => 15,
+        ]);
 
         DB::table('kategorija')->insert([
             ['kategorijasID' => 1, 'nosaukums' => 'Dizains'],
             ['kategorijasID' => 2, 'nosaukums' => 'Izstrāde'],
             ['kategorijasID' => 3, 'nosaukums' => 'Mārketings'],
             ['kategorijasID' => 4, 'nosaukums' => 'Teksti'],
+            ['kategorijasID' => 5, 'nosaukums' => 'spēles']
+        ]);
+
+        DB::table('sludinajums')->where('sludinajumaID', 1)->update([
+            'statuss' => 'pabeigts',
         ]);
     }
 }

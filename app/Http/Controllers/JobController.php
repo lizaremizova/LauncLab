@@ -2,108 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\JobPostRequest;
+use App\Models\Job;
+use App\Services\JobService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
-    public function getDashboardJobs(): JsonResponse
+    public function __construct(
+        private JobService $jobService
+    ) {}
+
+    public function getAllActiveJobs(): JsonResponse
     {
-
-        return response()->json([]);
-    }
-
-    public function getAllJobs(): JsonResponse {
-        $jobs = DB::table('sludinajums')
-            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
-            ->select('sludinajums.*', 'darbs.budzets', 'darbs.termina_dienas')
-            ->where('sludinajums.statuss', '=', 'aktīvs')
-            ->orderBy('sludinajums.publDatums', 'desc')
-            ->get();
+        $jobs = $this->jobService->getAllActiveJobs();
 
         return response()->json($jobs);
     }
-    public function getMyJobs($id)
+
+    public function getJobsByAuthorId(int $authorId): JsonResponse
     {
-        $jobs = DB::table('sludinajums')
-            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
-            ->select('sludinajums.*', 'darbs.budzets', 'darbs.termina_dienas')
-            ->where('sludinajums.autoraID', '=', $id) // This is the filter!
-            ->orderBy('sludinajums.publDatums', 'desc')
-            ->get();
+        $jobs = $this->jobService->getJobsByAuthorId($authorId);
 
         return response()->json($jobs);
     }
 
     public function getFeedJobs(Request $request): JsonResponse
     {
-        $myId = $request->query('myId');
-        $query = DB::table('sludinajums')
-            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
-            ->select(
-                'sludinajums.sludinajumaID',
-                'sludinajums.nosaukums',
-                'sludinajums.apraksts',
-                'sludinajums.autoraID',
-                'darbs.budzets',
-                'darbs.termina_dienas'
-            )
-            ->where('sludinajums.statuss', '=', 'aktīvs');
-
-        if (!empty($myId) && is_numeric($myId)) {
-            $query->where('sludinajums.autoraID', '!=', (int)$myId);
-        }
-
-        $jobs = $query->orderBy('sludinajums.publDatums', 'desc')
-            ->limit(10)
-            ->get();
+        $jobs = $this->jobService->getFeedJobs($request->query('myId'));
 
         return response()->json($jobs);
     }
 
-    public function store(Request $request)
+    public function store(JobPostRequest $request): JsonResponse
     {
-        $validated = $request->validate([
-            'nosaukums' => 'required|string',
-            'apraksts' => 'required|string',
-            'budzets' => 'required|numeric',
-            'termina_dienas' => 'required|integer',
-            'kategorijas' => 'required|array' // Added for multiple categories
-        ]);
+        $job = $this->jobService->createJob(
+            $request->validated(),
+            auth()->id()
+        );
 
-        try {
-            return DB::transaction(function () use ($validated) {
-                // 1. Create the Ad
-                $sludinajumsId = DB::table('sludinajums')->insertGetId([
-                    'nosaukums' => $validated['nosaukums'],
-                    'apraksts' => $validated['apraksts'],
-                    'statuss' => 'aktīvs',
-                    'publDatums' => now(),
-                    'autoraID' => auth()->id()
-                ]);
-
-                // 2. Create the Job Details
-                DB::table('darbs')->insert([
-                    'sludinajumaID' => $sludinajumsId,
-                    'budzets' => $validated['budzets'],
-                    'termina_dienas' => $validated['termina_dienas'],
-                ]);
-
-                // 3. Link Multiple Categories (Pivot Table)
-                foreach ($validated['kategorijas'] as $katId) {
-                    DB::table('sludinajums_kategorija')->insert([
-                        'sludinajumaID' => $sludinajumsId,
-                        'kategorijaID' => $katId
-                    ]);
-                }
-
-                return response()->json(['message' => 'Success'], 201);
-            });
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        return response()->json([
+            'message' => 'Success',
+            'data' => $job,
+        ], 201);
     }
 
+    public function index()
+    {
+        $jobs = Job::with('categories')->get();
 
+        return response()->json($jobs);
+    }
 }
