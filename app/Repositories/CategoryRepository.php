@@ -8,8 +8,8 @@ class CategoryRepository
 {
     public function getAllCategories()
     {
-        return DB::table('kategorija')
-            ->select('kategorijasID as id', 'nosaukums')
+        return DB::table('categories')
+            ->select('category_id as id', 'name')
             ->get();
     }
 }

@@ -26,6 +26,7 @@ export default function Profile() {
             localStorage.removeItem('TOKEN');
             localStorage.removeItem('USER_NAME');
             localStorage.removeItem('id');
+            localStorage.removeItem('username');
             window.location.href = '/login';
         }
     }

@@ -1,46 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './AddJob.module.css';
 import logo from "../assets/LaunchlabLogo.png";
 
 const AddJob = () => {
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
 
     const [formData, setFormData] = useState({
-        nosaukums: '',
-        apraksts: '',
-        budzets: '',
-        termina_dienas: '',
-        kategorijas: []
+        name: '',
+        description: '',
+        budget: '',
+        deadline_days: '',
+        categories: []
     });
-
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await fetch('http://localhost:8080/api/categories');
                 const data = await response.json();
-                console.log("Categories loaded:", data);
                 setCategories(data);
             } catch (err) {
-                console.error("Fetch error:", err);
+                console.error(err);
             }
         };
         fetchCategories();
     }, []);
 
-
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         const token = localStorage.getItem('TOKEN');
 
         if (!token) {
@@ -63,14 +57,13 @@ const AddJob = () => {
                 navigate('/dashboard');
             } else {
                 const errorData = await response.json();
-                console.error("Server rejected request:", errorData);
                 alert("Server error: " + (errorData.message || "Unknown error"));
             }
         } catch (err) {
-            console.error("Connection error:", err);
+            console.error(err);
         }
-
     };
+
     return (
         <div className={styles.pageWrapper}>
             <header className={styles.header}>
@@ -85,7 +78,7 @@ const AddJob = () => {
                     <div className={styles.inputGroup}>
                         <label>Virsraksts</label>
                         <input
-                            name="nosaukums"
+                            name="name"
                             className={styles.mainInput}
                             placeholder="Piemēram: React Dashboard izstrāde"
                             onChange={handleChange}
@@ -95,44 +88,42 @@ const AddJob = () => {
 
                     <div className={styles.inputGroup}>
                         <label>Kategorijas</label>
-
                         <div className={styles.dropdownWrapper}>
                             <button
                                 type="button"
                                 className={styles.dropdownButton}
                                 onClick={() => setIsCategoryOpen(prev => !prev)}
                             >
-                                {formData.kategorijas.length > 0
+                                {formData.categories.length > 0
                                     ? categories
-                                        .filter(kat => formData.kategorijas.includes(kat.id))
-                                        .map(kat => kat.nosaukums)
+                                        .filter(cat => formData.categories.includes(cat.id))
+                                        .map(cat => cat.name)
                                         .join(', ')
                                     : 'Izvēlieties kategorijas'}
                             </button>
 
                             {isCategoryOpen && (
                                 <div className={styles.dropdownMenu}>
-                                    {categories.map(kat => (
-                                        <label key={kat.id} className={styles.dropdownItem}>
+                                    {categories.map(cat => (
+                                        <label key={cat.id} className={styles.dropdownItem}>
                                             <input
                                                 type="checkbox"
-                                                checked={formData.kategorijas.includes(kat.id)}
+                                                checked={formData.categories.includes(cat.id)}
                                                 onChange={() => {
                                                     setFormData(prev => {
-                                                        const alreadySelected = prev.kategorijas.includes(kat.id);
-
+                                                        const alreadySelected = prev.categories.includes(cat.id);
                                                         return {
                                                             ...prev,
-                                                            kategorijas: alreadySelected
-                                                                ? prev.kategorijas.filter(id => id !== kat.id)
-                                                                : [...prev.kategorijas, kat.id]
+                                                            categories: alreadySelected
+                                                                ? prev.categories.filter(id => id !== cat.id)
+                                                                : [...prev.categories, cat.id]
                                                         };
                                                     });
                                                 }}
                                             />
-                                            <span>{kat.nosaukums?.length > 20
-                                                ? `${kat.nosaukums.substring(0, 20)}...`
-                                                : kat.nosaukums}</span>
+                                            <span>{cat.name?.length > 20
+                                                ? `${cat.name.substring(0, 20)}...`
+                                                : cat.name}</span>
                                         </label>
                                     ))}
                                 </div>
@@ -143,7 +134,7 @@ const AddJob = () => {
                     <div className={styles.inputGroup}>
                         <label>Darba apraksts</label>
                         <textarea
-                            name="apraksts"
+                            name="description"
                             className={styles.mainTextarea}
                             placeholder="Aprakstiet veicamos uzdevumus..."
                             onChange={handleChange}
@@ -156,7 +147,7 @@ const AddJob = () => {
                             <label>Budžets (EUR)</label>
                             <input
                                 type="number"
-                                name="budzets"
+                                name="budget"
                                 className={styles.mainInput}
                                 placeholder="0.00"
                                 onChange={handleChange}
@@ -167,7 +158,7 @@ const AddJob = () => {
                             <label>Izpildes termiņš (dienās)</label>
                             <input
                                 type="number"
-                                name="termina_dienas"
+                                name="deadline_days"
                                 className={styles.mainInput}
                                 placeholder="7"
                                 onChange={handleChange}

@@ -14,12 +14,12 @@ class JobPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nosaukums' => ['required', 'string', 'max:255'],
-            'apraksts' => ['required', 'string'],
-            'budzets' => ['required', 'numeric'],
-            'termina_dienas' => ['required', 'integer'],
-            'kategorijas' => ['required', 'array', 'min:1'],
-            'kategorijas.*' => ['integer'],
+            'name' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'budget' => ['required', 'numeric'],
+            'deadline_days' => ['required', 'integer'],
+            'categories' => ['required', 'array', 'min:1'],
+            'categories.*' => ['integer'],
         ];
     }
 }

@@ -6,21 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $table = 'kategorija';
-    protected $primaryKey = 'kategorijaID';
+    protected $table = 'categories';
+    protected $primaryKey = 'category_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'nosaukums',
+        'name',
     ];
 
     public function listings()
     {
         return $this->belongsToMany(
             Listing::class,
-            'sludinajums_kategorija',
-            'kategorijaID',
-            'sludinajumaID'
+            'listing_category',
+            'category_id',
+            'listing_id'
         );
     }
 }

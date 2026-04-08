@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Job extends Model
 {
-    protected $table = 'darbs';
-    protected $primaryKey = 'sludinajumaID';
+    protected $table = 'job';
+    protected $primaryKey = 'listing_id';
     public $timestamps = false;
 
     protected $fillable = [
-        'sludinajumaID',
-        'budzets',
-        'termina_dienas',
+        'listing_id',
+        'budget',
+        'deadline_days',
     ];
 
     public function listing()
     {
-        return $this->belongsTo(Listing::class, 'sludinajumaID', 'sludinajumaID');
+        return $this->belongsTo(Listing::class, 'listing_id', 'listing_id');
     }
 
 }

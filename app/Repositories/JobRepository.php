@@ -9,150 +9,163 @@ class JobRepository
 {
     public function getAllActiveJobs()
     {
-        return DB::table('sludinajums')
-            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
-            ->select('sludinajums.*', 'darbs.budzets', 'darbs.termina_dienas')
-            ->where('sludinajums.statuss', 'aktīvs')
-            ->orderBy('sludinajums.publDatums', 'desc')
+        return DB::table('listings')
+            ->join('job', 'listings.listing_id', '=', 'job.listing_id')
+            ->join('users', 'listings.author_id', '=', 'users.id')
+            ->select(
+                'listings.*',
+                'job.budget',
+                'job.deadline_days',
+                'users.username'
+            )
+            ->where('listings.statuss', 'aktīvs')
+            ->orderBy('listings.publication_date', 'desc')
             ->get();
     }
 
     public function getJobsByAuthorId(int $authorId)
     {
-        $rows = DB::table('sludinajums')
-            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
-            ->leftJoin('sludinajums_kategorija', 'sludinajums.sludinajumaID', '=', 'sludinajums_kategorija.sludinajumaID')
-            ->leftJoin('kategorija', 'sludinajums_kategorija.kategorijaID', '=', 'kategorija.kategorijasID')
+        $rows = DB::table('listings')
+            ->join('job', 'listings.listing_id', '=', 'job.listing_id')
+            ->join('users', 'listings.author_id', '=', 'users.id')
+            ->leftJoin('listing_category', 'listings.listing_id', '=', 'listing_category.listing_id')
+            ->leftJoin('categories', 'listing_category.category_id', '=', 'categories.category_id')
             ->select(
-                'sludinajums.*',
-                'darbs.budzets',
-                'darbs.termina_dienas',
-                'kategorija.kategorijasID as kategorijas_id',
-                'kategorija.nosaukums as kategorijas_nosaukums'
+                'listings.*',
+                'job.budget',
+                'job.deadline_days',
+                'users.username',
+                'categories.category_id as cat_id',
+                'categories.name as cat_name'
             )
-            ->where('sludinajums.autoraID', $authorId)
-            ->orderBy('sludinajums.publDatums', 'desc')
+            ->where('listings.author_id', $authorId)
+            ->orderBy('listings.publication_date', 'desc')
             ->get();
 
         $jobs = [];
 
         foreach ($rows as $row) {
-            $jobId = $row->sludinajumaID;
+            $jobId = $row->listing_id;
 
             if (!isset($jobs[$jobId])) {
                 $jobs[$jobId] = [
-                    'sludinajumaID' => $row->sludinajumaID,
-                    'nosaukums' => $row->nosaukums,
-                    'apraksts' => $row->apraksts,
-                    'autoraID' => $row->autoraID,
+                    'listing_id' => $row->listing_id,
+                    'name' => $row->name,
+                    'description' => $row->description,
+                    'author_id' => $row->author_id,
+                    'username' => $row->username,
                     'statuss' => $row->statuss,
-                    'publDatums' => $row->publDatums,
-                    'budzets' => $row->budzets,
-                    'termina_dienas' => $row->termina_dienas,
-                    'kategorijas' => [],
+                    'publication_date' => $row->publication_date,
+                    'budget' => $row->budget,
+                    'deadline_days' => $row->deadline_days,
+                    'categories' => [],
                 ];
             }
 
-            if ($row->kategorijas_id) {
-                $jobs[$jobId]['kategorijas'][] = [
-                    'id' => $row->kategorijas_id,
-                    'nosaukums' => $row->kategorijas_nosaukums,
+            if ($row->cat_id) {
+                $jobs[$jobId]['categories'][] = [
+                    'id' => $row->cat_id,
+                    'name' => $row->cat_name,
                 ];
             }
         }
 
         return array_values($jobs);
     }
+
     public function getFeedJobs(?int $myId = null)
     {
-        $query = DB::table('sludinajums')
-            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
-            ->leftJoin('sludinajums_kategorija', 'sludinajums.sludinajumaID', '=', 'sludinajums_kategorija.sludinajumaID')
-            ->leftJoin('kategorija', 'sludinajums_kategorija.kategorijaID', '=', 'kategorija.kategorijasID')
+        $query = DB::table('listings')
+            ->join('job', 'listings.listing_id', '=', 'job.listing_id')
+            ->join('users', 'listings.author_id', '=', 'users.id')
+            ->leftJoin('listing_category', 'listings.listing_id', '=', 'listing_category.listing_id')
+            ->leftJoin('categories', 'listing_category.category_id', '=', 'categories.category_id')
             ->select(
-                'sludinajums.sludinajumaID',
-                'sludinajums.nosaukums',
-                'sludinajums.apraksts',
-                'sludinajums.autoraID',
-                'sludinajums.statuss',
-                'sludinajums.publDatums',
-                'darbs.budzets',
-                'darbs.termina_dienas',
-                'kategorija.kategorijasID as kategorijas_id',
-                'kategorija.nosaukums as kategorijas_nosaukums'
+                'listings.listing_id',
+                'listings.name',
+                'listings.description',
+                'listings.author_id',
+                'listings.statuss',
+                'listings.publication_date',
+                'job.budget',
+                'job.deadline_days',
+                'users.username',
+                'categories.category_id as cat_id',
+                'categories.name as cat_name'
             )
-            ->where('sludinajums.statuss', 'aktīvs');
+            ->where('listings.statuss', 'aktīvs');
 
         if ($myId !== null) {
-            $query->where('sludinajums.autoraID', '!=', $myId);
+            $query->where('listings.author_id', '!=', $myId);
         }
 
         $rows = $query
-            ->orderBy('sludinajums.publDatums', 'desc')
+            ->orderBy('listings.publication_date', 'desc')
             ->limit(10)
             ->get();
 
         $jobs = [];
 
         foreach ($rows as $row) {
-            $jobId = $row->sludinajumaID;
+            $jobId = $row->listing_id;
 
             if (!isset($jobs[$jobId])) {
                 $jobs[$jobId] = [
-                    'sludinajumaID' => $row->sludinajumaID,
-                    'nosaukums' => $row->nosaukums,
-                    'apraksts' => $row->apraksts,
-                    'autoraID' => $row->autoraID,
+                    'listing_id' => $row->listing_id,
+                    'name' => $row->name,
+                    'description' => $row->description,
+                    'author_id' => $row->author_id,
+                    'username' => $row->username,
                     'statuss' => $row->statuss,
-                    'publDatums' => $row->publDatums,
-                    'budzets' => $row->budzets,
-                    'termina_dienas' => $row->termina_dienas,
-                    'kategorijas' => [],
+                    'publication_date' => $row->publication_date,
+                    'budget' => $row->budget,
+                    'deadline_days' => $row->deadline_days,
+                    'categories' => [],
                 ];
             }
 
-            if ($row->kategorijas_id) {
-                $jobs[$jobId]['kategorijas'][] = [
-                    'id' => $row->kategorijas_id,
-                    'nosaukums' => $row->kategorijas_nosaukums,
+            if ($row->cat_id) {
+                $jobs[$jobId]['categories'][] = [
+                    'id' => $row->cat_id,
+                    'name' => $row->cat_name,
                 ];
             }
         }
 
         return array_values($jobs);
     }
-    public function createSludinajums(array $data): int
+
+    public function createListing(array $data): int
     {
-        $sludinajums = Listing::create($data);
-        return $sludinajums->sludinajumaID;
+        $listing = Listing::create($data);
+        return $listing->listing_id;
     }
 
-    public function createDarbs(array $data): void
+    public function createJobDetails(array $data): void
     {
-        DB::table('darbs')->insert($data);
+        DB::table('job')->insert($data);
     }
 
-    public function attachCategories(int $sludinajumsId, array $categoryIds): void
+    public function attachCategories(int $listingId, array $categoryIds): void
     {
         $rows = [];
 
         foreach ($categoryIds as $katId) {
             $rows[] = [
-                'sludinajumaID' => $sludinajumsId,
-                'kategorijaID' => $katId,
+                'listing_id' => $listingId,
+                'category_id' => $katId,
             ];
         }
 
-        DB::table('sludinajums_kategorija')->insert($rows);
+        DB::table('listing_category')->insert($rows);
     }
 
-    public function findById(int $sludinajumsId)
+    public function findById(int $listingId)
     {
-        return DB::table('sludinajums')
-            ->join('darbs', 'sludinajums.sludinajumaID', '=', 'darbs.sludinajumaID')
-            ->select('sludinajums.*', 'darbs.budzets', 'darbs.termina_dienas')
-            ->where('sludinajums.sludinajumaID', $sludinajumsId)
+        return DB::table('listings')
+            ->join('job', 'listings.listing_id', '=', 'job.listing_id')
+            ->select('listings.*', 'job.budget', 'job.deadline_days')
+            ->where('listings.listing_id', $listingId)
             ->first();
     }
-
 }

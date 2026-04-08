@@ -28,29 +28,29 @@ class JobService
         return $this->jobRepository->getFeedJobs($myId);
     }
 
-    public function createJob(array $data, int $authorId): object
+    public function createJob(array $data, int $author_id): object
     {
-        return DB::transaction(function () use ($data, $authorId) {
-            $sludinajumsId = $this->jobRepository->createSludinajums([
-                'nosaukums' => $data['nosaukums'],
-                'apraksts' => $data['apraksts'],
+        return DB::transaction(function () use ($data, $author_id) {
+            $listing_id = $this->jobRepository->createListing([
+                'name' => $data['name'],
+                'description' => $data['description'],
                 'statuss' => 'aktīvs',
-                'publDatums' => now(),
-                'autoraID' => $authorId,
+                'publication_date' => now(),
+                'author_id' => $author_id,
             ]);
 
-            $this->jobRepository->createDarbs([
-                'sludinajumaID' => $sludinajumsId,
-                'budzets' => $data['budzets'],
-                'termina_dienas' => $data['termina_dienas'],
+            $this->jobRepository->createJobDetails([
+                'listing_id' => $listing_id,
+                'budget' => $data['budget'],
+                'deadline_days' => $data['deadline_days'],
             ]);
 
             $this->jobRepository->attachCategories(
-                $sludinajumsId,
-                $data['kategorijas']
+                $listing_id,
+                $data['categories']
             );
 
-            return $this->jobRepository->findById($sludinajumsId);
+            return $this->jobRepository->findById($listing_id);
         });
     }
 }

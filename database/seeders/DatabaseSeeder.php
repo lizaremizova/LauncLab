@@ -17,107 +17,111 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        DB::table('users')->insert([
-            'name' => 'Admin',
-            'email' => 'admin@test.com',
-            'password' => bcrypt('password'),
-        ]);
+        DB::table('users')->updateOrInsert(
+            ['email' => 'admin@test.com'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('parol0909'),
+                'username' => 'admin',
+            ]
+        );
 
-        DB::table('users')->insert([
-            'name' => 'Polina',
-            'email' => 'polinan@test.com',
-            'password' => bcrypt('password'),
-        ]);
 
         DB::table('users')->updateOrInsert(
             ['email' => 'edgar@test.com'],
             [
                 'name' => 'Edgar',
                 'password' => bcrypt('password'),
+                'username' => 'edgar',
             ]
         );
 
-        $sid1 = DB::table('sludinajums')->insertGetId([
-            'nosaukums' => 'Mārketinga aģentūras mājaslapas izveide',
-            'apraksts' => 'Nepieciešams radošs tīkla izstrādātājs...',
+        $sid1 = DB::table('listings')->insertGetId([
+            'name' => 'Mārketinga aģentūras mājaslapas izveide',
+            'description' => 'Nepieciešams radošs tīkla izstrādātājs...',
             'statuss' => 'aktīvs',
-            'publDatums' => now(),
-            'autoraID' => 1,
+            'publication_date' => now(),
+            'author_id' => 1,
         ]);
 
-        DB::table('darbs')->insert([
-            'sludinajumaID' => $sid1,
-            'budzets' => 250.00,
-            'termina_dienas' => 10,
+        DB::table('job')->insert([
+            'listing_id' => $sid1,
+            'budget' => 250.00,
+            'deadline_days' => 10,
         ]);
 
 // SECOND JOB
-        $sid2 = DB::table('sludinajums')->insertGetId([
-            'nosaukums' => 'React Dashboard Template',
-            'apraksts' => 'Moderns un pielāgojams vadības paneļa veidnis...',
+        $sid2 = DB::table('listings')->insertGetId([
+            'name' => 'React Dashboard Template',
+            'description' => 'Moderns un pielāgojams vadības paneļa veidnis...',
             'statuss' => 'aktīvs',
-            'publDatums' => now(),
-            'autoraID' => 1,
+            'publication_date' => now(),
+            'author_id' => 2,
         ]);
 
-        DB::table('darbs')->insert([
-            'sludinajumaID' => $sid2,
-            'budzets' => 300.00,
-            'termina_dienas' => 20,
+        DB::table('job')->insert([
+            'listing_id' => $sid2,
+            'budget' => 300.00,
+            'deadline_days' => 20,
         ]);
 
-        $sid3 = DB::table('sludinajums')->insertGetId([
-            'nosaukums' => 'UX/UI Redesign for Fitness App',
-            'apraksts' => 'Looking for a UI designer to modernize a mobile fitness app interface.',
+        $sid3 = DB::table('listings')->insertGetId([
+            'name' => 'UX/UI Redesign for Fitness App',
+            'description' => 'Looking for a UI designer to modernize a mobile fitness app interface.',
             'statuss' => 'aktīvs',
-            'publDatums' => now(),
-            'autoraID' => 2,
+            'publication_date' => now(),
+            'author_id' => 1,
         ]);
 
-        DB::table('darbs')->insert([
-            'sludinajumaID' => $sid3,
-            'budzets' => 300.00,
-            'termina_dienas' => 20,
+        DB::table('job')->insert([
+            'listing_id' => $sid3,
+            'budget' => 300.00,
+            'deadline_days' => 20,
         ]);
 
-        $sid4 = DB::table('sludinajums')->insertGetId([
-            'nosaukums' => 'mobile App',
-            'apraksts' => 'Looking for a developer.',
+        $sid4 = DB::table('listings')->insertGetId([
+            'name' => 'mobile App',
+            'description' => 'Looking for a developer.',
             'statuss' => 'aktīvs',
-            'publDatums' => now(),
-            'autoraID' => 3,
+            'publication_date' => now(),
+            'author_id' => 2,
         ]);
 
-        DB::table('darbs')->insert([
-            'sludinajumaID' => $sid4,
-            'budzets' => 300.00,
-            'termina_dienas' => 20,
+        DB::table('job')->insert([
+            'listing_id' => $sid4,
+            'budget' => 300.00,
+            'deadline_days' => 20,
         ]);
 
-        $sid3 = DB::table('sludinajums')->insertGetId([
-            'nosaukums' => 'ai chatbot development',
-            'apraksts' => 'Moderns un pielāgojams vadības paneļa veidnis...',
-            'statuss' => 'aktīvs',
-            'publDatums' => now(),
-            'autoraID' => 1,
+//        $sid3 = DB::table('listings')->insertGetId([
+//            'nosaukums' => 'ai chatbot development',
+//            'apraksts' => 'Moderns un pielāgojams vadības paneļa veidnis...',
+//            'statuss' => 'aktīvs',
+//            'publDatums' => now(),
+//            'autoraID' => 1,
+//        ]);
+//
+//        DB::table('job')->insert([
+//            'sludinajumaID' => $sid3,
+//            'budzets' => 355.00,
+//            'termina_dienas' => 15,
+//        ]);
+
+        DB::table('categories')->insert([
+            ['name' => 'Dizains'],
+            ['name' => 'Izstrāde'],
+            ['name' => 'Mārketings'],
+            ['name' => 'Teksti'],
+            ['name' => 'spēles']
         ]);
 
-        DB::table('darbs')->insert([
-            'sludinajumaID' => $sid3,
-            'budzets' => 355.00,
-            'termina_dienas' => 15,
-        ]);
-
-        DB::table('kategorija')->insert([
-            ['kategorijasID' => 1, 'nosaukums' => 'Dizains'],
-            ['kategorijasID' => 2, 'nosaukums' => 'Izstrāde'],
-            ['kategorijasID' => 3, 'nosaukums' => 'Mārketings'],
-            ['kategorijasID' => 4, 'nosaukums' => 'Teksti'],
-            ['kategorijasID' => 5, 'nosaukums' => 'spēles']
-        ]);
-
-        DB::table('sludinajums')->where('sludinajumaID', 1)->update([
+        DB::table('listings')->where('listing_id', $sid1)->update([
             'statuss' => 'pabeigts',
+        ]);
+
+        DB::table('listing_category')->insert([
+            'listing_id' => $sid1,
+            'category_id' => 2,
         ]);
     }
 }

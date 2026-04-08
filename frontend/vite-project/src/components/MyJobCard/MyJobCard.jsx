@@ -23,13 +23,13 @@ const MyJobCard = ({ job, index }) => {
                     alt="icon"
                     className={styles.statusIcon}
                 />
-                <h2 className={styles.title}>{job.nosaukums}</h2>
+                <h2 className={styles.title}>{job.name}</h2>
             </div>
 
             <div className={styles.detailsGrid}>
                 <div className={styles.infoBox}>
                     <span className={styles.badge} style={{color: tagColor}}>termiņš</span>
-                    <span className={styles.text}>{job.termina_dienas} dienas</span>
+                    <span className={styles.text}>{job.deadline_days} dienas</span>
                 </div>
                 <div className={styles.infoBox} >
                     <span className={styles.badge} style={{color: tagColor}}>publicēja</span>
@@ -37,7 +37,7 @@ const MyJobCard = ({ job, index }) => {
                 </div>
                 <div className={styles.infoBox}>
                     <span className={styles.badge} style={{color: tagColor}}>budžets</span>
-                    <span className={styles.text}>{job.budzets} eur</span>
+                    <span className={styles.text}>{job.budget} eur</span>
                 </div>
                 <div className={styles.infoBox}>
                     <span className={styles.badge} style={{color: tagColor}}>statuss</span>
@@ -45,13 +45,13 @@ const MyJobCard = ({ job, index }) => {
                 </div>
             </div>
 
-            <p className={styles.desc}>{job.apraksts}</p>
+            <p className={styles.desc}>{job.description}</p>
 
             <div className={styles.tagRow}>
-                {job.kategorijas && job.kategorijas.length > 0 ? (
-                    job.kategorijas.map((kat) => (
-                        <span key={kat.id} className={styles.tag} style={{color: tagColor}}>
-            {kat.nosaukums}
+                {job.categories && job.categories.length > 0 ? (
+                    job.categories.map((cat) => (
+                        <span key={cat.id} className={styles.tag} style={{color: tagColor}}>
+            {cat.name}
         </span> ))
                 ) : (
                     <span className={styles.tag} style={{color: tagColor}}>Nav kategoriju</span>
