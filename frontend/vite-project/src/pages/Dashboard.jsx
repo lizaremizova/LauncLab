@@ -96,7 +96,7 @@ const Dashboard = () => {
                         ) : (
                             myJobs.map((job, index) => (
                                 <MyJobCard
-                                    key={job.sludinajumaID}
+                                    key={job.listing_id}
                                     job={job}
                                     index={index}
                                 />
@@ -109,7 +109,7 @@ const Dashboard = () => {
                     <div className={styles.jobsFeed}>
                         {feedJobs.map((job) => (
                             <JobCard
-                                key={job.sludinajumaID || job.id}
+                                key={job.listing_id|| job.id}
                                 job={job}
                                 onApply={handleApply}
                             />

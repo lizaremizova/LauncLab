@@ -5,6 +5,8 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login'
 import AddJob from "@/pages/AddJob.jsx";
 import Profile from "./pages/Profile.jsx"
+import JobsPage from "@/pages/JobsPage.jsx";
+
 export default function App() {
     return (
         <BrowserRouter>
@@ -14,7 +16,8 @@ export default function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path='/login' element={<Login />} />
                 <Route path={'/post'} element={<AddJob />} />
-                <Route path={'/Profile'} element={<Profile />} />
+                <Route path={'/profile'} element={<Profile />} />
+                <Route path={'/jobs'} element={<JobsPage />} />
             </Routes>
         </BrowserRouter>
     );
