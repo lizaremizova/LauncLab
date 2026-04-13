@@ -6,6 +6,8 @@ import SideBar from "@/components/SideBar/SideBar.jsx";
 import Header from "@/components/Header/Header.jsx"
 import searchIcon from "@/assets/search.svg";
 import { MultiSelect } from 'primereact/multiselect';
+import { Dialog } from 'primereact/dialog';
+import { Button } from 'primereact/button';
 const JobsPage = () => {
 
     const navigate = useNavigate();
@@ -13,6 +15,9 @@ const JobsPage = () => {
     const [feedJobs, setFeedJobs] = useState([]);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null);
 
     // Feed
     useEffect(() => {
@@ -28,11 +33,11 @@ const JobsPage = () => {
                 if (Array.isArray(data)) {
                     setFeedJobs(data);
                 } else {
-                    console.error('Expected array, got:', data);
+                    console.error(data);
                     setFeedJobs([]);
                 }
             })
-            .catch(err => console.error("Feed fetch failed:", err));
+            .catch(err => console.error(err));
     }, []);
 
     const handleApply = (id) => {
@@ -55,6 +60,26 @@ const JobsPage = () => {
             .catch(err => console.error("API Down:", err));
     }, []);
 
+    const filteredJobs = (feedJobs || []).filter(job => {
+        const title = (job?.title || job?.name || "").toLowerCase();
+        const desc = (job?.description || "").toLowerCase();
+        const search = searchTerm.toLowerCase().trim();
+
+        const matchesSearch = title.includes(search) || desc.includes(search);
+
+        const matchesCategory = selectedCategories.length === 0 ||
+            (Array.isArray(job.categories) && job.categories.some(cat =>
+                selectedCategories.some(sel => sel.code === cat.id)
+            ));
+
+        return matchesSearch && matchesCategory;
+    });
+
+    const handleOpenApply = (job) => {
+        setSelectedJob(job);
+        setIsModalOpen(true);
+    };
+
     return (
         <div className={styles.dashboardWrapper}>
             <Header userName={userName} />
@@ -64,41 +89,100 @@ const JobsPage = () => {
                     <section className={styles.sectionHeader}>
                         <h2>Pieejāmie darbi</h2>
 
-                        <div className={styles.searchWrapper}>
-                            <input
-                                type="text"
-                                className={styles.searchInput}
-                                placeholder="meklēt..."
+                        <div>
+                            <div className={styles.searchWrapper}>
+                                <input
+                                    type="text"
+                                    className={styles.searchInput}
+                                    placeholder="meklēt..."
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
+                                <button className={styles.searchBtn}>
+                                    <img src={searchIcon} alt="Search" className={styles.searchIconImg} />
+                                </button>
+                            </div>
+
+                            <MultiSelect
+                                value={selectedCategories}
+                                onChange={(e) => setSelectedCategories(e.value)}
+                                options={categories}
+                                optionLabel="name"
+                                placeholder="Filtrēt pēc kategorijas"
+                                maxSelectedLabels={3}
+                                className="w-full md:w-20rem "
+                                style={{ border: '1px solid #ccc', borderRadius: '2rem', boxShadow: 'none', outline: 'none' }}
                             />
-                            <button className={styles.searchBtn}>
-                                <img src={searchIcon} alt="Search" className={styles.searchIconImg} />
-                            </button>
                         </div>
 
-                        <MultiSelect
-                            value={selectedCategories}
-                            onChange={(e) => setSelectedCategories(e.value)}
-                            options={categories}
-                            optionLabel="name"
-                            placeholder="Filtrēt pēc kategorijas"
-                            maxSelectedLabels={3}
-                            className="w-full md:w-20rem"
-                            style={{ border: '1px solid #ccc' }}
-                        />
 
                     </section>
 
                     <div className={styles.mainContent}>
 
                         <div className={styles.jobsFeed}>
-                            {Array.isArray(feedJobs) && feedJobs.map((job) => (
-                                <JobCard
-                                    key={job.listing_id}
-                                    job={job}
-                                    onApply={handleApply}
-                                />
-                            ))}
+                            {filteredJobs.length > 0 ? (
+                                filteredJobs.map((job) => (
+                                    <JobCard
+                                        key={job.listing_id}
+                                        job={job}
+                                        onApply={() => handleOpenApply(job)}
+                                    />
+                                ))
+                            ) : (
+                               <p>nekas nebija atrasts</p>
+                            )}
                         </div>
+
+                        <Dialog
+                            header={`Pieteikties: ${selectedJob?.name}`}
+                            visible={isModalOpen}
+                            onHide={() => setIsModalOpen(false)}
+                            style={{ width: '450px' }}
+                            className={styles.popup}
+                            pt={{
+                                header: { className: styles.popupHeader },
+                                content: { className: styles.popupContent },
+                                root: { className: styles.popupRoot }
+                            }}
+                        >
+                            {selectedJob && (
+                                <div className={styles.popupContent}>
+                                    <p className={styles.jobDesc}>
+                                        {selectedJob.description}
+                                    </p>
+
+                                    <div className={styles.jobDetails}>
+                                        <div className={styles.jobDetail}> <span className={styles.detailTag}>budžets</span>{selectedJob.budget} EUR</div>
+
+                                        <div className={styles.jobDetail}> <span className={styles.detailTag}>termiņš</span>{selectedJob.deadline_days} dienas</div>
+
+                                        <div className={styles.jobDetail}> <span className={styles.detailTag}>publicēja</span>{selectedJob.username}</div>
+                                    </div>
+
+
+
+                                    <div className={styles.tagRow}>
+
+                                        {selectedJob.categories && selectedJob.categories.length > 0 ? (
+                                            selectedJob.categories.map((cat) => (
+                                                <span key={cat.id} className={styles.tag} >
+                                                    {cat.name}
+                                                </span> ))
+                                        ) : (
+                                            <span className={styles.tag}>Nav kategoriju</span>
+                                        )}
+
+                                    </div>
+
+
+                                    <button className={styles.btnBlackPopup} style={{width: '100%', marginTop: '10px'}}>Pieteikties</button>
+
+                                </div>
+
+
+                            )}
+                        </Dialog>
                     </div>
 
                 </main>

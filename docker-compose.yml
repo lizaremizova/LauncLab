@@ -33,7 +33,9 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - dbdata:/var/lib/mysql
+      - launchlab_db_data:/var/lib/mysql
 
 volumes:
-  dbdata:
+    launchlab_db_data: {}
+
+

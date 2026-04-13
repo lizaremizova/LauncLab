@@ -38,7 +38,7 @@ const JobCard = ({ job, onApply }) => {
                     <div className={styles.jobDetail}> <span className={styles.detailTag}>publicēja</span>{job.username}</div>
                 </div>
 
-                <button className={styles.btnBlack} style={{width: '100%', marginTop: '10px'}} onClick={() => onApply(job.listing_id)}>Pieteikties</button>
+                <button className={styles.btnBlack} style={{width: '100%', marginTop: '10px'}} onClick={onApply}>Pieteikties</button>
 
             </div>
         </div>

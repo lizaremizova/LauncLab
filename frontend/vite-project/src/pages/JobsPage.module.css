@@ -1,3 +1,4 @@
+
 .dashboardWrapper {
     background-color: #E2E2E2;
     min-height: 100vh;
@@ -63,6 +64,10 @@
     align-items: center;
     margin-bottom: 30px;
 }
+.sectionHeader div{
+    display: flex;
+    gap: 2rem;
+}
 
 .sectionHeader h2 {
     font-size: 2rem;
@@ -92,7 +97,7 @@
     width: 100%;
     padding: 10px 50px 10px 20px;
     border-radius: 50px;
-    border: 1px solid #000000;
+    border: 1px solid #b6b6b6;
     font-size: 15px;
     outline: none;
     background-color: transparent;
@@ -115,6 +120,87 @@
 
 .searchIconImg {
     height: 1rem;
+    filter: invert(85%) sepia(0%) saturate(0%) hue-rotate(160deg) brightness(60%) contrast(100%);
+}
+
+.popup {
+    width: 50% !important;
+    min-height: 40% !important;
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+
+}
+
+.popupRoot {
+    border-radius: 50px !important;
+    overflow: hidden;
+}
+
+.popupHeader {
+    background-color: white;
+    color: black;
+    font-weight: 200!important;
+    padding: 2rem 2rem 1rem 2rem;
+}
+
+.popupContent {
+    background-color: white;
+    padding: 0 2rem 2rem 2rem;
+    font-weight: 200;
+    color:black;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.detailTag{
+    color: #000000;
+    background: #E3FE8D;
+    padding: 0.1rem;
+    border-radius: 20px;
+    width: 40%;
+    text-align: center;
+}
+.jobDetails{
+    width: 30%;
+}
+.jobDetail {
+    display: flex;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.tagRow {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.tag {
+    color: #000000;
+    background: white;
+    padding: 0.3rem 0.6rem;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid black;
+    font-size: 0.8rem;
+}
+.jobDesc{
+    color: black;
+    margin-left: 0;
+}
+.btnBlackPopup {
+    background: #E3FE8D;
+    color: #000000;
+    border-radius: 50px;
+    width: 30% !important;
+    padding: 0.7rem 1.1rem;
+    border: none;
+    font-weight: 200;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
 }
 
 
