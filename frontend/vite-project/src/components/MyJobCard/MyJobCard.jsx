@@ -5,7 +5,7 @@ import clockIcon from "../../assets/clock.svg";
 import doneIcon from "../../assets/doneJob.svg";
 
 
-const MyJobCard = ({ job, index }) => {
+const MyJobCard = ({ job, index, isApplication }) => {
     const cardColors = ['#DBFFB0', '#D2EDF0', '#E3FE8D'];
     const bgColor = cardColors[index % cardColors.length];
 
@@ -14,6 +14,8 @@ const MyJobCard = ({ job, index }) => {
 
     const isCompleted = job.statuss === 'pabeigts';
     const statusLabel = job.statuss || 'aktīvs';
+
+    const displayAuthor = job.author_name || (isApplication ? "Autors" : "Jūs");
 
     return (
         <div className={styles.card} style={{ backgroundColor: bgColor }}>
@@ -33,7 +35,7 @@ const MyJobCard = ({ job, index }) => {
                 </div>
                 <div className={styles.infoBox} >
                     <span className={styles.badge} style={{color: tagColor}}>publicēja</span>
-                    <span className={styles.text}>Jūs</span>
+                    <span className={styles.text}>{displayAuthor}</span>
                 </div>
                 <div className={styles.infoBox}>
                     <span className={styles.badge} style={{color: tagColor}}>budžets</span>

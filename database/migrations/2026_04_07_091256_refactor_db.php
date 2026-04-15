@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('username')->unique();
             $table->string('name');
             $table->string('email')->unique();
@@ -24,37 +24,37 @@ return new class extends Migration
         });
 
         Schema::create('listings', function (Blueprint $table) {
-            $table->id('listing_id');
+            $table->uuid('listing_id')->primary();
             $table->string('name', 100);
             $table->text('description');
             $table->string('statuss', 20)->default('aktīvs');
             $table->date('publication_date');
-            $table->foreignId('author_id')->constrained('users')->onDelete('cascade');
+            $table->foreignUuid('author_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
 
         Schema::create('job', function (Blueprint $table) {
-            $table->unsignedBigInteger('listing_id')->primary();
+            $table->uuid('listing_id')->primary();
             $table->decimal('budget', 10, 2);
             $table->integer('deadline_days');
             $table->foreign('listing_id')->references('listing_id')->on('listings')->onDelete('cascade');
         });
 
         Schema::create('projects', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->timestamps();
         });
 
         Schema::create('categories', function (Blueprint $table) {
-            $table->id('category_id')->primary();
+            $table->uuid('category_id')->primary();
             $table->string('name', 20);
             $table->timestamps();
         });
 
         Schema::create('personal_access_tokens', function (Blueprint $table) {
             $table->id();
-            $table->morphs('tokenable');
-            $table->text('name');
+            $table->uuidMorphs('tokenable');
+            $table->string('name');
             $table->string('token', 64)->unique();
             $table->text('abilities')->nullable();
             $table->timestamp('last_used_at')->nullable();
@@ -63,13 +63,13 @@ return new class extends Migration
         });
 
         Schema::create('listing_category', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary()->default(DB::raw('(UUID())'));
 
-            $table->foreignId('listing_id')
+            $table->foreignUuid('listing_id')
                 ->constrained('listings', 'listing_id')
                 ->onDelete('cascade');
 
-            $table->foreignId('category_id')
+            $table->foreignUuid('category_id')
                 ->constrained('categories', 'category_id')
                 ->onDelete('cascade');
         });
@@ -82,14 +82,27 @@ return new class extends Migration
 
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('username')->nullable()->index();
+            $table->foreignUuid('user_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
 
+        Schema::create('applications', function (Blueprint $table) {
+            $table->uuid('id')->primary();
 
+            $table->foreignUuid('listing_id')
+                ->constrained('listings', 'listing_id')
+                ->onDelete('cascade');
+
+            $table->foreignUuid('user_id')
+                ->constrained('users')
+                ->onDelete('cascade');
+
+            $table->string('status')->default('gaida apstiprinājumu');
+            $table->timestamps();
+        });
 
     }
     /**

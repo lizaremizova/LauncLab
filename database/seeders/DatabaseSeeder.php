@@ -2,46 +2,57 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-
+        //USERS
+        $adminId = (string) Str::uuid();
         DB::table('users')->updateOrInsert(
             ['email' => 'admin@test.com'],
             [
+                'id' => $adminId,
                 'name' => 'Admin',
-                'password' => bcrypt('parol0909'),
+                'password' => Hash::make('parol0909'),
                 'username' => 'admin',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         );
 
-
+        $edgarId = (string) Str::uuid();
         DB::table('users')->updateOrInsert(
             ['email' => 'edgar@test.com'],
             [
+                'id' => $edgarId,
                 'name' => 'Edgar',
-                'password' => bcrypt('password'),
+                'password' => Hash::make('password'),
                 'username' => 'edgar',
+                'created_at' => now(),
+                'updated_at' => now(),
             ]
         );
 
-        $sid1 = DB::table('listings')->insertGetId([
+        //LISTINGS
+
+        $sid1 = (string) Str::uuid();
+        DB::table('listings')->insert([
+            'listing_id' => $sid1,
             'name' => 'Mārketinga aģentūras mājaslapas izveide',
             'description' => 'Nepieciešams radošs tīkla izstrādātājs...',
             'statuss' => 'aktīvs',
             'publication_date' => now(),
-            'author_id' => 1,
+            'author_id' => $adminId,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         DB::table('job')->insert([
@@ -50,13 +61,16 @@ class DatabaseSeeder extends Seeder
             'deadline_days' => 10,
         ]);
 
-// SECOND JOB
-        $sid2 = DB::table('listings')->insertGetId([
+        $sid2 = (string) Str::uuid();
+        DB::table('listings')->insert([
+            'listing_id' => $sid2,
             'name' => 'React Dashboard Template',
             'description' => 'Moderns un pielāgojams vadības paneļa veidnis...',
             'statuss' => 'aktīvs',
             'publication_date' => now(),
-            'author_id' => 2,
+            'author_id' => $edgarId,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         DB::table('job')->insert([
@@ -65,12 +79,16 @@ class DatabaseSeeder extends Seeder
             'deadline_days' => 20,
         ]);
 
-        $sid3 = DB::table('listings')->insertGetId([
+        $sid3 = (string) Str::uuid();
+        DB::table('listings')->insert([
+            'listing_id' => $sid3,
             'name' => 'UX/UI Redesign for Fitness App',
             'description' => 'Looking for a UI designer to modernize a mobile fitness app interface.',
             'statuss' => 'aktīvs',
             'publication_date' => now(),
-            'author_id' => 1,
+            'author_id' => $adminId,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         DB::table('job')->insert([
@@ -79,12 +97,16 @@ class DatabaseSeeder extends Seeder
             'deadline_days' => 20,
         ]);
 
-        $sid4 = DB::table('listings')->insertGetId([
+        $sid4 = (string) Str::uuid();
+        DB::table('listings')->insert([
+            'listing_id' => $sid4,
             'name' => 'mobile App',
             'description' => 'Looking for a developer.',
             'statuss' => 'aktīvs',
             'publication_date' => now(),
-            'author_id' => 2,
+            'author_id' => $edgarId,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         DB::table('job')->insert([
@@ -93,37 +115,27 @@ class DatabaseSeeder extends Seeder
             'deadline_days' => 20,
         ]);
 
-//        $sid3 = DB::table('listings')->insertGetId([
-//            'nosaukums' => 'ai chatbot development',
-//            'apraksts' => 'Moderns un pielāgojams vadības paneļa veidnis...',
-//            'statuss' => 'aktīvs',
-//            'publDatums' => now(),
-//            'autoraID' => 1,
-//        ]);
-//
-//        DB::table('job')->insert([
-//            'sludinajumaID' => $sid3,
-//            'budzets' => 355.00,
-//            'termina_dienas' => 15,
-//        ]);
-
+        //CATEGORIES
         DB::table('categories')->insert([
-            ['name' => 'Dizains'],
-            ['name' => 'Izstrāde'],
-            ['name' => 'Mārketings'],
-            ['name' => 'Teksti'],
-            ['name' => 'spēles']
+            ['category_id' => (string) Str::uuid(), 'name' => 'Dizains', 'created_at' => now(), 'updated_at' => now()],
+            ['category_id' => (string) Str::uuid(), 'name' => 'Izstrāde', 'created_at' => now(), 'updated_at' => now()],
+            ['category_id' => (string) Str::uuid(), 'name' => 'Mārketings', 'created_at' => now(), 'updated_at' => now()],
+            ['category_id' => (string) Str::uuid(), 'name' => 'Teksti', 'created_at' => now(), 'updated_at' => now()],
+            ['category_id' => (string) Str::uuid(), 'name' => 'spēles', 'created_at' => now(), 'updated_at' => now()],
         ]);
+
 
         DB::table('listings')->where('listing_id', $sid1)->update([
             'statuss' => 'pabeigts',
+            'updated_at' => now(),
         ]);
 
-        DB::table('listing_category')->insert([
-            'listing_id' => $sid1,
-            'category_id' => 2,
-        ]);
-    }
+        $devCatId = DB::table('categories')->where('name', 'Izstrāde')->value('category_id');
+
+        if ($devCatId) {
+            DB::table('listing_category')->updateOrInsert(
+                ['listing_id' => $sid1, 'category_id' => $devCatId],
+                ['id' => (string) Str::uuid()]
+            );
+        }}
 }
-
-

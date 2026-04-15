@@ -16,19 +16,18 @@ class JobService
         return $this->jobRepository->getAllActiveJobs();
     }
 
-    public function getJobsByAuthorId(int $authorId)
+    public function getJobsByAuthorId(string $authorId)
     {
         return $this->jobRepository->getJobsByAuthorId($authorId);
     }
 
     public function getFeedJobs($myId = null)
     {
-        $myId = is_numeric($myId) ? (int) $myId : null;
 
         return $this->jobRepository->getFeedJobs($myId);
     }
 
-    public function createJob(array $data, int $author_id): object
+    public function createJob(array $data, string $author_id): object
     {
         return DB::transaction(function () use ($data, $author_id) {
             $listing_id = $this->jobRepository->createListing([

@@ -18,8 +18,8 @@ class JobPostRequest extends FormRequest
             'description' => ['required', 'string'],
             'budget' => ['required', 'numeric'],
             'deadline_days' => ['required', 'integer'],
-            'categories' => ['required', 'array', 'min:1'],
-            'categories.*' => ['integer'],
+            'categories' => 'required|array',
+            'categories.*' => 'required|string',
         ];
     }
 }

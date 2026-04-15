@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobController;
@@ -13,8 +14,10 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/jobs/feed', [JobController::class, 'getFeedJobs']);
 Route::get('/user/{id}/jobs', [JobController::class, 'getJobsByAuthorId']);
+Route::get('/user/{userId}/applications', [ApplicationController::class, 'userApplications']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/jobs', [JobController::class, 'store']);
+    Route::post('/applications', [ApplicationController::class, 'store']);
 });

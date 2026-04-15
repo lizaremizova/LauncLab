@@ -2,12 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Listing extends Model
 {
+    use HasUuids;
+
     protected $table = 'listings';
     protected $primaryKey = 'listing_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
     public $timestamps = false;
 
     protected $fillable = [
@@ -33,4 +38,8 @@ class Listing extends Model
         return $this->hasOne(Job::class, 'listing_id', 'listing_id');
     }
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
 }

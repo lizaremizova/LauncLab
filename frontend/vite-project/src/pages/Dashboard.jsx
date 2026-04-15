@@ -19,6 +19,7 @@ const Dashboard = () => {
     const [myJobs, setMyJobs] = useState([]);
     const [feedJobs, setFeedJobs] = useState([]);
     const [stats, setStats] = useState({ active: 0, completed: 0, projects: 0 });
+    const [myApplications, setMyApplications] = useState([]);
 
     // Feed
     useEffect(() => {
@@ -41,12 +42,27 @@ const Dashboard = () => {
                 .then(res => res.json())
                 .then(data => {
                     setMyJobs(data);
-                    // Update stats based on your jobs
+                    // Update stats
                     const active = data.filter(j => j.statuss === 'aktīvs').length;
                     const completed = data.filter(j => j.statuss === 'pabeigts').length;
                     setStats({ active, completed, projects: data.length });
                 })
                 .catch(err => console.error('Failed to fetch my jobs:', err));
+        }
+    }, []);
+
+    // your Applications
+    useEffect(() => {
+        const myId = localStorage.getItem('id')
+        if (myId) {
+            fetch(`http://localhost:8080/api/user/${myId}/applications`)
+                .then(res => res.json())
+                .then(data => {
+                    console.log("Full Application Data:", data[0]);
+                    if (Array.isArray(data)) {
+                        setMyApplications(data);
+                    }
+                })
         }
     }, []);
 
@@ -79,10 +95,31 @@ const Dashboard = () => {
                         </div>
                     </section>
 
-                    <EmptyCard
-                        message={"Tev pagaidām nav neviena aktīva darba vai projekta"}
-                        buttonText={"pieteikties darbam"}
-                    />
+                    <div className={styles.applicationContainer}>
+                        {myApplications.length > 0 ? (
+                            myApplications.map((app, index) => (
+                                <MyJobCard
+                                    key={app.app_id}
+                                    index={index}
+                                    job={{
+                                        name: app.job_name,
+                                        statuss: app.status,
+                                        deadline_days: app.deadline,
+                                        budget: app.budget,
+                                        description: app.description || "Pieteikums aktīvam darbam",
+                                        categories: app.categories || []
+                                    }}
+                                    isApplication={true}
+                                />
+                            ))
+                        ) : (
+                            <EmptyCard
+                                message={"Tev pagaidām nav neviena aktīva darba vai projekta"}
+                                buttonText={"pieteikties darbam"}
+                            />
+                        )}
+                    </div>
+
 
                     <h2 className={styles.h2applications}>Tavi pēdējie sludinājumi</h2>
 
@@ -96,9 +133,10 @@ const Dashboard = () => {
                         ) : (
                             myJobs.map((job, index) => (
                                 <MyJobCard
-                                    key={job.listing_id}
+                                    key={job.listing_id || job.id || `job-${index}`}
                                     job={job}
                                     index={index}
+                                    isApplication={false}
                                 />
                             ))
                         )}
@@ -112,6 +150,7 @@ const Dashboard = () => {
                                 key={job.listing_id|| job.id}
                                 job={job}
                                 onApply={handleApply}
+                                isApplication={false}
                             />
                         ))}
                     </div>

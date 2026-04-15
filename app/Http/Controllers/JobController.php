@@ -21,7 +21,7 @@ class JobController extends Controller
         return response()->json($jobs);
     }
 
-    public function getJobsByAuthorId(int $authorId): JsonResponse
+    public function getJobsByAuthorId(string $authorId): JsonResponse
     {
         $jobs = $this->jobService->getJobsByAuthorId($authorId);
 

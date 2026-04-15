@@ -23,7 +23,7 @@ class JobRepository
             ->get();
     }
 
-    public function getJobsByAuthorId(int $authorId)
+    public function getJobsByAuthorId(string $authorId)
     {
         $rows = DB::table('listings')
             ->join('job', 'listings.listing_id', '=', 'job.listing_id')
@@ -73,7 +73,7 @@ class JobRepository
         return array_values($jobs);
     }
 
-    public function getFeedJobs(?int $myId = null)
+    public function getFeedJobs(?string $myId = null)
     {
         $query = DB::table('listings')
             ->join('job', 'listings.listing_id', '=', 'job.listing_id')
@@ -135,7 +135,7 @@ class JobRepository
         return array_values($jobs);
     }
 
-    public function createListing(array $data): int
+    public function createListing(array $data): string
     {
         $listing = Listing::create($data);
         return $listing->listing_id;
@@ -146,7 +146,7 @@ class JobRepository
         DB::table('job')->insert($data);
     }
 
-    public function attachCategories(int $listingId, array $categoryIds): void
+    public function attachCategories(string $listingId, array $categoryIds): void
     {
         $rows = [];
 
@@ -160,7 +160,7 @@ class JobRepository
         DB::table('listing_category')->insert($rows);
     }
 
-    public function findById(int $listingId)
+    public function findById(string $listingId)
     {
         return DB::table('listings')
             ->join('job', 'listings.listing_id', '=', 'job.listing_id')

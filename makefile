@@ -20,6 +20,10 @@ rebuild:
 restart:
 	$(DC) restart
 
+clean: ## Make some clean
+	-$(DC) run -e STARTUP_WAIT_FOR_SERVICES=false composer clear
+	$(DC) down -v -t 5
+
 bash:
 	$(PHP) bash
 
@@ -66,3 +70,7 @@ dev:
 	$(PHP) php artisan migrate --force
 	@echo "🚀 Starting Vite..."
 	$(PHP) sh -c "cd $(FRONTEND_DIR) && npm run dev -- --host 0.0.0.0"
+
+#make db-query q="SELECT * FROM users;"
+db-query:
+	docker compose exec db mysql -u user -ppassword launchlab -e "$(q)"

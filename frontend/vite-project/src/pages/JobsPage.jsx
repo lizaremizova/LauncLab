@@ -40,14 +40,6 @@ const JobsPage = () => {
             .catch(err => console.error(err));
     }, []);
 
-    const handleApply = (id) => {
-        if (!localStorage.getItem('TOKEN')) {
-            navigate('/login');
-        } else {
-            console.log("Applying:", id);
-        }
-    };
-
     useEffect(() => {
         fetch('http://localhost:8080/api/categories')
             .then(res => res.json())
@@ -78,6 +70,31 @@ const JobsPage = () => {
     const handleOpenApply = (job) => {
         setSelectedJob(job);
         setIsModalOpen(true);
+    };
+
+    const submitApplication = async() => {
+        try {
+            const token = localStorage.getItem('TOKEN');
+            const userId = localStorage.getItem('id');
+
+            const response = await fetch('http://localhost:8080/api/applications', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    listing_id: selectedJob.listing_id,
+                    user_id: userId
+                })
+            });
+
+            if (response.ok) {
+                setIsModalOpen(false);
+            }
+        } catch (error) {
+            console.error("Failed apply:", error);
+        }
     };
 
     return (
@@ -176,7 +193,7 @@ const JobsPage = () => {
                                     </div>
 
 
-                                    <button className={styles.btnBlackPopup} style={{width: '100%', marginTop: '10px'}}>Pieteikties</button>
+                                    <button className={styles.btnBlackPopup} style={{width: '100%', marginTop: '10px'}} onClick={submitApplication}>Pieteikties</button>
 
                                 </div>
 
