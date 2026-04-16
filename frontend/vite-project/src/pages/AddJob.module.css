@@ -1,102 +1,93 @@
 .pageWrapper {
-    background-color: #E2E2E2;
+    background-image: linear-gradient(to bottom, #E3FE8D, #D2EDF0);
     min-height: 100vh;
-    padding: 2rem 4rem;
+    min-width: 100vw;
     font-family: "Poppins", sans-serif;
-}
-.header {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
     display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
 }
-
-.logoPill {
-    background: white;
-    padding: 0.7rem 2rem;
-    border-radius: 50px;
+.leftFormSide h1{
+    color: white;
+    font-size: 3rem;
+    line-height: 4rem;
+    width: 70%;
 }
-
-.logoImg { height: 1.4rem; }
-
-.title { font-size: 1.8rem; font-weight: 400; }
-
+.leftFormSide{
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+img{
+    height:3.5rem;
+}
+.jobForm{
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
 .formCard {
     background: white;
-    border-radius: 60px;
+    border-radius: 4rem 0 0 4rem;
     padding: 3rem 4rem;
-    max-width: 900px;
-    margin: 0 auto;
+    min-width: 50%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
 }
-
-.jobForm { display: flex; flex-direction: column; gap: 1.5rem; }
-
-.inputGroup { display: flex; flex-direction: column; gap: 0.6rem; }
-
-.inputGroup label { font-weight: 600; font-size: 0.9rem; color: #333; }
-
-.mainInput, .mainTextarea {
-    padding: 1rem 1.5rem;
+.mainInput{
+    background: white;
     border-radius: 20px;
-    border: 2px solid #f0f0f0;
-    font-family: inherit;
-    background: #fdfdfd;
+    border: 1px solid #ddd;
+    width: 25rem;
+    height: 3rem;
+    padding: 12px 16px;
+    display: flex;
+    color: #7a7a7a;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+}
+.inputGroup{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+textarea{
+    width: 25rem;
+    height: 7rem;
+    resize: none;
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    padding: 12px 16px;
+    display: flex;
+    color: #7a7a7a;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+}
+textarea::placeholder{
+    color: #9f9f9f;
+}
+textarea, .deadline_budget, .mainInput:focus{
     outline: none;
+    border: 1px solid #ddd;
+    box-shadow: none;
 }
-
-.mainTextarea { min-height: 120px; resize: none; }
-
-.categoryGrid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
+.mainInput::placeholder{
+    color: #9f9f9f;
 }
-
-.katInactive, .katActive {
-    padding: 0.6rem 1.5rem;
-    border-radius: 50px;
-    border: 2px solid #eee;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.2s;
+.mainInput:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
 }
-
-.katInactive { background: white; color: #888; }
-
-.katActive {
-    background: #E3FE8D;
-    border-color: #E3FE8D;
-    color: black;
-    font-weight: 600;
-}
-
-.row { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-
-.actions {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 2rem;
-    margin-top: 1rem;
-}
-
-.btnCancel { background: none; border: none; color: #999; cursor: pointer; font-size: 1rem; }
-
-.btnSubmit {
-    background: #E3FE8D;
-    padding: 1rem 3rem;
-    border-radius: 50px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-}
-
 .btnSubmit:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 
 .dropdownWrapper {
     position: relative;
-    width: 100%;
-    max-width: 320px;
+    width: 25rem;
     margin: 0 auto;
 }
 
@@ -110,14 +101,13 @@
     text-align: left;
     font-size: 16px;
     cursor: pointer;
-    color: #555;
+    color:#9f9f9f;
 }
 
 .dropdownMenu {
     position: absolute;
-    top: calc(100% + 8px);
     left: 0;
-    width: 100%;
+    width: 20rem;
     max-height: 220px;
     overflow-y: auto;
     background: white;
@@ -126,6 +116,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     z-index: 100;
     padding: 8px 0;
+    color: #7a7a7a;
 }
 
 .dropdownItem {
@@ -135,6 +126,7 @@
     padding: 10px 14px;
     cursor: pointer;
     font-size: 15px;
+    color: #616161;
 }
 
 .dropdownItem:hover {
@@ -142,5 +134,50 @@
 }
 
 .dropdownItem input {
-    accent-color: #d7f36b;
+    accent-color: #E3FE8D;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    width: 25rem;
+    gap: 1rem;
+    justify-content: center;
+}
+.deadline_budget{
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 12rem;
+    height: 3rem;
+    padding: 12px 16px;
+    display: flex;
+    color: #7a7a7a;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+}
+.deadline_budget::placeholder{
+    color: #9f9f9f;
+}
+.btnSubmit{
+    color: white;
+    border: none;
+    background-color: #E3FE8D;
+    font-size: 1rem;
+    width: 70%;
+}
+.btnCancel{
+    color: white;
+    border: none;
+    background-color: #b4b4b4;
+    font-size: 1rem;
+}
+.actions{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: row;
+    width: 25rem;
+    gap: 1rem;
 }

@@ -118,7 +118,26 @@
 }
 
 .applicationContainer{
-    displa
+    margin-top: 2rem;
+    gap: 2rem;
+    padding: 10px 0;
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    margin-bottom: 4rem;
+
+}
+
+.applicationContainer::-webkit-scrollbar {
+    height: 8px;
+}
+.applicationContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+.applicationContainer::-webkit-scrollbar-thumb {
+    background: #e6e6e6;
+    border-radius: 10px;
 }
 
 

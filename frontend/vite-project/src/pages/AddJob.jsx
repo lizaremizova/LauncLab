@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import styles from './AddJob.module.css';
-import logo from "../assets/LaunchlabLogo.png";
+import whiteLogo from "../assets/whiteLogo.png";
 
 const AddJob = () => {
     const [isCategoryOpen, setIsCategoryOpen] = useState(false);
@@ -66,13 +66,15 @@ const AddJob = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <header className={styles.header}>
-                <Link to="/dashboard" className={styles.logoPill}>
-                    <img src={logo} alt="Logo" className={styles.logoImg} />
-                </Link>
-                <h1 className={styles.title}>Pievienot jaunu sludinājumu</h1>
-            </header>
 
+            <div className={styles.leftFormSide}>
+                <Link to='/dashboard'>
+                    <img src={whiteLogo} alt={'logo'} />
+                </Link>
+                <h1>
+                    Katrs projekts sākas ar ideju - pievieno savu un atrod īstos cilvēkus tās realizācijai.
+                </h1>
+            </div>
             <main className={styles.formCard}>
                 <form onSubmit={handleSubmit} className={styles.jobForm}>
                     <div className={styles.inputGroup}>
@@ -148,18 +150,18 @@ const AddJob = () => {
                             <input
                                 type="number"
                                 name="budget"
-                                className={styles.mainInput}
+                                className={styles.deadline_budget}
                                 placeholder="0.00"
                                 onChange={handleChange}
                                 required
                             />
                         </div>
                         <div className={styles.inputGroup}>
-                            <label>Izpildes termiņš (dienās)</label>
+                            <label>Termiņš (dienās)</label>
                             <input
                                 type="number"
                                 name="deadline_days"
-                                className={styles.mainInput}
+                                className={styles.deadline_budget}
                                 placeholder="7"
                                 onChange={handleChange}
                                 required
