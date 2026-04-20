@@ -20,7 +20,7 @@
     flex-direction: column;
     justify-content: space-between;
 }
-img{
+.logoImg{
     height:3.5rem;
 }
 .jobForm{

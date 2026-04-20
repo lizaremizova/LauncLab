@@ -5,6 +5,7 @@ import homeIcon from "@/assets/home.svg";
 import projectsIcon from "@/assets/projects.svg";
 import chatIcon from "@/assets/chat.svg";
 import jobIcon from "@/assets/job.svg";
+import myListings from "@/assets/applicants.svg"
 import { NavLink } from "react-router-dom";
 
 const SideBar = () => {
@@ -17,7 +18,7 @@ const SideBar = () => {
                     isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
                 }
             >
-                <img src={homeIcon} alt="" />
+                <img src={homeIcon} alt="home icon" />
                 <span>panelis</span>
             </NavLink>
 
@@ -27,7 +28,7 @@ const SideBar = () => {
                     isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
                 }
             >
-                <img src={projectsIcon} alt="" />
+                <img src={projectsIcon} alt="projects icon" />
                 <span>projekti</span>
             </NavLink>
 
@@ -37,7 +38,7 @@ const SideBar = () => {
                     isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
                 }
             >
-                <img src={chatIcon} alt="" />
+                <img src={chatIcon} alt="chat icon" />
                 <span>sarakste</span>
             </NavLink>
 
@@ -47,8 +48,18 @@ const SideBar = () => {
                     isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
                 }
             >
-                <img src={jobIcon} alt="" />
+                <img src={jobIcon} alt="jobs icon" />
                 <span>darbi</span>
+            </NavLink>
+
+            <NavLink
+                to="/my_listings"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={myListings} alt="my listings" className={styles.navImg} />
+                <span>mani slud.</span>
             </NavLink>
 
         </aside>

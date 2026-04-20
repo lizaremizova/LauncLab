@@ -74,3 +74,6 @@ dev:
 #make db-query q="SELECT * FROM users;"
 db-query:
 	docker compose exec db mysql -u user -ppassword launchlab -e "$(q)"
+
+link:
+	$(PHP) php artisan storage:link

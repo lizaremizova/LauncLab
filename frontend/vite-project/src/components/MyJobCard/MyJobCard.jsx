@@ -6,10 +6,10 @@ import doneIcon from "../../assets/doneJob.svg";
 
 
 const MyJobCard = ({ job, index, isApplication }) => {
-    const cardColors = ['#DBFFB0', '#D2EDF0', '#E3FE8D'];
+    const cardColors = ['#e7ffe3', '#D2EDF0', '#E3FE8D'];
     const bgColor = cardColors[index % cardColors.length];
 
-    const textColors = ['#cfff90', '#a8f6ff', '#dfff78'];
+    const textColors = ['#d7ffcd', '#a8f6ff', '#dfff78'];
     const tagColor = textColors[index % textColors.length];
 
     const isCompleted = job.statuss === 'pabeigts';

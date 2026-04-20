@@ -69,7 +69,7 @@ const AddJob = () => {
 
             <div className={styles.leftFormSide}>
                 <Link to='/dashboard'>
-                    <img src={whiteLogo} alt={'logo'} />
+                    <img src={whiteLogo} alt={'logo'} className={styles.logoImg}/>
                 </Link>
                 <h1>
                     Katrs projekts sākas ar ideju - pievieno savu un atrod īstos cilvēkus tās realizācijai.

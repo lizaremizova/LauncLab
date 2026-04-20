@@ -63,4 +63,25 @@ class AuthController extends Controller
         ]);
     }
 
+    public function updateAvatar(Request $request, $id)
+    {
+        $request->validate([
+            'avatar' => 'required|string'
+        ]);
+
+        $user = \App\Models\User::where('id', $id)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Lietotājs nav atrasts'], 404);
+        }
+
+        $user->avatar_url = $request->avatar;
+        $user->save();
+
+        return response()->json([
+            'message' => 'Profila attēls veiksmīgi atjaunināts!',
+            'avatar_url' => $user->avatar_url
+        ]);
+    }
+
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CategoryController;
+use Illuminate\Http\Request;
 
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -20,4 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/jobs', [JobController::class, 'store']);
     Route::post('/applications', [ApplicationController::class, 'store']);
+    Route::post('/user/{id}/avatar', [AuthController::class, 'updateAvatar']);
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
 });

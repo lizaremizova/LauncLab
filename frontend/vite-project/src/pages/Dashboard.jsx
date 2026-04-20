@@ -132,12 +132,12 @@ const Dashboard = () => {
                             />
                         ) : (
                             myJobs.map((job, index) => (
-                                <MyJobCard
-                                    key={job.listing_id || job.id || `job-${index}`}
-                                    job={job}
-                                    index={index}
-                                    isApplication={false}
-                                />
+                                   <MyJobCard
+                                       key={job.listing_id || job.id || `job-${index}`}
+                                       job={job}
+                                       index={index}
+                                       isApplication={false}
+                                   />
                             ))
                         )}
                     </div>

@@ -1,60 +1,33 @@
 .sidebar {
-
     width: 180px;
-
     display: flex;
-
     flex-direction: column;
-
     gap: 25px;
-
     padding-top: 40px;
-
 }
-
-
-
+.navImg{
+    height: 1.5rem;
+}
 .navItem {
-
     display: flex;
-
     align-items: center;
-
     gap: 15px;
-
     color: #555;
-
     font-size: 16px;
-
     text-decoration: none;
-
     position: relative;
-
 }
-
-
 
 .navItemActive {
-
     color: black;
-
     font-weight: 400;
-
 }
 
-
-
 .activeDot {
-
     width: 8px;
-
     height: 8px;
-
     background: #E3FE8D;
-
     border-radius: 50%;
-
     margin-left: auto;
-
 }
 
