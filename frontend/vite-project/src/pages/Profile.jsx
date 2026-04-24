@@ -2,30 +2,38 @@ import React, { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import Header from "../components/Header/Header.jsx";
 import SideBar from "../components/SideBar/SideBar.jsx";
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
-    const [pfp, setPfp] = useState(null);
+    const navigate = useNavigate();
     const [user, setUser] = useState(null);
-
-    const userId = localStorage.getItem('USER_ID') || localStorage.getItem('id');
     const token = localStorage.getItem('TOKEN');
 
-    // if (!userId || !token) {
-    //     return <div className={styles.error}>Lietotājs nav atrasts. Lūdzu, ielogojieties.</div>;
-    // }
+    const fetchUserData = () => {
+        if (!token) return;
 
-    useEffect(() => {
         fetch('http://localhost:8080/api/user', {
             headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: 'application/json'
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json'
             }
         })
             .then(res => res.json())
             .then(data => {
                 setUser(data);
+                // Sync localstorage for header
+                localStorage.setItem('USER_AVATAR', data.avatar_url);
+                localStorage.setItem('description', data.description);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error("Refresh failed:", err));
+    };
+
+    useEffect(() => {
+        fetchUserData();
+        const handleUpdate = () => fetchUserData();
+        window.addEventListener("avatarUpdated", handleUpdate);
+
+        return () => window.removeEventListener("avatarUpdated", handleUpdate);
     }, [token]);
 
     const handleLogout = async () => {
@@ -33,34 +41,20 @@ export default function Profile() {
             await fetch('http://localhost:8080/api/logout', {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                    Accept: 'application/json'
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json'
                 }
             });
         } catch (error) {
             console.log(error);
         } finally {
             localStorage.clear();
-            window.location.href = '/login';
+            navigate('/login');
         }
     };
 
-    useEffect(() => {
-        const savedAvatar = localStorage.getItem('USER_AVATAR');
-        if (savedAvatar) {
-            setPfp(savedAvatar);
-        }
-
-        const handleAvatarUpdate = () => {
-            setPfp(localStorage.getItem('USER_AVATAR'));
-        };
-
-        window.addEventListener("avatarUpdated", handleAvatarUpdate);
-        return () => window.removeEventListener("avatarUpdated", handleAvatarUpdate);
-    }, []);
-
     if (!user) {
-        return <div>Loading...</div>;
+        return <div className={styles.loading}>Ielādē...</div>;
     }
 
     return (
@@ -78,14 +72,14 @@ export default function Profile() {
 
                     <div className={styles.profileInfo}>
                         <img
-                            src={pfp}
+                            src={user.avatar_url}
                             alt="tavs profila attēls"
                             className={styles.pfp}
                         />
-                        <div>
+                        <div className={styles.UserInfo}>
                             <p>@{user.username}</p>
                             <p>{user.name}</p>
-                            <p>{user.bio}</p>
+                            <p className={styles.bioProfile}>{user.description}</p>
                         </div>
                     </div>
                 </main>

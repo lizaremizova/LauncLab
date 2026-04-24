@@ -20,9 +20,15 @@ Route::get('/user/{userId}/applications', [ApplicationController::class, 'userAp
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/jobs', [JobController::class, 'store']);
+    Route::patch('/listings/{listingId}', [JobController::class, 'updateListing']);
     Route::post('/applications', [ApplicationController::class, 'store']);
     Route::post('/user/{id}/avatar', [AuthController::class, 'updateAvatar']);
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::put('/user/{id}/profile', [AuthController::class, 'updateProfile']);
+    Route::get('/listings/{listingId}/applications', [ApplicationController::class, 'getByListing']);
+    Route::patch('/applications/{applicationId}/approve', [ApplicationController::class, 'approve']);
+    Route::delete('/listings/{listingId}/delete', [JobController::class, 'delete']);
+    Route::post('/listings/{listingId}/attachment', [JobController::class, 'uploadAttachment']);
 });

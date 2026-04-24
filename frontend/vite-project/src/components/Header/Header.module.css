@@ -1,12 +1,15 @@
+body{
+    overflow-x: hidden;
+}
 .profilePill {
     background: white;
     border-radius: 50px;
     display: flex;
     align-items: center;
     gap: 12px;
-    width: 10rem;
-    padding: 0.5rem 0.5rem 0.5rem 0.7rem;
-    justify-content: space-around;
+    min-width: fit-content;
+    padding: 0.5rem 1rem;
+    justify-content: center;
 }
 .avatar {
     width: 2rem;
@@ -18,13 +21,18 @@
     background: #E3FE8D;
     color: black;
     border-radius: 50px;
-    padding: 0.7rem 2rem;
+    padding: 0.7rem 1.5rem;
     border: none;
     font-weight: 400;
     cursor: pointer;
     text-decoration: none;
     font-size: 14px;
     font-family: "Poppins", sans-serif;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
 }
 .btnBlack {
     background: black;
@@ -104,7 +112,7 @@
 }
 .popup {
     width: 50% !important;
-    min-height: 40% !important;
+    height: 80vh !important;
     font-family: "Poppins", sans-serif;
     font-weight: 200;
 
@@ -131,9 +139,8 @@
     flex-direction: column;
     gap: 1.5rem;
 }
-
 .upload :global(.p-button) {
-    background: #d7f36b;
+    background: #000000;
     border: none;
     border-radius: 20px;
     color: white;
@@ -142,4 +149,161 @@
 
 .upload :global(.p-button:hover) {
     background: #c4e85a;
+}
+.pfp{
+    height: 12rem !important;
+    width: 12rem !important;
+}
+.profileInfo{
+    display: flex;
+}
+.info p{
+    color: black;
+    line-height: 1rem;
+}
+.semiBold{
+    font-weight: 400;
+}
+.setPfp{
+    display: flex;
+    gap: 1.5rem;
+    flex-direction: column;
+}
+.bioSettings{
+    width: 60%;
+    color: #494949 !important;
+    font-size: 0.9rem !important;
+}
+.bioInput{
+    height: 12rem !important;
+}
+.btnLime{
+    width: 15rem !important;
+}
+.modalInput{
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 25rem;
+    height: 3rem;
+    padding: 12px 16px;
+    display: flex;
+    color: #7a7a7a;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+}
+@media (max-width: 1200px) {
+    .mainHeader {
+        margin-right: 0;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .headerRight {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
+    .searchWrapper {
+        max-width: 16rem;
+    }
+
+    .popup {
+        width: 70% !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .mainHeader {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .headerLeft,
+    .headerRight {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .logoPill {
+        padding: 0.7rem 1.2rem;
+    }
+
+    .searchWrapper {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .btnBlack,
+    .btnLime {
+        flex: 1;
+        min-width: 140px;
+        font-size: 13px;
+        padding: 0.7rem 1rem;
+    }
+
+    .profilePill {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .popup {
+        width: 90% !important;
+        height: auto !important;
+        max-height: 90vh;
+    }
+
+    .profileInfo {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .bioSettings {
+        width: 100%;
+    }
+
+    .modalInput {
+        width: 100%;
+    }
+
+    .btnLime {
+        width: 100% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .headerLeft,
+    .headerRight {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+    }
+
+    .logoPill {
+        justify-content: center;
+    }
+
+    .profilePill {
+        padding: 0.7rem 0.9rem;
+    }
+
+    .searchInput {
+        font-size: 14px;
+        padding: 10px 44px 10px 16px;
+    }
+
+    .popupHeader {
+        padding: 1.2rem 1rem 0.5rem 1rem;
+    }
+
+    .popupContent {
+        padding: 0 1rem 1rem 1rem;
+    }
+
+    .pfp {
+        width: 8rem !important;
+        height: 8rem !important;
+    }
 }

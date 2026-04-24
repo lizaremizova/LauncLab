@@ -140,7 +140,130 @@
     border-radius: 10px;
 }
 
+@media (max-width: 1200px) {
+    .dashboardWrapper {
+        padding: 1.5rem 2rem;
+    }
 
+    .layoutBody {
+        gap: 2.5rem;
+    }
+
+    .contentCard {
+        padding: 44px;
+        border-radius: 48px;
+        margin-right: 0;
+    }
+}
+@media (max-width: 992px) {
+    .dashboardWrapper {
+        padding: 1.25rem 1.25rem 2rem;
+    }
+
+    .layoutBody {
+        gap: 1.5rem;
+    }
+
+    .contentCard {
+        padding: 32px;
+        border-radius: 36px;
+        min-height: auto;
+        margin-top: 1rem;
+    }
+
+    .sectionHeader {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .statsRow {
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .feedTitle,
+    .sectionHeader h2,
+    .h2applications {
+        font-size: 1.6rem;
+    }
+
+    .btnBlack,
+    .btnLime {
+        font-size: 1rem;
+        padding: 0.65rem 1.4rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboardWrapper {
+        padding: 1rem;
+    }
+
+    .layoutBody {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .contentCard {
+        width: 100%;
+        padding: 24px 18px;
+        border-radius: 28px;
+    }
+
+    .mainContent,
+    .applicationContainer {
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .sectionHeader h2,
+    .h2applications,
+    .feedTitle {
+        font-size: 1.35rem;
+    }
+
+    .statBox {
+        font-size: 13px;
+    }
+
+    .statBox img {
+        width: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboardWrapper {
+        padding: 0.75rem;
+    }
+
+    .contentCard {
+        padding: 18px 14px;
+        border-radius: 22px;
+    }
+
+    .sectionHeader {
+        margin-bottom: 20px;
+    }
+
+    .sectionHeader h2,
+    .h2applications,
+    .feedTitle {
+        font-size: 1.15rem;
+    }
+
+    .statsRow {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .mainContent,
+    .applicationContainer {
+        overflow-x: auto;
+        padding-bottom: 6px;
+    }
+}
 
 
 

@@ -74,3 +74,72 @@
     text-align: center;
     font-size: 1rem;
 }
+@media (max-width: 992px) {
+    .card {
+        min-width: 320px;
+    }
+
+    .title {
+        font-size: 1.35rem;
+    }
+
+    .badge,
+    .text,
+    .tag {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        min-width: 280px;
+        padding: 1.4rem;
+        border-radius: 28px;
+    }
+
+    .detailsGrid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .badge {
+        width: auto;
+        padding: 0.3rem 0.8rem;
+    }
+
+    .tagRow {
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        width: auto;
+        padding: 0.3rem 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        min-width: 240px;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .title {
+        font-size: 1.1rem;
+    }
+
+    .statusIcon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .desc {
+        font-size: 0.95rem;
+    }
+
+    .badge,
+    .text,
+    .tag {
+        font-size: 0.85rem;
+    }
+}

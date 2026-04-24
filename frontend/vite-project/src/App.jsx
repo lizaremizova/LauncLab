@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import AddJob from "@/pages/AddJob.jsx";
 import Profile from "./pages/Profile.jsx"
 import JobsPage from "@/pages/JobsPage.jsx";
+import MyListings from "@/pages/MyListings.jsx";
 
 export default function App() {
     return (
@@ -18,6 +19,7 @@ export default function App() {
                 <Route path={'/post'} element={<AddJob />} />
                 <Route path={'/profile'} element={<Profile />} />
                 <Route path={'/jobs'} element={<JobsPage />} />
+                <Route path={'/mylistings'} element={<MyListings />}  />
             </Routes>
         </BrowserRouter>
     );

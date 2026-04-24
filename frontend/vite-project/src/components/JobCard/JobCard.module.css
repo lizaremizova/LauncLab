@@ -74,8 +74,86 @@
     border-radius: 20px;
     text-align: center;
 }
+@media (max-width: 992px) {
+    .jobCard {
+        padding: 1.25rem;
+        border-radius: 36px;
+    }
 
+    .jobSide {
+        width: 45%;
+        gap: 1.5rem;
+    }
+}
 
+@media (max-width: 768px) {
+    .jobCard {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+        border-radius: 28px;
+    }
+
+    .jobSide {
+        width: 100%;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .jobMain h3 {
+        font-size: 1.15rem;
+    }
+
+    .jobMain p {
+        font-size: 0.95rem;
+    }
+
+    .jobDetail {
+        font-size: 13px;
+    }
+
+    .tagRow {
+        flex-wrap: wrap;
+    }
+
+    .detailTag {
+        width: auto;
+        padding: 0.25rem 0.7rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .jobCard {
+        padding: 1rem;
+        border-radius: 22px;
+        margin-top: 1rem;
+    }
+
+    .btnBlack {
+        width: 100%;
+        font-size: 0.85rem;
+        padding: 0.65rem 1rem;
+    }
+
+    .jobMain h3 {
+        font-size: 1rem;
+    }
+
+    .jobMain p {
+        font-size: 0.9rem;
+    }
+
+    .tag {
+        font-size: 0.85rem;
+        padding: 0.25rem 0.7rem;
+    }
+
+    .jobDetail {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+}
 
 
 

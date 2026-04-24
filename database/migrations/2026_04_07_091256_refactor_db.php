@@ -30,6 +30,10 @@ return new class extends Migration
             $table->text('description');
             $table->string('statuss', 20)->default('aktīvs');
             $table->date('publication_date');
+            $table->string('attachment_path')->nullable();
+            $table->string('attachment_name')->nullable();
+            $table->string('attachment_mime')->nullable();
+            $table->unsignedBigInteger('attachment_size')->nullable();
             $table->foreignUuid('author_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

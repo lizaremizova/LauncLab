@@ -53,7 +53,7 @@ const SideBar = () => {
             </NavLink>
 
             <NavLink
-                to="/my_listings"
+                to="/mylistings"
                 className={({ isActive }) =>
                     isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
                 }

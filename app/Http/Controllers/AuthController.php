@@ -84,4 +84,26 @@ class AuthController extends Controller
         ]);
     }
 
+    public function updateProfile(Request $request, $id)
+    {
+        $request->validate([
+            'username' => 'required|string|max:50|unique:users,username,' . $id,
+            'name' => 'required|string|max:200',
+            'bio' => 'nullable|string|max:500',
+        ]);
+
+        $user = \App\Models\User::findOrFail($id);
+        $user->username = $request->username;
+        $user->name = $request->name;
+        $user->description = $request->bio;
+        $user->save();
+
+        return response()->json([
+            'message' => 'lietotājvārds atjaunināts!',
+            'username' => $user->username,
+            'name' => $user->name,
+            'bio' => $user->description
+        ]);
+    }
+
 }

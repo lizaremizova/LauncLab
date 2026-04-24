@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Repositories\JobRepository;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 
 class JobService
@@ -23,33 +24,84 @@ class JobService
 
     public function getFeedJobs($myId = null)
     {
-
         return $this->jobRepository->getFeedJobs($myId);
     }
 
-    public function createJob(array $data, string $author_id): object
+    public function getByListing(string $listingId, ?string $currentUserId): array
     {
-        return DB::transaction(function () use ($data, $author_id) {
-            $listing_id = $this->jobRepository->createListing([
-                'name' => $data['name'],
-                'description' => $data['description'],
-                'statuss' => 'aktīvs',
-                'publication_date' => now(),
-                'author_id' => $author_id,
-            ]);
+        $listing = DB::table('listings')
+            ->where('listing_id', $listingId)
+            ->first();
 
-            $this->jobRepository->createJobDetails([
-                'listing_id' => $listing_id,
-                'budget' => $data['budget'],
-                'deadline_days' => $data['deadline_days'],
-            ]);
+        if (!$listing) {
+            abort(404, 'Listing not found');
+        }
 
-            $this->jobRepository->attachCategories(
-                $listing_id,
-                $data['categories']
-            );
+        if (!$currentUserId) {
+            throw new AuthorizationException('NeautorizÄ“ts lietotÄjs');
+        }
 
-            return $this->jobRepository->findById($listing_id);
+        if ($listing->author_id !== $currentUserId) {
+            throw new AuthorizationException('JÅ«s nevarat apskatÄ«ties pieteikumus');
+        }
+
+        return DB::table('applications')
+            ->join('users', 'applications.user_id', '=', 'users.id')
+            ->where('applications.listing_id', $listingId)
+            ->select(
+                'applications.id as application_id',
+                'applications.status',
+                'applications.created_at as applied_at',
+                'users.id as user_id',
+                'users.name',
+                'users.username',
+                'users.email',
+                'users.avatar_url',
+                'users.description'
+            )
+            ->orderBy('applications.created_at', 'desc')
+            ->get()
+            ->toArray();
+    }
+
+    public function updateListing(string $listingId, array $data, ?string $currentUserId): object
+    {
+        if (!$currentUserId) {
+            throw new AuthorizationException('NeautorizÄ“ts lietotÄjs');
+        }
+
+        return DB::transaction(function () use ($listingId, $data, $currentUserId) {
+            $listing = DB::table('listings')
+                ->where('listing_id', $listingId)
+                ->first();
+
+            if (!$listing) {
+                abort(404, 'Listing not found');
+            }
+
+            if ($listing->author_id !== $currentUserId) {
+                throw new AuthorizationException('JÅ«s nevarat rediÄ£et Å¡o sludinÄjumu!');
+            }
+
+            $update = [];
+            foreach (['name', 'description', 'statuss'] as $field) {
+                if (array_key_exists($field, $data)) {
+                    $update[$field] = $data[$field];
+                }
+            }
+
+            if ($update !== []) {
+                $update['updated_at'] = now();
+
+                DB::table('listings')
+                    ->where('listing_id', $listingId)
+                    ->update($update);
+            }
+
+            return DB::table('listings')
+                ->where('listing_id', $listingId)
+                ->first();
         });
     }
 }
+

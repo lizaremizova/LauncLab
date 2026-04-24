@@ -104,8 +104,24 @@
     object-fit: cover;
     display: block;
 }
-
-
+.bioProfile{
+    margin-top: 1rem !important;
+    width: 40%;
+    font-size: 0.9rem;
+    color: #7c7c7c !important;
+}
+.UserInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+.UserInfo p {
+    margin: 0rem;
+    padding: 0rem;
+    padding-left: 2rem;
+    line-height: 1.5;
+}
 
 
 
