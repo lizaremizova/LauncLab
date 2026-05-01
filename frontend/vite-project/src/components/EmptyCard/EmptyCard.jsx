@@ -5,7 +5,7 @@ const EmptyCard = ({ message, buttonText, onAction }) => {
     return (
         <div className={styles.emptyCard}>
             <p>{message}</p>
-            <button className={styles.btnBlack} onClick={onAction}>
+            <button className={styles.btnBlack} onClick={onAction} >
                 {buttonText}
             </button>
         </div>

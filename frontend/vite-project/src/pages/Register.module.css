@@ -38,6 +38,7 @@ body{
     gap: 1vw;
     height: 90%;
     margin-top: 15rem;
+    justify-content: center !important;
 }
 form{
     display: flex;

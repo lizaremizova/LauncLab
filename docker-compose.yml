@@ -1,0 +1,41 @@
+services:
+  php:
+    build:
+      context: ./.docker/php
+    container_name: launchlab-php
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "5173:5173"
+    depends_on:
+      - db
+
+  nginx:
+    image: nginx:alpine
+    container_name: launchlab-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./.docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - php
+
+  db:
+    image: mysql:8.0
+    container_name: launchlab-db
+    environment:
+      MYSQL_DATABASE: launchlab
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - launchlab_db_data:/var/lib/mysql
+
+volumes:
+    launchlab_db_data: {}
+
+

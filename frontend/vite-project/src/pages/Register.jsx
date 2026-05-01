@@ -8,6 +8,7 @@ export default function Register() {
     const navigate = useNavigate();
     const [msg, setMsg] = useState("");
     const [form, setForm] = useState({
+        username: "",
         name: "",
         email: "",
         password: "",
@@ -53,7 +54,7 @@ export default function Register() {
         e.preventDefault();
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/register", {
+            const res = await fetch("http://localhost:8080/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -65,12 +66,19 @@ export default function Register() {
             const data = await res.json();
 
             if (res.ok) {
+                localStorage.setItem('id', data.user.id);
+                localStorage.setItem('username', data.user.username);
+                localStorage.setItem('USER_NAME', data.user.name);
+                localStorage.setItem('TOKEN', data.token);
                 setMsg("Reģistrācija veiksmīga!");
                 setTimeout(() => {
                     navigate('/dashboard');
                 }, 1500);
             } else {
-                setMsg("Kļūda: " + JSON.stringify(data.errors));
+                const errorMessage = data.errors
+                    ? JSON.stringify(data.errors)
+                    : (data.message || "Servera kļūda (500)");
+                setMsg("Kļūda: " + errorMessage);
             }
         } catch (err) {
             setMsg("Serveris nav pieejams");
@@ -98,6 +106,8 @@ export default function Register() {
             <div className={styles.rightSide}>
                 <div className={styles.formContainer}>
                     <form onSubmit={handleSubmit}>
+                        <input name="username" placeholder="lietotājvārds" onChange={handleChange} />
+                        <br />
                         <input name="name" placeholder="Vārds" onChange={handleChange} />
                         <br />
                         <input name="email" placeholder="Email" onChange={handleChange} />

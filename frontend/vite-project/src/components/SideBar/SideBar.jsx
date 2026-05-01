@@ -5,24 +5,73 @@ import homeIcon from "@/assets/home.svg";
 import projectsIcon from "@/assets/projects.svg";
 import chatIcon from "@/assets/chat.svg";
 import jobIcon from "@/assets/job.svg";
+import myListings from "@/assets/applicants.svg"
+import { NavLink } from "react-router-dom";
+import doneIcon from "@/assets/doneJob.svg";
 
 const SideBar = () => {
     return (
         <aside className={styles.sidebar}>
 
-            <Link to="/dashboard" className={`${styles.navItem} ${styles.navItemActive}`}>
+            <NavLink
+                to="/dashboard"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={homeIcon} alt="home icon" />
+                <span>panelis</span>
+            </NavLink>
 
-                <img src={homeIcon} alt="" /> <span>panelis</span>
+            <NavLink
+                to="/projects"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={projectsIcon} alt="projects icon" />
+                <span>projekti</span>
+            </NavLink>
 
-                <div className={styles.activeDot}></div>
+            <NavLink
+                to="/chat"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={chatIcon} alt="chat icon" />
+                <span>sarakste</span>
+            </NavLink>
 
-            </Link>
+            <NavLink
+                to="/jobs"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={jobIcon} alt="jobs icon" />
+                <span>darbi</span>
+            </NavLink>
 
-            <Link to="/projects" className={styles.navItem}><img src={projectsIcon} alt="" /> <span>projekti</span></Link>
+            <NavLink
+                to="/mylistings"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={myListings} alt="my listings" className={styles.navImg} />
+                <span>mani slud.</span>
+            </NavLink>
 
-            <Link to="/chat" className={styles.navItem}><img src={chatIcon} alt="" /> <span>sarakste</span></Link>
-
-            <Link to="/jobs" className={styles.navItem}><img src={jobIcon} alt="" /> <span>darbi</span></Link>
+            <NavLink
+                to="/applications"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={doneIcon} alt="applications" className={styles.navImg} />
+                <span>pieteikumi</span>
+            </NavLink>
 
         </aside>
     );

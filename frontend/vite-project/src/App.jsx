@@ -3,6 +3,13 @@ import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login'
+import AddJob from "@/pages/AddJob.jsx";
+import Profile from "./pages/Profile.jsx"
+import JobsPage from "@/pages/JobsPage.jsx";
+import MyListings from "@/pages/MyListings.jsx";
+import MyApplications from "@/pages/MyApplications.jsx";
+import ApplicationDetails from "@/pages/ApplicationDetails.jsx";
+
 export default function App() {
     return (
         <BrowserRouter>
@@ -11,6 +18,13 @@ export default function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path='/login' element={<Login />} />
+                <Route path={'/post'} element={<AddJob />} />
+                <Route path={'/profile'} element={<Profile />} />
+                <Route path={'/profile/:userId'} element={<Profile />} />
+                <Route path={'/jobs'} element={<JobsPage />} />
+                <Route path={'/mylistings'} element={<MyListings />}  />
+                <Route path={'/applications'} element={<MyApplications />} />
+                <Route path={'/applications/:applicationId'} element={<ApplicationDetails />} />
             </Routes>
         </BrowserRouter>
     );

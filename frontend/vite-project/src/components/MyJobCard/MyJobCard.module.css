@@ -1,0 +1,158 @@
+.card {
+    padding: 2rem;
+    border-radius: 35px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    min-width: 40%;
+    flex: 0 0 300px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    filter: brightness(0.98);
+}
+
+.clickable:focus {
+    outline: 2px solid rgba(11, 95, 255, 0.35);
+    outline-offset: 2px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.statusIcon {
+    width: 28px;
+    height: 28px;
+}
+
+.title {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.detailsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.infoBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.badge {
+    color: #c6dd7c;
+    background: white;
+    padding: 0.2rem;
+    border-radius: 20px;
+    width: 50%;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.text {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.desc {
+    margin: 0.5rem 0;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: #333;
+}
+
+.tagRow {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.tag {
+    color: #c6dd7c;
+    background: white;
+    padding: 0.2rem;
+    border-radius: 20px;
+    width: 30%;
+    text-align: center;
+    font-size: 1rem;
+}
+@media (max-width: 992px) {
+    .card {
+        min-width: 320px;
+    }
+
+    .title {
+        font-size: 1.35rem;
+    }
+
+    .badge,
+    .text,
+    .tag {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        min-width: 280px;
+        padding: 1.4rem;
+        border-radius: 28px;
+    }
+
+    .detailsGrid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .badge {
+        width: auto;
+        padding: 0.3rem 0.8rem;
+    }
+
+    .tagRow {
+        flex-wrap: wrap;
+    }
+
+    .tag {
+        width: auto;
+        padding: 0.3rem 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        min-width: 240px;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .title {
+        font-size: 1.1rem;
+    }
+
+    .statusIcon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .desc {
+        font-size: 0.95rem;
+    }
+
+    .badge,
+    .text,
+    .tag {
+        font-size: 0.85rem;
+    }
+}

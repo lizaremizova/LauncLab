@@ -1,0 +1,349 @@
+body{
+    font-family: "Poppins", sans-serif;
+}
+.dashboardWrapper {
+    background-color: #E2E2E2;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    margin: 0;
+    padding: 2rem 4rem;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+}
+
+.layoutBody {
+    display: flex;
+}
+
+.contentCard {
+    flex: 1;
+    margin: 32px;
+    padding: 28px 38px;
+    background: #f5f5f5;
+    border-radius: 42px;
+}
+
+.pageTitle {
+    margin: 0 0 2.5rem 0;
+    font-size: 2rem;
+    font-weight: 400;
+    color: #000000;
+}
+
+.jobTabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.jobTab {
+    border-radius: 20px;
+    padding: 10px 18px;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+    color: #ababab;
+    border: 1px solid #ababab;
+}
+
+.activeTab {
+    background: #E3FE8D;
+    border: none;
+    color: black;
+}
+
+.detailsCard {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: start;
+}
+
+.leftColumn,
+.rightColumn {
+    min-width: 0;
+}
+
+.sectionTitle {
+    margin: 2rem 0 2rem 0;
+    font-size: 2rem;
+    font-weight: 400;
+    color: #000000;
+}
+
+.listingTitle {
+    margin: 0 0 28px 0;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1e1e1e;
+}
+
+.description {
+    margin-left: 0;
+    max-width: 500px;
+    margin-bottom: 28px;
+    line-height: 1.5;
+    color: #444;
+}
+
+.metaList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.metaRow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #444;
+}
+
+.metaBadge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #E3FE8D;
+    font-size: 13px;
+}
+
+.tagsRow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 52px;
+}
+
+.tag {
+    padding: 4px 12px;
+    border: 1px solid #7d7d7d;
+    border-radius: 999px;
+    font-size: 13px;
+    color: #444;
+    background: white;
+}
+
+.saveButton {
+    border: none;
+    border-radius: 999px;
+    padding: 14px 34px;
+    background: #E3FE8D;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.applicantsList {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.applicantRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #bfbfbf;
+    flex-shrink: 0;
+}
+
+.applicantInfo {
+    flex: 1;
+}
+
+.username {
+    font-size: 15px;
+    color: #222;
+}
+
+.fullName {
+    font-size: 15px;
+    color: #444;
+    margin-top: 4px;
+}
+
+.approveButton,
+.statusDone {
+    height: 34px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.approveButton {
+    cursor: pointer;
+    border-radius: 999px;
+    padding: 0 12px;
+    background: #E3FE8D;
+    color: #000;
+    font-size: 12px;
+    font-weight: 900;
+    border: 1px solid rgba(0,0,0,0.12);
+}
+
+.approveButton:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.statusArea {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.statusDone {
+    width: 34px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 900;
+    color: #000;
+    background: #f2f4f7;
+    border: 1px solid rgba(0,0,0,0.12);
+}
+
+.statusApproved {
+    background: #E3FE8D;
+}
+
+.statusRejected {
+    background: #D2EDF0;
+}
+
+.profileLink {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.profileLink:hover .username,
+.profileLink:hover .fullName {
+    text-decoration: underline;
+}
+
+.resultLink {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0b5fff;
+    text-decoration: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+}
+
+.resultLink:hover {
+    text-decoration: underline;
+}
+
+.resultPending {
+    font-size: 12px;
+    color: #667085;
+    font-weight: 600;
+}
+
+.sectionHeaderRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.refreshButton {
+    border: none;
+    background: #f2f4f7;
+    color: #344054;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.refreshButton:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.delButton{
+    border: none;
+    border-radius: 999px;
+    padding: 14px 34px;
+    background: #D2EDF0;
+    cursor: pointer;
+    font-size: 16px;
+}
+.detailsCard input{
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    width: 25rem;
+    height: 3rem;
+    padding: 12px 16px;
+    display: flex;
+    color: #7a7a7a;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+}
+select{
+    left: 0;
+    width: 10rem;
+    max-height: 220px;
+    overflow-y: auto;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    z-index: 100;
+    padding: 8px 0;
+    color: #7a7a7a;
+}
+.selectOption{
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
+.upload {
+    background: black;
+    color: white;
+    border-radius: 3rem;
+    border: none;
+    overflow: hidden;
+    padding: 0.3rem 1rem;
+    width: 40%;
+    text-align: center;
+}
+
+.upload :global(.p-fileupload-choose) {
+    background: black;
+    color: white;
+    border: none;
+}
+
+.upload :global(input[type="file"]) {
+    display: none;
+}
+Input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset !important;
+    -webkit-text-fill-color: black !important;
+}
+@media (max-width: 1100px) {
+    .detailsCard {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+}

@@ -10,17 +10,24 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@untitledui/file-icons": "^0.0.9",
+    "@untitledui/icons": "^0.0.22",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "gsap": "^3.14.2",
     "lucide-react": "^0.563.0",
-    "motion": "^12.34.0",
+    "motion": "^12.38.0",
+    "primeflex": "^4.0.0",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.7",
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
+    "react-aria": "^3.48.0",
+    "react-aria-components": "^1.17.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^7.13.0",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

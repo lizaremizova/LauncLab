@@ -54,7 +54,7 @@ export default function Login() {
         setMsg("Notiek autorizācija...");
 
         try {
-            const res = await fetch("http://127.0.0.1:8000/api/login", {
+            const res = await fetch("http://localhost:8080/api/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -66,8 +66,10 @@ export default function Login() {
             const data = await res.json();
 
             if (res.ok) {
+                localStorage.setItem('id', data.user.id);
                 localStorage.setItem('TOKEN', data.token);
                 localStorage.setItem('USER_NAME', data.user.name);
+                localStorage.setItem('id', data.user.id);
                 navigate('/dashboard');
             } else {
                 setMsg(data.message || "pārbaudiet datus");

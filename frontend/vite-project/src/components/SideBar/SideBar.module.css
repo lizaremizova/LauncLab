@@ -1,60 +1,75 @@
 .sidebar {
-
     width: 180px;
-
     display: flex;
-
     flex-direction: column;
-
     gap: 25px;
-
     padding-top: 40px;
-
 }
-
-
-
+.navImg{
+    height: 1.5rem;
+}
 .navItem {
-
     display: flex;
-
     align-items: center;
-
     gap: 15px;
-
     color: #555;
-
     font-size: 16px;
-
     text-decoration: none;
-
     position: relative;
-
 }
-
-
 
 .navItemActive {
-
     color: black;
-
     font-weight: 400;
-
 }
-
-
 
 .activeDot {
-
     width: 8px;
-
     height: 8px;
-
     background: #E3FE8D;
-
     border-radius: 50%;
-
     margin-left: auto;
+}
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding-top: 0;
+        justify-content: flex-start;
+    }
 
+    .navItem {
+        background: white;
+        border-radius: 999px;
+        padding: 0.7rem 1rem;
+        gap: 10px;
+        font-size: 14px;
+    }
+
+    .navImg {
+        height: 1.2rem;
+    }
 }
 
+@media (max-width: 480px) {
+    .sidebar {
+        gap: 10px;
+    }
+
+    .navItem {
+        font-size: 13px;
+        padding: 0.6rem 0.85rem;
+    }
+
+    .navItem span {
+        display: none;
+    }
+
+    .navItem img,
+    .navImg {
+        height: 1.1rem;
+        width: 1.1rem;
+    }
+}

@@ -1,0 +1,129 @@
+.dashboardWrapper {
+    background-color: #E2E2E2;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 100%;
+    margin: 0;
+    padding: 2rem 4rem;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    overflow-x: hidden;
+}
+
+.btnBlack {
+    background: black;
+    color: white;
+    border-radius: 50px;
+    padding: 0.7rem 2rem;
+    border: none;
+    font-weight: 200;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-family: "Poppins", sans-serif;
+}
+
+.mainContent{
+    margin-top: 2rem;
+    gap: 2rem;
+    padding: 10px 0;
+    display: flex;
+    overflow-x: auto;
+    width: 100%;
+    margin-bottom: 4rem;
+}
+
+.btnLime {
+    background: #E3FE8D;
+    color: black;
+    border-radius: 50px;
+    padding: 0.7rem 2rem;
+    border: none;
+    font-weight: 400;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+}
+
+.layoutBody {
+    display: flex;
+    gap: 5rem;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.contentCard {
+    background: white;
+    flex: 1;
+    border-radius: 60px;
+    padding: 60px;
+    min-height: 85vh;
+    margin-right: 4rem;
+    min-width: 0;
+    overflow: hidden;
+    margin-top: 2rem;
+    margin-left: 0;
+}
+
+.sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.sectionHeader h2 {
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.logout{
+    background: black;
+    color: white;
+    border-radius: 50px;
+    padding: 0.7rem 2rem;
+    border: none;
+    font-weight: 200;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 1rem;
+    font-family: "Poppins", sans-serif;
+}
+.profileInfo{
+    display: flex;
+}
+.profileInfo p{
+    color: black;
+}
+.pfp{
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+.bioProfile{
+    margin-top: 1rem !important;
+    width: 40%;
+    font-size: 0.9rem;
+    color: #7c7c7c !important;
+}
+.UserInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+}
+.UserInfo p {
+    margin: 0rem;
+    padding: 0rem;
+    padding-left: 2rem;
+    line-height: 1.5;
+}
+
+
+
+
+
