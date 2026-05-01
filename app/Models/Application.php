@@ -14,6 +14,11 @@ class Application extends Model
         'listing_id',
         'user_id',
         'status',
+        'result_path',
+        'result_name',
+        'result_mime',
+        'result_size',
+        'result_uploaded_at',
     ];
 
     public function user(): BelongsTo
@@ -24,6 +29,6 @@ class Application extends Model
     public function listing(): BelongsTo
     {
         // ('TargetModel', 'ForeignKey_In_This_Table', 'OwnerKey_In_Listings_Table')
-        return $this->belongsTo(\App\Models\Listing::class, 'listing_id', 'listing_id');
+        return $this->belongsTo(\App\Models\Listing::class, 'listing_id', 'id');
     }
 }

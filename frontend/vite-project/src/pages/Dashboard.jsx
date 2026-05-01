@@ -1,77 +1,132 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from './Dashboard.module.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Dashboard.module.css";
 
 import projectsIcon from "../assets/projects.svg";
 import clockIcon from "../assets/clock.svg";
 import doneIcon from "../assets/doneJob.svg";
 
-import EmptyCard from "../components/EmptyCard/EmptyCard.jsx"
+import EmptyCard from "../components/EmptyCard/EmptyCard.jsx";
 import JobCard from "@/components/JobCard/JobCard.jsx";
 import SideBar from "@/components/SideBar/SideBar.jsx";
-import Header from "../components/Header/Header.jsx"
+import Header from "../components/Header/Header.jsx";
 import MyJobCard from "../components/MyJobCard/MyJobCard.jsx";
+import Loader from "../components/base/Loader/Loader.jsx";
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const userName = localStorage.getItem('USER_NAME') || "Viesis";
+    const userName = localStorage.getItem("USER_NAME") || "Viesis";
+
+    const isActiveStatus = (s) => s === "aktīvs" || s === "aktÄ«vs" || s === "aktÃ„Â«vs";
+
+    const [currentUserId, setCurrentUserId] = useState(null);
 
     const [myJobs, setMyJobs] = useState([]);
     const [feedJobs, setFeedJobs] = useState([]);
     const [stats, setStats] = useState({ active: 0, completed: 0, projects: 0 });
     const [myApplications, setMyApplications] = useState([]);
 
+    const [loadingFeed, setLoadingFeed] = useState(true);
+    const [loadingMyJobs, setLoadingMyJobs] = useState(true);
+    const [loadingMyApps, setLoadingMyApps] = useState(true);
+
+    // Resolve user id from token so stale localStorage can't blank the dashboard after reseeding.
+    useEffect(() => {
+        const token = localStorage.getItem("TOKEN");
+        const storedId = localStorage.getItem("id");
+
+        // Always set a fallback immediately so the rest of the dashboard can load.
+        setCurrentUserId(storedId || null);
+
+        if (!token) return;
+
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 5000);
+
+        fetch("http://localhost:8080/api/user", {
+            signal: controller.signal,
+            headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+            },
+        })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((user) => {
+                if (user?.id) {
+                    localStorage.setItem("id", user.id);
+                    setCurrentUserId(user.id);
+                }
+            })
+            .catch(() => {})
+            .finally(() => clearTimeout(timeout));
+    }, []);
+
     // Feed
     useEffect(() => {
-        const myId = localStorage.getItem('id');
+        setLoadingFeed(true);
+
+        const myId = currentUserId;
         const url = myId
-            ? `http://localhost:8080/api/jobs/feed?myId=${myId}`
-            : 'http://localhost:8080/api/jobs/feed';
+            ? `http://localhost:8080/api/listings/feed?myId=${myId}`
+            : "http://localhost:8080/api/listings/feed";
 
         fetch(url)
-            .then(res => res.json())
-            .then(data => setFeedJobs(data))
-            .catch(err => console.error("Feed fetch failed:", err));
-    }, []);
+            .then((res) => res.json())
+            .then((data) => setFeedJobs(Array.isArray(data) ? data : []))
+            .catch((err) => console.error("Feed fetch failed:", err))
+            .finally(() => setLoadingFeed(false));
+    }, [currentUserId]);
 
-    // YOUR jobs
+    // Your jobs
     useEffect(() => {
-        const myId = localStorage.getItem('id');
-        if (myId) {
-            fetch(`http://localhost:8080/api/user/${myId}/jobs`)
-                .then(res => res.json())
-                .then(data => {
-                    setMyJobs(data);
-                    // Update stats
-                    const active = data.filter(j => j.statuss === 'aktīvs').length;
-                    const completed = data.filter(j => j.statuss === 'pabeigts').length;
-                    setStats({ active, completed, projects: data.length });
-                })
-                .catch(err => console.error('Failed to fetch my jobs:', err));
-        }
-    }, []);
+        const myId = currentUserId;
+        setLoadingMyJobs(true);
 
-    // your Applications
-    useEffect(() => {
-        const myId = localStorage.getItem('id')
-        if (myId) {
-            fetch(`http://localhost:8080/api/user/${myId}/applications`)
-                .then(res => res.json())
-                .then(data => {
-                    console.log("Full Application Data:", data[0]);
-                    if (Array.isArray(data)) {
-                        setMyApplications(data);
-                    }
-                })
+        if (!myId) {
+            setMyJobs([]);
+            setStats({ active: 0, completed: 0, projects: 0 });
+            setLoadingMyJobs(false);
+            return;
         }
-    }, []);
+
+        fetch(`http://localhost:8080/api/user/${myId}/listings`)
+            .then((res) => res.json())
+            .then((data) => {
+                const rows = Array.isArray(data) ? data : [];
+                setMyJobs(rows);
+
+                const active = rows.filter((j) => isActiveStatus(j.statuss)).length;
+                const completed = rows.filter((j) => j.statuss === "pabeigts").length;
+                setStats({ active, completed, projects: rows.length });
+            })
+            .catch((err) => console.error("Failed to fetch my jobs:", err))
+            .finally(() => setLoadingMyJobs(false));
+    }, [currentUserId]);
+
+    // Your applications
+    useEffect(() => {
+        const myId = currentUserId;
+        setLoadingMyApps(true);
+
+        if (!myId) {
+            setMyApplications([]);
+            setLoadingMyApps(false);
+            return;
+        }
+
+        fetch(`http://localhost:8080/api/user/${myId}/applications`)
+            .then((res) => res.json())
+            .then((data) => setMyApplications(Array.isArray(data) ? data : []))
+            .catch((err) => console.error("Failed to fetch my applications:", err))
+            .finally(() => setLoadingMyApps(false));
+    }, [currentUserId]);
 
     const handleApply = (id) => {
-        if (!localStorage.getItem('TOKEN')) {
-            navigate('/login');
-        } else {
-            console.log("Applying:", id);
+        if (!localStorage.getItem("TOKEN")) {
+            navigate("/login");
+            return;
         }
+        console.log("Applying:", id);
     };
 
     return (
@@ -84,60 +139,66 @@ const Dashboard = () => {
                         <h2>Tavi pēdējie pieteikumi</h2>
                         <div className={styles.statsRow}>
                             <div className={styles.statBox}>
-                                <img src={clockIcon} alt=""/> {stats.active} aktīvie darbi
+                                <img src={clockIcon} alt="" /> {stats.active} aktīvie darbi
                             </div>
                             <div className={styles.statBox}>
-                                <img src={doneIcon} alt=""/> {stats.completed} pabeigti
+                                <img src={doneIcon} alt="" /> {stats.completed} pabeigti
                             </div>
                             <div className={styles.statBox}>
-                                <img src={projectsIcon} alt=""/> {stats.projects} projekti
+                                <img src={projectsIcon} alt="" /> {stats.projects} projekti
                             </div>
                         </div>
                     </section>
 
                     <div className={styles.applicationContainer}>
-                        {myApplications.length > 0 ? (
+                        {loadingMyApps ? (
+                            <Loader label="Ielādē pieteikumus..." />
+                        ) : myApplications.length > 0 ? (
                             myApplications.map((app, index) => (
                                 <MyJobCard
                                     key={app.app_id}
                                     index={index}
+                                    onClick={() => navigate(`/applications/${app.app_id}`)}
                                     job={{
                                         name: app.job_name,
                                         statuss: app.status,
                                         deadline_days: app.deadline,
                                         budget: app.budget,
-                                        description: app.description || "Pieteikums aktīvam darbam",
-                                        categories: app.categories || []
+                                        description: app.description || "Pieteikums",
+                                        categories: app.categories || [],
                                     }}
                                     isApplication={true}
                                 />
                             ))
                         ) : (
                             <EmptyCard
-                                message={"Tev pagaidām nav neviena aktīva darba vai projekta"}
+                                message={"Tev pagaidām nav neviena pieteikuma"}
                                 buttonText={"pieteikties darbam"}
+                                onAction={() => navigate("/jobs")}
                             />
                         )}
                     </div>
 
-
                     <h2 className={styles.h2applications}>Tavi pēdējie sludinājumi</h2>
 
                     <div className={styles.mainContent}>
-
-                        {myJobs.length === 0 ? (
+                        {loadingMyJobs ? (
+                            <Loader label="Ielādē sludinājumus..." />
+                        ) : myJobs.length === 0 ? (
                             <EmptyCard
                                 message="Tev pagaidām nav neviena sludinājuma"
                                 buttonText="pievienot darbu"
+                                onAction={() => navigate("/post")}
                             />
                         ) : (
                             myJobs.map((job, index) => (
-                                   <MyJobCard
-                                       key={job.listing_id || job.id || `job-${index}`}
-                                       job={job}
-                                       index={index}
-                                       isApplication={false}
-                                   />
+                                <MyJobCard
+                                    key={job.listing_id || job.id || `job-${index}`}
+                                    job={job}
+                                    index={index}
+                                    isApplication={false}
+                                    onClick={() => navigate("/mylistings")}
+                                />
                             ))
                         )}
                     </div>
@@ -145,14 +206,24 @@ const Dashboard = () => {
                     <h3 className={styles.feedTitle}>Darbi, kas varētu tev patikt</h3>
 
                     <div className={styles.jobsFeed}>
-                        {feedJobs.map((job) => (
-                            <JobCard
-                                key={job.listing_id|| job.id}
-                                job={job}
-                                onApply={handleApply}
-                                isApplication={false}
+                        {loadingFeed ? (
+                            <Loader label="Ielādē plūsmu..." />
+                        ) : feedJobs.length > 0 ? (
+                            feedJobs.map((job) => (
+                                <JobCard
+                                    key={job.listing_id || job.id}
+                                    job={job}
+                                    onApply={() => handleApply(job.listing_id || job.id)}
+                                    isApplication={false}
+                                />
+                            ))
+                        ) : (
+                            <EmptyCard
+                                message={"Pašlaik plūsmā nav darbu"}
+                                buttonText={"pievienot darbu"}
+                                onAction={() => navigate("/post")}
                             />
-                        ))}
+                        )}
                     </div>
                 </main>
             </div>
@@ -161,3 +232,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

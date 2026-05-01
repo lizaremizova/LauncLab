@@ -1,15 +1,21 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./MyListings.module.css";
 import Header from "../components/Header/Header.jsx";
 import SideBar from "../components/SideBar/SideBar.jsx";
 import EmptyCard from "../components/EmptyCard/EmptyCard.jsx";
 import { FileUpload } from 'primereact/fileupload';
+import Loader from "../components/base/Loader/Loader.jsx";
 
 const API_BASE = "http://localhost:8080/api";
+const API_ORIGIN = API_BASE.replace(/\/api$/, "");
 
 const STATUS_ACTIVE = "aktīvs";
+const STATUS_IN_PROGRESS = "procesa";
 const STATUS_COMPLETED = "pabeigts";
+const STATUS_PENDING = "gaida apstiprinājumu";
+const STATUS_APPROVED = "apstiprināts";
+const STATUS_REJECTED = "noraidīts";
 
 const MyListings = () => {
     const navigate = useNavigate();
@@ -25,6 +31,24 @@ const MyListings = () => {
     const [loadingApplicants, setLoadingApplicants] = useState(false);
     const [jobsError, setJobsError] = useState("");
     const [applicantsError, setApplicantsError] = useState("");
+    const [approvingId, setApprovingId] = useState(null);
+    const [uploadingAttachment, setUploadingAttachment] = useState(false);
+    const [refreshingApplicants, setRefreshingApplicants] = useState(false);
+
+    const selectedJobId = selectedJob?.id || selectedJob?.listing_id;
+
+    const normalizeApplicantStatus = (status) => {
+        if (typeof status !== "string") return status;
+        // Backend may return proper UTF-8 "gaida apstiprinājumu" while some UI checks are still mojibake.
+        const s = status.toLowerCase();
+        if (s.includes("gaida") && s.includes("apstiprin")) return STATUS_PENDING;
+        if (s.includes("apstiprin") && !s.includes("gaida")) return STATUS_APPROVED;
+        if (s.includes("noraid")) return STATUS_REJECTED;
+        return status;
+    };
+
+    const isPending = (status) => normalizeApplicantStatus(status) === STATUS_PENDING;
+    const isApproved = (status) => normalizeApplicantStatus(status) === STATUS_APPROVED;
 
     const [isEditing, setIsEditing] = useState(false);
     const [editName, setEditName] = useState("");
@@ -34,6 +58,7 @@ const MyListings = () => {
     const statusOptions = useMemo(() => {
         const base = [
             { value: STATUS_ACTIVE, label: "aktīvs" },
+            { value: STATUS_IN_PROGRESS, label: "procesā" },
             { value: STATUS_COMPLETED, label: "pabeigts" },
         ];
 
@@ -51,7 +76,7 @@ const MyListings = () => {
             return;
         }
 
-        fetch(`${API_BASE}/user/${myId}/jobs`)
+        fetch(`${API_BASE}/user/${myId}/listings`)
             .then(async (res) => {
                 if (!res.ok) {
                     const text = await res.text();
@@ -75,7 +100,7 @@ const MyListings = () => {
 
     useEffect(() => {
         setIsEditing(false);
-    }, [selectedJob?.listing_id]);
+    }, [selectedJobId]);
 
     useEffect(() => {
         if (!selectedJob || !token) {
@@ -86,7 +111,7 @@ const MyListings = () => {
         setLoadingApplicants(true);
         setApplicantsError("");
 
-        fetch(`${API_BASE}/listings/${selectedJob.listing_id}/applications`, {
+        fetch(`${API_BASE}/listings/${selectedJobId}/applications`, {
             headers: {
                 Authorization: `Bearer ${token}`,
                 Accept: "application/json",
@@ -100,7 +125,8 @@ const MyListings = () => {
                 return res.json();
             })
             .then((data) => {
-                setApplicants(Array.isArray(data) ? data : []);
+                const rows = Array.isArray(data) ? data : [];
+                setApplicants(rows.map((a) => ({ ...a, status: normalizeApplicantStatus(a.status) })));
             })
             .catch((err) => {
                 console.error("Applicants fetch failed:", err);
@@ -109,10 +135,74 @@ const MyListings = () => {
             .finally(() => {
                 setLoadingApplicants(false);
             });
-    }, [selectedJob, token]);
+    }, [selectedJobId, token]);
+
+    const refreshApplicants = async () => {
+        if (!selectedJob || !token) return;
+        try {
+            setRefreshingApplicants(true);
+            setApplicantsError("");
+            const res = await fetch(`${API_BASE}/listings/${selectedJobId}/applications`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: "application/json",
+                },
+            });
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`HTTP ${res.status}: ${text}`);
+            }
+            const data = await res.json();
+            const rows = Array.isArray(data) ? data : [];
+            setApplicants(rows.map((a) => ({ ...a, status: normalizeApplicantStatus(a.status) })));
+        } catch (e) {
+            console.error(e);
+            setApplicantsError("Neizdevās ielādēt pieteikumus");
+        } finally {
+            setRefreshingApplicants(false);
+        }
+    };
+
+    const downloadWithAuth = async (apiPath, fallbackName) => {
+        if (!apiPath) return;
+        if (!token) {
+            navigate("/login");
+            return;
+        }
+
+        try {
+            const res = await fetch(`${API_ORIGIN}${apiPath}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(`HTTP ${res.status}: ${text}`);
+            }
+
+            const blob = await res.blob();
+            const cd = res.headers.get("content-disposition") || "";
+            const m = cd.match(/filename=\"?([^\";]+)\"?/i);
+            const filename = m?.[1] || fallbackName || "download";
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (e) {
+            console.error(e);
+            alert("Neizdevās lejupielādēt failu");
+        }
+    };
 
     const handleApprove = async (applicationId) => {
         try {
+            setApprovingId(applicationId);
             const res = await fetch(`${API_BASE}/applications/${applicationId}/approve`, {
                 method: "PATCH",
                 headers: {
@@ -131,25 +221,27 @@ const MyListings = () => {
             setApplicants((prev) =>
                 prev.map((app) =>
                     app.application_id === applicationId
-                        ? { ...app, status: "apstiprināts" }
-                        : app.status === "gaida apstiprinājumu"
-                            ? { ...app, status: "noraidīts" }
+                        ? { ...app, status: STATUS_APPROVED }
+                        : isPending(app.status)
+                            ? { ...app, status: STATUS_REJECTED }
                             : app
                 )
             );
 
             setMyJobs((prev) =>
                 prev.map((job) =>
-                    job.listing_id === selectedJob.listing_id
-                        ? { ...job, statuss: STATUS_COMPLETED }
+                    (job.id || job.listing_id) === selectedJobId
+                        ? { ...job, statuss: STATUS_IN_PROGRESS }
                         : job
                 )
             );
 
-            setSelectedJob((prev) => (prev ? { ...prev, statuss: STATUS_COMPLETED } : prev));
+            setSelectedJob((prev) => (prev ? { ...prev, statuss: STATUS_IN_PROGRESS } : prev));
         } catch (err) {
             console.error("Approve failed:", err);
             alert("Neizdevās apstiprināt pieteikumu");
+        } finally {
+            setApprovingId(null);
         }
     };
 
@@ -184,7 +276,7 @@ const MyListings = () => {
         }
 
         try {
-            const response = await fetch(`${API_BASE}/listings/${selectedJob.listing_id}`, {
+            const response = await fetch(`${API_BASE}/listings/${selectedJobId}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -206,7 +298,7 @@ const MyListings = () => {
 
             setMyJobs((prev) =>
                 prev.map((job) =>
-                    job.listing_id === selectedJob.listing_id
+                    (job.id || job.listing_id) === selectedJobId
                         ? {
                             ...job,
                             name: updated.name ?? payload.name,
@@ -252,7 +344,8 @@ const MyListings = () => {
         formData.append("attachment", file);
 
         try {
-            const res = await fetch(`${API_BASE}/listings/${selectedJob.listing_id}/attachment`, {
+            setUploadingAttachment(true);
+            const res = await fetch(`${API_BASE}/listings/${selectedJobId}/attachment`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -269,7 +362,7 @@ const MyListings = () => {
 
             setMyJobs((prev) =>
                 prev.map((job) =>
-                    job.listing_id === selectedJob.listing_id
+                    (job.id || job.listing_id) === selectedJobId
                         ? {
                             ...job,
                             attachment_name: data.data.attachment_name,
@@ -297,6 +390,8 @@ const MyListings = () => {
         } catch (error) {
             console.error("Upload failed:", error);
             alert("Neizdevās augšupielādēt failu.");
+        } finally {
+            setUploadingAttachment(false);
         }
     };
 
@@ -320,9 +415,9 @@ const MyListings = () => {
                 throw new Error(data.message || 'Delete failed');
             }
 
-            setMyJobs(prev => prev.filter(job => job.listing_id !== listingId));
+            setMyJobs(prev => prev.filter(job => (job.id || job.listing_id) !== listingId));
 
-            if (selectedJob?.listing_id === listingId) {
+            if ((selectedJob?.id || selectedJob?.listing_id) === listingId) {
                 setSelectedJob(null);
             }
 
@@ -341,7 +436,7 @@ const MyListings = () => {
                 <main className={styles.contentCard}>
                     <h1 className={styles.pageTitle}>Mani sludinājumi</h1>
 
-                    {loadingJobs && <p>Loading...</p>}
+                    {loadingJobs && <Loader label="Ielādē sludinājumus..." />}
                     {jobsError && <p>{jobsError}</p>}
 
                     {!loadingJobs && !jobsError && myJobs.length === 0 && (
@@ -353,9 +448,9 @@ const MyListings = () => {
                             <div className={styles.jobTabs}>
                                 {myJobs.map((job) => (
                                     <button
-                                        key={job.listing_id}
+                                        key={job.id || job.listing_id}
                                         className={`${styles.jobTab} ${
-                                            selectedJob?.listing_id === job.listing_id ? styles.activeTab : ""
+                                            (selectedJob?.id || selectedJob?.listing_id) === (job.id || job.listing_id) ? styles.activeTab : ""
                                         }`}
                                         onClick={() => setSelectedJob(job)}
                                     >
@@ -455,7 +550,7 @@ const MyListings = () => {
                                                     </button>
                                                     <button
                                                         className={styles.delButton}
-                                                        onClick={() => handleDelete(selectedJob.listing_id)}
+                                                        onClick={() => handleDelete(selectedJobId)}
                                                     >
                                                         dzēst
                                                     </button>
@@ -463,7 +558,7 @@ const MyListings = () => {
                                             )}
                                         </div>
 
-                                        <h2>Materialu pievienošana darba izpildei</h2>
+                                        <h2 style={{fontWeight: '400', fontSize: '1.9rem', marginTop: '3rem'}}>Materialu pievienošana darba izpildei</h2>
                                         <FileUpload
                                             mode="basic"
                                             name="attachment"
@@ -473,13 +568,25 @@ const MyListings = () => {
                                             auto
                                             chooseLabel="Pievienot failu"
                                             className={styles.upload}
+                                            disabled={uploadingAttachment}
                                         />
+                                        {uploadingAttachment && <Loader label="Augšupielādē failu..." />}
                                     </div>
 
                                     <div className={styles.rightColumn}>
-                                        <h2 className={styles.sectionTitle}>Pieteikumi</h2>
+                                        <div className={styles.sectionHeaderRow}>
+                                            <h2 className={styles.sectionTitle}>Pieteikumi</h2>
+                                            <button
+                                                className={styles.refreshButton}
+                                                onClick={refreshApplicants}
+                                                disabled={loadingApplicants || refreshingApplicants}
+                                                type="button"
+                                            >
+                                                {refreshingApplicants ? "…" : "atsvaidzināt"}
+                                            </button>
+                                        </div>
 
-                                        {loadingApplicants && <p>Ielādē pieteikumus...</p>}
+                                        {loadingApplicants && <Loader label="Ielādē pieteikumus..." />}
                                         {applicantsError && <p>{applicantsError}</p>}
 
                                         {!loadingApplicants && !applicantsError && applicants.length === 0 && (
@@ -493,20 +600,56 @@ const MyListings = () => {
                                                         <div className={styles.avatar}></div>
 
                                                         <div className={styles.applicantInfo}>
-                                                            <div className={styles.username}>@{applicant.username}</div>
-                                                            <div className={styles.fullName}>{applicant.name}</div>
+                                                            <Link
+                                                                to={`/profile/${applicant.user_id}`}
+                                                                className={styles.profileLink}
+                                                            >
+                                                                <div className={styles.username}>@{applicant.username}</div>
+                                                                <div className={styles.fullName}>{applicant.name}</div>
+                                                            </Link>
                                                         </div>
 
-                                                        {applicant.status === "gaida apstiprinājumu" ? (
+                                                        {isPending(applicant.status) ? (
                                                             <button
                                                                 className={styles.approveButton}
                                                                 onClick={() => handleApprove(applicant.application_id)}
+                                                                disabled={approvingId === applicant.application_id}
                                                             >
-                                                                ✓
+                                                                Apstiprināt
                                                             </button>
                                                         ) : (
-                                                            <div className={styles.statusDone}>
-                                                                {applicant.status === "apstiprināts" ? "✓" : "—"}
+                                                            <div className={styles.statusArea}>
+                                                                <div
+                                                                    className={`${styles.statusDone} ${
+                                                                        isApproved(applicant.status)
+                                                                            ? styles.statusApproved
+                                                                            : styles.statusRejected
+                                                                    }`}
+                                                                    title={applicant.status}
+                                                                >
+                                                                    {isApproved(applicant.status) ? "✓" : "×"}
+                                                                </div>
+
+                                                                {applicant.result_url ? (
+                                                                    <button
+                                                                        className={styles.resultLink}
+                                                                        type="button"
+                                                                        onClick={() =>
+                                                                            downloadWithAuth(
+                                                                                applicant.result_url,
+                                                                                applicant.result_name || "result"
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        rezultāts
+                                                                    </button>
+                                                                ) : (
+                                                                    isApproved(applicant.status) && (
+                                                                        <span className={styles.resultPending}>
+                                                                            gaida rezultātu
+                                                                        </span>
+                                                                    )
+                                                                )}
                                                             </div>
                                                         )}
                                                     </div>

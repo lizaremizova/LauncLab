@@ -1,11 +1,488 @@
-body{
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-}
 .home{
     width: 100%;
+    background: #fff;
+    color: #000;
+}
+
+.afterHero {
+    margin-top: -64px;
+}
+
+.section {
+    width: 100%;
+    padding: 96px 0;
+}
+
+.sectionTint {
+    background: #D2EDF0;
+}
+
+.sectionInner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.sectionTop {
+    margin-bottom: 28px;
+}
+
+.h2 {
+    font-size: 38px;
+    font-weight: 400;
+    margin: 0 0 12px 0;
+    letter-spacing: 0;
+}
+
+.sectionLead {
+    margin: 0;
+    color: #111;
+    line-height: 1.6;
+    font-size: 16px;
+    max-width: 760px;
+}
+
+.h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 10px 0;
+}
+
+.p {
+    margin: 0;
+    color: #222;
+    line-height: 1.65;
+    font-size: 15px;
+}
+
+.kicker,
+.kickerAlt {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.14);
+    font-weight: 800;
+    font-size: 12px;
+    margin-bottom: 12px;
+    background: #E3FE8D;
+    color: #000;
+}
+
+.kickerAlt {
+    background: #D2EDF0;
+}
+
+.featureGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.featureCard,
+.featureCardAlt {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 14px;
+    padding: 22px 18px;
+    background: #fff;
+}
+
+.featureCardAlt {
+    background: #E3FE8D;
+}
+
+.steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 14px;
+    padding: 18px;
+    background: #fff;
+}
+
+.stepNum,
+.stepNumAlt {
+    width: 38px;
+    height: 38px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+    flex: 0 0 38px;
+    background: #E3FE8D;
+    color: #000;
+    border: 1px solid rgba(0,0,0,0.12);
+}
+
+.stepNumAlt {
+    background: #D2EDF0;
+}
+
+.stepBody {
+    min-width: 0;
+}
+
+.stepTitle {
+    font-weight: 900;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #000;
+}
+
+.statGrid {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.statCard,
+.statCardAlt {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 14px;
+    padding: 18px;
+    background: #fff;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.statCardAlt {
+    background: #E3FE8D;
+}
+
+.statValue {
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.statLabel {
+    font-size: 13px;
+    font-weight: 800;
+    color: #111;
+    text-align: right;
+}
+
+.quoteGrid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.quoteCard,
+.quoteCardAlt {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 14px;
+    padding: 22px 18px;
+    background: #fff;
+}
+
+.quoteCardAlt {
+    background: #D2EDF0;
+}
+
+.quoteText {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.65;
+    color: #111;
+    font-weight: 650;
+}
+
+.quoteBy {
+    margin-top: 14px;
+    font-size: 13px;
+    font-weight: 900;
+    color: rgba(0,0,0,0.75);
+}
+
+.faqGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.faqItem {
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 14px;
+    padding: 14px 14px;
+    background: #fff;
+}
+
+.faqQ {
+    cursor: pointer;
+    list-style: none;
+    font-weight: 900;
+    font-size: 14px;
+    color: #000;
+}
+
+.faqQ::-webkit-details-marker {
+    display: none;
+}
+
+.faqItem summary::after {
+    content: "+";
+    float: right;
+    font-weight: 900;
+    color: rgba(0,0,0,0.7);
+}
+
+.faqItem[open] summary::after {
+    content: "–";
+}
+
+.faqA {
+    margin-top: 10px;
+    color: #222;
+    font-size: 14px;
+    line-height: 1.65;
+}
+
+.ctaBand {
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #000;
+    color: #fff;
+    padding: 28px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.ctaText {
+    min-width: 260px;
+    max-width: 680px;
+}
+
+.ctaTitle {
+    margin: 0 0 8px 0;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 0;
+}
+
+.ctaLead {
+    margin: 0;
+    color: rgba(255,255,255,0.78);
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 700;
+}
+
+.ctaButtons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ctaBtnPrimary,
+.ctaBtnSecondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 13px;
+    border: 1px solid rgba(255,255,255,0.2);
+    white-space: nowrap;
+}
+
+.ctaBtnPrimary {
+    background: #E3FE8D;
+    border-color: rgba(227,254,141,0.85);
+    color: #000;
+}
+
+.ctaBtnSecondary {
+    background: transparent;
+    color: #fff;
+}
+
+.ctaBtnSecondary:hover {
+    border-color: rgba(255,255,255,0.45);
+}
+
+.aboutGrid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 18px;
+    align-items: start;
+}
+
+.about {
+    max-width: 820px;
+}
+
+.aboutBadge {
+    margin-top: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: #fff;
+}
+
+.badgeDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: #E3FE8D;
+    border: 1px solid rgba(0,0,0,0.25);
+}
+
+.badgeText {
+    font-size: 13px;
+    font-weight: 900;
+    color: #111;
+}
+
+.aboutHighlight {
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 14px;
+    padding: 18px 16px;
+    background: #E3FE8D;
+}
+
+.aboutHighlightTitle {
+    font-weight: 900;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #000;
+}
+
+.aboutHighlightList {
+    display: grid;
+    gap: 10px;
+}
+
+.aboutHighlightItem {
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(0,0,0,0.1);
+    font-size: 14px;
+    font-weight: 850;
+    color: #000;
+}
+
+.footer {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    padding: 44px 0;
+}
+
+.footerInner {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.footerTitle {
+    font-weight: 900;
+    font-size: 16px;
+}
+
+.footerText {
+    margin-top: 6px;
+    color: rgba(255,255,255,0.75);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.footerLinks {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.footerLink {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 900;
+    font-size: 13px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.18);
+}
+
+.footerLink:hover {
+    border-color: rgba(255,255,255,0.4);
+}
+
+@media (max-width: 1100px) {
+    .featureGrid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .aboutGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .section {
+        padding: 72px 0;
+    }
+
+    .h2 {
+        font-size: 30px;
+    }
+
+    .statGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .quoteGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .faqGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 520px) {
+    .sectionInner {
+        padding: 0 16px;
+    }
+
+    .afterHero {
+        margin-top: -32px;
+    }
+
+    .featureGrid,
+    .steps {
+        grid-template-columns: 1fr;
+    }
+
+    .ctaTitle {
+        font-size: 24px;
+    }
 }

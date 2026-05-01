@@ -2,8 +2,9 @@ import React from 'react';
 import styles from "./JobCard.module.css";
 
 const JobCard = ({ job, onApply }) => {
+    const id = job?.id || job?.listing_id;
     return (
-        <div key={job.listing_id} className={styles.jobCard}>
+        <div key={id} className={styles.jobCard}>
 
             <div className={styles.jobMain}>
 
@@ -46,4 +47,3 @@ const JobCard = ({ job, onApply }) => {
 };
 
 export default JobCard;
-

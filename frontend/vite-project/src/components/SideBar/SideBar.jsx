@@ -7,6 +7,7 @@ import chatIcon from "@/assets/chat.svg";
 import jobIcon from "@/assets/job.svg";
 import myListings from "@/assets/applicants.svg"
 import { NavLink } from "react-router-dom";
+import doneIcon from "@/assets/doneJob.svg";
 
 const SideBar = () => {
     return (
@@ -60,6 +61,16 @@ const SideBar = () => {
             >
                 <img src={myListings} alt="my listings" className={styles.navImg} />
                 <span>mani slud.</span>
+            </NavLink>
+
+            <NavLink
+                to="/applications"
+                className={({ isActive }) =>
+                    isActive ? `${styles.navItem} ${styles.navItemActive}` : styles.navItem
+                }
+            >
+                <img src={doneIcon} alt="applications" className={styles.navImg} />
+                <span>pieteikumi</span>
             </NavLink>
 
         </aside>

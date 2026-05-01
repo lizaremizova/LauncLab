@@ -2,17 +2,22 @@ import React, { useEffect, useState } from 'react';
 import styles from './Profile.module.css';
 import Header from "../components/Header/Header.jsx";
 import SideBar from "../components/SideBar/SideBar.jsx";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function Profile() {
     const navigate = useNavigate();
+    const { userId } = useParams();
     const [user, setUser] = useState(null);
     const token = localStorage.getItem('TOKEN');
 
     const fetchUserData = () => {
         if (!token) return;
 
-        fetch('http://localhost:8080/api/user', {
+        const url = userId
+            ? `http://localhost:8080/api/users/${userId}`
+            : 'http://localhost:8080/api/user';
+
+        fetch(url, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Accept': 'application/json'
@@ -21,9 +26,11 @@ export default function Profile() {
             .then(res => res.json())
             .then(data => {
                 setUser(data);
-                // Sync localstorage for header
-                localStorage.setItem('USER_AVATAR', data.avatar_url);
-                localStorage.setItem('description', data.description);
+                // Sync localstorage only for "my profile" view.
+                if (!userId) {
+                    localStorage.setItem('USER_AVATAR', data.avatar_url);
+                    localStorage.setItem('description', data.description);
+                }
             })
             .catch(err => console.error("Refresh failed:", err));
     };
@@ -65,9 +72,11 @@ export default function Profile() {
                 <main className={styles.contentCard}>
                     <section className={styles.sectionHeader}>
                         <h2>@{user.username} profils</h2>
-                        <button className={styles.logout} onClick={handleLogout}>
-                            izrakstīties
-                        </button>
+                        {!userId && (
+                            <button className={styles.logout} onClick={handleLogout}>
+                                izrakstīties
+                            </button>
+                        )}
                     </section>
 
                     <div className={styles.profileInfo}>

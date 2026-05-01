@@ -5,7 +5,7 @@ import clockIcon from "../../assets/clock.svg";
 import doneIcon from "../../assets/doneJob.svg";
 
 
-const MyJobCard = ({ job, index, isApplication }) => {
+const MyJobCard = ({ job, index, isApplication, onClick }) => {
     const cardColors = ['#e7ffe3', '#D2EDF0', '#E3FE8D'];
     const bgColor = cardColors[index % cardColors.length];
 
@@ -18,7 +18,20 @@ const MyJobCard = ({ job, index, isApplication }) => {
     const displayAuthor = job.author_name || (isApplication ? "Autors" : "Jūs");
 
     return (
-        <div className={styles.card} style={{ backgroundColor: bgColor }}>
+        <div
+            className={`${styles.card} ${onClick ? styles.clickable : ""}`}
+            style={{ backgroundColor: bgColor }}
+            onClick={onClick}
+            role={onClick ? "button" : undefined}
+            tabIndex={onClick ? 0 : undefined}
+            onKeyDown={
+                onClick
+                    ? (e) => {
+                        if (e.key === "Enter" || e.key === " ") onClick();
+                    }
+                    : undefined
+            }
+        >
             <div className={styles.header}>
                 <img
                     src={isCompleted ? doneIcon : clockIcon}

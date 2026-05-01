@@ -8,6 +8,19 @@
     flex: 0 0 300px;
 }
 
+.clickable {
+    cursor: pointer;
+}
+
+.clickable:hover {
+    filter: brightness(0.98);
+}
+
+.clickable:focus {
+    outline: 2px solid rgba(11, 95, 255, 0.35);
+    outline-offset: 2px;
+}
+
 .header {
     display: flex;
     align-items: center;

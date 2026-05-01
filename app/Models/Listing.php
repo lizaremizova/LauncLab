@@ -10,17 +10,19 @@ class Listing extends Model
     use HasUuids;
 
     protected $table = 'listings';
-    protected $primaryKey = 'listing_id';
+    protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
-    public $timestamps = false;
 
     protected $fillable = [
         'name',
         'description',
+        'type',
         'statuss',
         'publication_date',
-        'author_id',
+        'user_id',
+        'budget',
+        'deadline_days',
     ];
 
     public function categories()
@@ -33,13 +35,14 @@ class Listing extends Model
         );
     }
 
-    public function job()
-    {
-        return $this->hasOne(Job::class, 'listing_id', 'listing_id');
-    }
-
     public function author()
     {
-        return $this->belongsTo(User::class, 'author_id', 'id');
+        // Backwards-compatible alias. Prefer `user()` going forward.
+        return $this->user();
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

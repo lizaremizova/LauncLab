@@ -23,8 +23,8 @@ const JobsPage = () => {
     useEffect(() => {
         const myId = localStorage.getItem('id');
         const url = myId
-            ? `http://localhost:8080/api/jobs/feed?myId=${myId}`
-            : 'http://localhost:8080/api/jobs/feed';
+            ? `http://localhost:8080/api/listings/feed?myId=${myId}`
+            : 'http://localhost:8080/api/listings/feed';
 
         fetch(url)
             .then(async res => {
@@ -84,7 +84,7 @@ const JobsPage = () => {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    listing_id: selectedJob.listing_id,
+                    listing_id: selectedJob?.id || selectedJob?.listing_id,
                     user_id: userId
                 })
             });
@@ -141,7 +141,7 @@ const JobsPage = () => {
                             {filteredJobs.length > 0 ? (
                                 filteredJobs.map((job) => (
                                     <JobCard
-                                        key={job.listing_id}
+                                        key={job.id || job.listing_id}
                                         job={job}
                                         onApply={() => handleOpenApply(job)}
                                     />

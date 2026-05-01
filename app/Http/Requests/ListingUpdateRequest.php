@@ -17,7 +17,9 @@ class ListingUpdateRequest extends FormRequest
             'name' => ['sometimes', 'required', 'string', 'max:60'],
             'description' => ['sometimes', 'required', 'string', 'max:400'],
             'statuss' => ['sometimes', 'required', 'string', 'max:20'],
+            'type' => ['sometimes', 'required', 'in:job,project'],
+            'budget' => ['sometimes', 'nullable', 'numeric'],
+            'deadline_days' => ['sometimes', 'nullable', 'integer'],
         ];
     }
 }
-
