@@ -123,6 +123,36 @@
     line-height: 1.5;
 }
 
+.categoryUsageSection {
+    margin-top: 28px;
+    padding-top: 18px;
+    border-top: 1px solid #e6e6e6;
+}
+
+.categoryUsageHeader {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.categoryUsageTitle {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.categoryUsageMeta {
+    color: #7c7c7c;
+    font-size: 0.9rem;
+}
+
+.categoryUsageChartWrap {
+    height: 280px;
+    width: 100%;
+    max-width: 760px;
+}
 
 
 

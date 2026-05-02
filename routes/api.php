@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 
@@ -35,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/user/{id}/profile', [AuthController::class, 'updateProfile']);
     Route::get('/listings/{listingId}/applications', [ApplicationController::class, 'getByListing']);
     Route::patch('/applications/{applicationId}/approve', [ApplicationController::class, 'approve']);
-    Route::delete('/listings/{listingId}/delete', [JobController::class, 'delete']);
-    Route::post('/listings/{listingId}/attachment', [JobController::class, 'uploadAttachment']);
-    Route::get('/listings/{listingId}/attachment', [JobController::class, 'downloadAttachment']);
+    Route::delete('/listings/{listingId}/delete', [ListingController::class, 'delete']);
+    Route::post('/listings/{listingId}/attachment', [ListingController::class, 'uploadAttachment']);
+    Route::get('/listings/{listingId}/attachment', [ListingController::class, 'downloadAttachment']);
 });
