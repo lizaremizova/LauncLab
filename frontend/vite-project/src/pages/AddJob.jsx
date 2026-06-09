@@ -36,9 +36,21 @@ const AddJob = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('TOKEN');
+        const budget = Number(formData.budget);
+        const deadlineDays = Number(formData.deadline_days);
 
         if (!token) {
             alert("Session expired. Please log in again.");
+            return;
+        }
+
+        if (Number.isNaN(budget) || budget < 0) {
+            alert("Budžets nevar būt negatīvs.");
+            return;
+        }
+
+        if (!Number.isInteger(deadlineDays) || deadlineDays < 1) {
+            alert("Termiņam jābūt vismaz 1 dienai.");
             return;
         }
 
@@ -50,7 +62,11 @@ const AddJob = () => {
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify({
+                    ...formData,
+                    budget,
+                    deadline_days: deadlineDays
+                })
             });
 
             if (response.ok) {
@@ -150,6 +166,8 @@ const AddJob = () => {
                             <input
                                 type="number"
                                 name="budget"
+                                min="0"
+                                step="0.01"
                                 className={styles.deadline_budget}
                                 placeholder="0.00"
                                 onChange={handleChange}
@@ -161,6 +179,8 @@ const AddJob = () => {
                             <input
                                 type="number"
                                 name="deadline_days"
+                                min="1"
+                                step="1"
                                 className={styles.deadline_budget}
                                 placeholder="7"
                                 onChange={handleChange}

@@ -7,25 +7,25 @@ import logo from "../assets/LaunchlabLogo.png";
 export default function Home() {
     const items = [
         {
-            label: "About",
+            label: "par mums",
             bgColor: "#E3FE8D",
             textColor: "#000000",
             links: [
-                { label: "Company", ariaLabel: "About Company", href: "/about" },
-                { label: "Careers", ariaLabel: "About Careers", href: "/careers" },
+                { label: "Kompanija", ariaLabel: "About Company", href: "/" },
+                { label: "karjera", ariaLabel: "About Careers", href: "/" },
             ],
         },
         {
-            label: "Projects",
+            label: "projekti",
             bgColor: "#E3FE8D",
             textColor: "#000000",
             links: [
-                { label: "Featured", ariaLabel: "Featured Projects", href: "/projects" },
-                { label: "Case Studies", ariaLabel: "Project Case Studies", href: "/cases" },
+                { label: "projekti", ariaLabel: "Featured Projects", href: "/" },
+                { label: "darbi", ariaLabel: "Project Case Studies", href: "/" },
             ],
         },
         {
-            label: "Contact",
+            label: "kontakti",
             bgColor: "#E3FE8D",
             textColor: "#000000",
             links: [

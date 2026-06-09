@@ -19,6 +19,12 @@ const JobsPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedJob, setSelectedJob] = useState(null);
 
+    const normalizeListingsPayload = (payload) => {
+        if (Array.isArray(payload)) return payload;
+        if (payload && Array.isArray(payload.data)) return payload.data;
+        return [];
+    };
+
     // Feed
     useEffect(() => {
         const myId = localStorage.getItem('id');
@@ -26,16 +32,12 @@ const JobsPage = () => {
             ? `http://localhost:8080/api/listings/feed?myId=${myId}`
             : 'http://localhost:8080/api/listings/feed';
 
+        setFeedJobs([]);
         fetch(url)
             .then(async res => {
                 const data = await res.json();
                 console.log('feed response:', data);
-                if (Array.isArray(data)) {
-                    setFeedJobs(data);
-                } else {
-                    console.error(data);
-                    setFeedJobs([]);
-                }
+                setFeedJobs(normalizeListingsPayload(data));
             })
             .catch(err => console.error(err));
     }, []);
@@ -84,7 +86,7 @@ const JobsPage = () => {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    listing_id: selectedJob?.id || selectedJob?.listing_id,
+                    listing_id: selectedJob?.id,
                     user_id: userId
                 })
             });
@@ -141,7 +143,7 @@ const JobsPage = () => {
                             {filteredJobs.length > 0 ? (
                                 filteredJobs.map((job) => (
                                     <JobCard
-                                        key={job.id || job.listing_id}
+                                        key={job.id}
                                         job={job}
                                         onApply={() => handleOpenApply(job)}
                                     />

@@ -119,3 +119,34 @@ form button{
     text-align: center;
     height: 100%;
 }*/
+@media (max-width: 480px) {
+    .regSection{
+        margin-top: 9rem;
+        flex-direction: column;
+        align-items: center;
+    }
+    .leftSide{
+        width: 90%;
+        align-items: center;
+        height: 50%;
+        margin-bottom: 2rem;
+    }
+    .leftSide h1{
+        font-size: 2rem;
+        width: 70%;
+    }
+    .leftSide p{
+        width: 70%;
+    }
+    .rightSide{
+        width: 90%;
+        align-items: center;
+        margin-bottom: 4rem;
+    }
+    .guestButton{
+        margin-bottom: 2rem;
+    }
+    .formContainer{
+        width: 100%;
+    }
+}

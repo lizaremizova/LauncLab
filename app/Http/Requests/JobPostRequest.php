@@ -16,8 +16,8 @@ class JobPostRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'description' => ['required', 'string'],
-            'budget' => ['required', 'numeric'],
-            'deadline_days' => ['required', 'integer'],
+            'budget' => ['required', 'numeric', 'min:0'],
+            'deadline_days' => ['required', 'integer', 'min:1'],
             'categories' => 'required|array',
             'categories.*' => 'required|string',
         ];

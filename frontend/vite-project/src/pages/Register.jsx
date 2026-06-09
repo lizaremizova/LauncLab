@@ -68,7 +68,9 @@ export default function Register() {
             if (res.ok) {
                 localStorage.setItem('id', data.user.id);
                 localStorage.setItem('username', data.user.username);
+                localStorage.setItem('name', data.user.name);
                 localStorage.setItem('USER_NAME', data.user.name);
+                localStorage.setItem('description', data.user.description || "");
                 localStorage.setItem('TOKEN', data.token);
                 setMsg("Reģistrācija veiksmīga!");
                 setTimeout(() => {
@@ -80,7 +82,7 @@ export default function Register() {
                     : (data.message || "Servera kļūda (500)");
                 setMsg("Kļūda: " + errorMessage);
             }
-        } catch (err) {
+        } catch {
             setMsg("Serveris nav pieejams");
         }
     }

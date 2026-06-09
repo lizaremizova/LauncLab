@@ -274,24 +274,25 @@ body{
 }
 
 @media (max-width: 480px) {
-    .headerLeft,
     .headerRight {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.8rem;
+        flex-direction: row;
+        gap: 0.5rem;
+        text-align: center;
     }
 
     .logoPill {
-        justify-content: center;
+        display: none;
     }
 
     .profilePill {
-        padding: 0.7rem 0.9rem;
+        padding: 0.4rem 0.6rem;
     }
 
     .searchInput {
-        font-size: 14px;
-        padding: 10px 44px 10px 16px;
+        display: none;
+    }
+    .searchBtn {
+        display: none;
     }
 
     .popupHeader {

@@ -51,7 +51,10 @@ export default function Profile() {
                 // Sync localstorage only for "my profile" view.
                 if (!userId) {
                     localStorage.setItem('USER_AVATAR', data.avatar_url);
-                    localStorage.setItem('description', data.description);
+                    localStorage.setItem('username', data.username);
+                    localStorage.setItem('name', data.name);
+                    localStorage.setItem('USER_NAME', data.name);
+                    localStorage.setItem('description', data.description || "");
                 }
             })
             .catch(err => console.error("Refresh failed:", err));

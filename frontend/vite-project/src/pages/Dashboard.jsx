@@ -17,7 +17,14 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const userName = localStorage.getItem("USER_NAME") || "Viesis";
 
-    const isActiveStatus = (s) => s === "aktīvs" || s === "aktÄ«vs" || s === "aktÃ„Â«vs";
+    const normalizeStatus = (status) =>
+        typeof status === "string" ? status.trim().toLowerCase().normalize("NFC") : "";
+
+    const activeStatuses = new Set(["aktīvs", "aktÄ«vs", "aktÃ„Â«vs", "procesā", "procesa", "procesÄ", "procesÃ„Â"]);
+    const completedStatuses = new Set(["pabeigts"]);
+
+    const isActiveStatus = (status) => activeStatuses.has(normalizeStatus(status));
+    const isCompletedStatus = (status) => completedStatuses.has(normalizeStatus(status));
 
     const [currentUserId, setCurrentUserId] = useState(null);
 
@@ -29,6 +36,13 @@ const Dashboard = () => {
     const [loadingFeed, setLoadingFeed] = useState(true);
     const [loadingMyJobs, setLoadingMyJobs] = useState(true);
     const [loadingMyApps, setLoadingMyApps] = useState(true);
+
+    const normalizeListingsPayload = (payload) => {
+        // Backend may return either an array or a Laravel-style wrapper: { data: [...] }
+        if (Array.isArray(payload)) return payload;
+        if (payload && Array.isArray(payload.data)) return payload.data;
+        return [];
+    };
 
     // Resolve user id from token so stale localStorage can't blank the dashboard after reseeding.
     useEffect(() => {
@@ -63,16 +77,20 @@ const Dashboard = () => {
 
     // Feed
     useEffect(() => {
-        setLoadingFeed(true);
-
-        const myId = currentUserId;
+        const myId = currentUserId || localStorage.getItem("id");
         const url = myId
             ? `http://localhost:8080/api/listings/feed?myId=${myId}`
             : "http://localhost:8080/api/listings/feed";
 
+        setLoadingFeed(true);
+        setFeedJobs([]);
+
         fetch(url)
             .then((res) => res.json())
-            .then((data) => setFeedJobs(Array.isArray(data) ? data : []))
+            .then((data) => {
+                const rows = normalizeListingsPayload(data);
+                setFeedJobs(rows.slice(0, 4));
+            })
             .catch((err) => console.error("Feed fetch failed:", err))
             .finally(() => setLoadingFeed(false));
     }, [currentUserId]);
@@ -92,11 +110,11 @@ const Dashboard = () => {
         fetch(`http://localhost:8080/api/user/${myId}/listings`)
             .then((res) => res.json())
             .then((data) => {
-                const rows = Array.isArray(data) ? data : [];
+                const rows = normalizeListingsPayload(data);
                 setMyJobs(rows);
 
                 const active = rows.filter((j) => isActiveStatus(j.statuss)).length;
-                const completed = rows.filter((j) => j.statuss === "pabeigts").length;
+                const completed = rows.filter((j) => isCompletedStatus(j.statuss)).length;
                 setStats({ active, completed, projects: rows.length });
             })
             .catch((err) => console.error("Failed to fetch my jobs:", err))
@@ -193,7 +211,7 @@ const Dashboard = () => {
                         ) : (
                             myJobs.map((job, index) => (
                                 <MyJobCard
-                                    key={job.listing_id || job.id || `job-${index}`}
+                                    key={job.id || `job-${index}`}
                                     job={job}
                                     index={index}
                                     isApplication={false}
@@ -211,9 +229,9 @@ const Dashboard = () => {
                         ) : feedJobs.length > 0 ? (
                             feedJobs.map((job) => (
                                 <JobCard
-                                    key={job.listing_id || job.id}
+                                    key={job.id}
                                     job={job}
-                                    onApply={() => handleApply(job.listing_id || job.id)}
+                                    onApply={() => handleApply(job.id)}
                                     isApplication={false}
                                 />
                             ))
@@ -232,4 +250,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

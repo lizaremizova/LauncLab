@@ -68,13 +68,15 @@ export default function Login() {
             if (res.ok) {
                 localStorage.setItem('id', data.user.id);
                 localStorage.setItem('TOKEN', data.token);
+                localStorage.setItem('username', data.user.username);
+                localStorage.setItem('name', data.user.name);
                 localStorage.setItem('USER_NAME', data.user.name);
-                localStorage.setItem('id', data.user.id);
+                localStorage.setItem('description', data.user.description || "");
                 navigate('/dashboard');
             } else {
                 setMsg(data.message || "pārbaudiet datus");
             }
-        } catch (err) {
+        } catch {
             setMsg("Serveris nav pieejams");
         }
     };

@@ -14,10 +14,10 @@ export default function Header({ userName }) {
     const [previewImage, setPreviewImage] = useState(localStorage.getItem('USER_AVATAR') || defaultPfp);
     const [bio, setBio] = useState(localStorage.getItem('description') || "");
     const [editUsername, setEditUsername] = useState(localStorage.getItem('username') || userName);
-    const [editName, setEditName] = useState(localStorage.getItem('name') || "");
+    const [editName, setEditName] = useState(localStorage.getItem('name') || localStorage.getItem('USER_NAME') || "");
 
     const userDisplay = {
-        name: localStorage.getItem('name') || "Vārds",
+        name: localStorage.getItem('name') || localStorage.getItem('USER_NAME') || "Vārds",
         username: userName || "Lietotājs",
         bio: localStorage.getItem('description') || "Nav apraksta"
     };
@@ -66,6 +66,17 @@ export default function Header({ userName }) {
     const updateInfoRequest = async () => {
         const userId = localStorage.getItem('id');
         const token = localStorage.getItem('TOKEN');
+        const payload = { bio };
+        const username = editUsername?.trim();
+        const name = editName?.trim();
+
+        if (username) {
+            payload.username = username;
+        }
+
+        if (name) {
+            payload.name = name;
+        }
 
         try {
             const response = await fetch(`http://localhost:8080/api/user/${userId}/profile`, {
@@ -75,11 +86,7 @@ export default function Header({ userName }) {
                     'Accept': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({
-                    bio: bio,
-                    username: editUsername,
-                    name: editName
-                })
+                body: JSON.stringify(payload)
             });
 
             if (response.ok) {
@@ -87,7 +94,7 @@ export default function Header({ userName }) {
 
                 localStorage.setItem('username', result.username);
                 localStorage.setItem('name', result.name);
-                localStorage.setItem('description', result.bio);
+                localStorage.setItem('description', result.bio || "");
 
                 alert("Profils atjaunināts!");
 
@@ -106,8 +113,12 @@ export default function Header({ userName }) {
     useEffect(() => {
         const syncProfile = () => {
             const latestUsername = localStorage.getItem('username');
+            const latestName = localStorage.getItem('name') || localStorage.getItem('USER_NAME');
             if (latestUsername) {
                 setEditUsername(latestUsername);
+            }
+            if (latestName) {
+                setEditName(latestName);
             }
         };
 

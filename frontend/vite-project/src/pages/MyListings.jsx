@@ -35,7 +35,7 @@ const MyListings = () => {
     const [uploadingAttachment, setUploadingAttachment] = useState(false);
     const [refreshingApplicants, setRefreshingApplicants] = useState(false);
 
-    const selectedJobId = selectedJob?.id || selectedJob?.listing_id;
+    const selectedJobId = selectedJob?.id;
 
     const normalizeApplicantStatus = (status) => {
         if (typeof status !== "string") return status;
@@ -230,7 +230,7 @@ const MyListings = () => {
 
             setMyJobs((prev) =>
                 prev.map((job) =>
-                    (job.id || job.listing_id) === selectedJobId
+                    job.id === selectedJobId
                         ? { ...job, statuss: STATUS_IN_PROGRESS }
                         : job
                 )
@@ -298,7 +298,7 @@ const MyListings = () => {
 
             setMyJobs((prev) =>
                 prev.map((job) =>
-                    (job.id || job.listing_id) === selectedJobId
+                    job.id === selectedJobId
                         ? {
                             ...job,
                             name: updated.name ?? payload.name,
@@ -362,7 +362,7 @@ const MyListings = () => {
 
             setMyJobs((prev) =>
                 prev.map((job) =>
-                    (job.id || job.listing_id) === selectedJobId
+                    job.id === selectedJobId
                         ? {
                             ...job,
                             attachment_name: data.data.attachment_name,
@@ -415,9 +415,9 @@ const MyListings = () => {
                 throw new Error(data.message || 'Delete failed');
             }
 
-            setMyJobs(prev => prev.filter(job => (job.id || job.listing_id) !== listingId));
+            setMyJobs(prev => prev.filter(job => job.id !== listingId));
 
-            if ((selectedJob?.id || selectedJob?.listing_id) === listingId) {
+            if (selectedJob?.id === listingId) {
                 setSelectedJob(null);
             }
 
@@ -448,9 +448,9 @@ const MyListings = () => {
                             <div className={styles.jobTabs}>
                                 {myJobs.map((job) => (
                                     <button
-                                        key={job.id || job.listing_id}
+                                        key={job.id}
                                         className={`${styles.jobTab} ${
-                                            (selectedJob?.id || selectedJob?.listing_id) === (job.id || job.listing_id) ? styles.activeTab : ""
+                                            selectedJob?.id === job.id ? styles.activeTab : ""
                                         }`}
                                         onClick={() => setSelectedJob(job)}
                                     >

@@ -235,6 +235,12 @@ body{
 }
 
 @media (max-width: 768px) {
+    .imageSection{
+        display: none;
+    }
+    .greenCard{
+        margin-top: 5vh;
+    }
     .container {
         padding: 20px;
         height: auto;
