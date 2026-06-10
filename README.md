@@ -18,10 +18,7 @@ Sistēmas mērķis ir izveidot vidi, kur lietotāji var:
 ### Frontend
 
 - React
-- Vite
-- React Router
-- CSS Modules
-- GSAP
+- CSS 
 
 ### Backend
 
